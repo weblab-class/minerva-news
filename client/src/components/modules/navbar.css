@@ -1,0 +1,19 @@
+@import "../colors.css";
+
+.navbar-container{
+    display: flex;
+    flex-direction: row;
+    background-color: var(--red);
+    align-items: center;
+}
+
+.navbar-elt{
+    color: var(--white);
+    font-size: large;
+    padding: 1em 2em;
+}
+
+.navbar-logo{
+    flex-grow: 1;
+    font-size: x-large;
+}
