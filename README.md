@@ -6,6 +6,12 @@ React frontend, Python/Flask backend, and MongoDB
 
 Node/npm is used in the development process for frontend.
 
+When first cloning repo, make sure to run in ./client 
+```
+npm install
+```
+which will create a node_modules folder with the dependencies specified in package.json
+
 To start development server (http://localhost:5000/). Make sure you are in ./client
 ```
 npm start
