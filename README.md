@@ -12,7 +12,7 @@ npm install
 ```
 which will create a node_modules folder with the dependencies specified in package.json. Also run in ./server
 ```
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
 for the neccessary Python libs
 
