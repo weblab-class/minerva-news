@@ -10,7 +10,11 @@ When first cloning repo, make sure to run in ./client
 ```
 npm install
 ```
-which will create a node_modules folder with the dependencies specified in package.json
+which will create a node_modules folder with the dependencies specified in package.json. Also run in ./server
+```
+pip3 install requirements.txt
+```
+for the neccessary Python libs
 
 To start development server (http://localhost:5000/). Make sure you are in ./client
 ```
