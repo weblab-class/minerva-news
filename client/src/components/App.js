@@ -1,7 +1,7 @@
 import React from "react";
 import { Router } from "@reach/router";
 
-import NotFound from "./NotFound.js";
+import NotFound from "./pages/NotFound.js";
 
 class App extends React.Component {
   constructor(props) {
