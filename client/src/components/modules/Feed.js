@@ -1,27 +1,29 @@
-import { get } from "mongoose";
 import React from "react";
 import "../../utilities.css";
+import {get} from "../../utilities.js";
 
 class Feed extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      feeds: [],
+    };
   }
 
   componentDidMount() {
-    get("/api/collections").then((collectionObjs) =>{
-        this.setState({collections:collectionObjs});
+    get("/api/feeds").then((feedObjs) =>{
+        this.setState({feeds:feedObjs});
     });
   }
 
   render() {
     return (
-        <div>
-            <div>
-            </div>
-            <div className="collection-create">
+        <div className="feed-box u-greybox">
+          feed
+            <div className="u-vert-list">
                 {
-                    this.state.collections.map((collectionObj) => (
-                        <CollectionCard/>
+                    this.state.feeds.map((feedObj) => (
+                        <FeedCard/>
                     ))
                 }
             </div>
@@ -36,9 +38,8 @@ class FeedCard extends React.Component {
     }
   
     render() {
-      return (
-      );
+      return <></>;
     }
 }
 
-export default Collection;
+export default Feed;

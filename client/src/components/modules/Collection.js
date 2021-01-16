@@ -1,10 +1,14 @@
-import { get } from "mongoose";
 import React from "react";
 import "../../utilities.css";
+import {get} from "../../utilities.js";
+import "./Collection.css";
 
 class Collection extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      collections: [],
+    };
   }
 
   componentDidMount() {
@@ -15,15 +19,16 @@ class Collection extends React.Component {
 
   render() {
     return (
-        <div>
+        <div className="collection-box u-greybox">
+          collection
             <div>
-            </div>
-            <div className="collection-create">
                 {
                     this.state.collections.map((collectionObj) => (
-                        <CollectionCard/>
+                        <CollectionCard key={collectionObj.id} {...collectionObj}/>
                     ))
                 }
+            </div>
+            <div className="collection-create u-vert-list">
             </div>
         </div>
     );
@@ -36,8 +41,7 @@ class CollectionCard extends React.Component {
     }
   
     render() {
-      return (
-      );
+      return <></>;
     }
 }
 

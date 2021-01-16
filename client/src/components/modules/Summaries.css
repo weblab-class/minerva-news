@@ -1,0 +1,10 @@
+.summaries-box{
+    width: 380px;
+    border-left:none;
+}
+
+@media (max-width: 1050px){
+    .summaries-box{
+        display: none;
+    }
+}

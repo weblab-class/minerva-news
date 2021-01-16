@@ -1,0 +1,18 @@
+.collection-box{
+    border-right: none;
+    width: 250px;
+    flex-shrink:0;
+}
+
+
+@media (max-width: 750px){
+    .collection-box{
+        display: none;
+    }
+}
+
+@media (max-width: 1050px){
+    .collection-box{
+        flex-shrink: 1;
+    }
+}
