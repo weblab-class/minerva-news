@@ -44,13 +44,13 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="app-entire">
+      <div>
         <NavBar
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
           userId={this.state.userId}
         />
-        <div className='app-container'>
+        <div>
           <Router>
             <Landing path="/"/>
             <NotFound default />
