@@ -5,6 +5,7 @@ import NavBar from "./modules/NavBar.js";
 
 import NotFound from "./pages/NotFound.js";
 import Landing from "./pages/Landing.js";
+import Home from "./pages/Home.js";
 
 import "../utilities.css";
 import "./App.css";
@@ -52,7 +53,8 @@ class App extends React.Component {
         />
         <div>
           <Router>
-            <Landing path="/"/>
+            <Landing path="/landing"/>
+            <Home path="/"/>
             <NotFound default />
           </Router>
         </div>

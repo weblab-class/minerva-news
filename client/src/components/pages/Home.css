@@ -1,0 +1,5 @@
+.home-container {
+    max-width: 1080px;
+    padding: var(--m);
+    margin: auto;
+  }
