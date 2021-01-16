@@ -15,7 +15,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       userId: undefined,
-      tags: [],
     };
   }
 
@@ -43,10 +42,6 @@ class App extends React.Component {
     this.setState({ userId: undefined });
     post("/api/logout");
   };*/
-  
-  setTags = (tags) => {
-    this.setState({tags:tags});
-  };
 
   render() {
     return (
@@ -59,7 +54,7 @@ class App extends React.Component {
         <div>
           <Router>
             <Landing path="/landing"/>
-            <Home path="/" tags={this.state.tags} setTags = {this.setTags}/>
+            <Home path="/"/>
             <NotFound default />
           </Router>
         </div>
