@@ -1,20 +1,25 @@
+.navbar-base {
+  background-color: var(--red);
+}
+
 .navbar-container {
   display: flex;
-  background-color: var(--red);
   align-items: center;
   height: 50px;
+  max-width: 1080px;
+  padding: 0 var(--m);
+  margin: auto;
 }
 
 .navbar-elm {
   color: var(--white);
-  font-size: large;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
   padding: 2em;
 }
 
 .navbar-logo {
+  font-size: 30px;
   flex-grow: 1;
-  font-family: Noto Serif;
-  font-style: normal;
-  font-weight: 525;
-  font-size: 35px;
 }
