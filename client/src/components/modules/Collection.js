@@ -1,6 +1,6 @@
 import React from "react";
 import "../../utilities.css";
-import {get} from "../../utilities.js";
+import {get, post} from "../../utilities.js";
 import "./Collection.css";
 
 class Collection extends React.Component {
@@ -12,7 +12,7 @@ class Collection extends React.Component {
   }
 
   componentDidMount() {
-    get("/api/collections").then((collectionObjs) =>{
+    post("/api/collections").then((collectionObjs) =>{
         this.setState({collections:collectionObjs});
     });
   }
@@ -20,15 +20,14 @@ class Collection extends React.Component {
   render() {
     return (
         <div className="collection-box u-greybox">
-          collection
-            <div>
+            <div className = "u-vert-list collection-list">
                 {
                     this.state.collections.map((collectionObj) => (
-                        <CollectionCard key={collectionObj.id} {...collectionObj}/>
+                        <CollectionCard key={collectionObj.name} setTags={this.props.setTags} {...collectionObj}/>
                     ))
                 }
             </div>
-            <div className="collection-create u-vert-list">
+            <div className="collection-create">
             </div>
         </div>
     );
@@ -38,10 +37,17 @@ class Collection extends React.Component {
 class CollectionCard extends React.Component {
     constructor(props) {
       super(props);
-    }
+    }      
+    changeTags = () =>{
+      this.props.setTags(this.props.tags);
+    };
   
     render() {
-      return <></>;
+      return (
+        <div className="collection-card">
+          <img src={require(`../../public/collectionIcons/${this.props.imageName}`).default} className="collection-image"></img>
+          <button className="u-plain-button collection-button" onClick={this.changeTags}>{this.props.name}</button>
+        </div>);
     }
 }
 

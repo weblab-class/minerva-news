@@ -15,9 +15,10 @@ class Home extends React.Component {
   render() {
     return (
         <div className="home-container">
-            <Collection/>
+          {this.props.tags}
+            <Collection setTags={this.props.setTags}/>
             <div className="home-middle">
-              <TagSelection/>
+              <TagSelection setTags={this.props.setTags}/>
               <Feed/>
             </div>
             <Summaries/>

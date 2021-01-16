@@ -1,6 +1,7 @@
 import json
 import requests
 import os
+from flask import jsonify
 
 import flask
 import flask_login
@@ -123,6 +124,27 @@ def logout():
     user = None
     return flask.redirect(flask.url_for("index"))
 
+@app.route("/api/collections", methods = ['POST'])
+def collections():
+    collectionObjs = [
+        {
+            "name": "US",
+            "tags": [
+                "US",
+                "Donald Trump",
+            ],
+            "imageName": "USFlag.png",
+        },
+        {
+            "name": "World",
+            "tags": [
+                "World",
+                "War",
+            ],
+            "imageName": "USFlag.png",
+        },
+    ]
+    return jsonify(collectionObjs)
 
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' # for local testing only
