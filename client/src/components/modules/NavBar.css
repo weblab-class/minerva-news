@@ -1,12 +1,8 @@
-.navbar-base {
+.navbar-container {
   display: flex;
   background-color: var(--red);
   align-items: center;
   height: 50px;
-}
-
-.navbar-container {
-  
 }
 
 .navbar-elm {
