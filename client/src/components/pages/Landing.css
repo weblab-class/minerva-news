@@ -1,0 +1,14 @@
+.landing-page{
+    background-image: url("../../public/cityspace.jpg");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 835px;
+}
+.landing-box{
+    width: 750px;
+    height: 400px;
+    background: var(--white);
+    border: 3px solid var(--grey);
+    border-radius: 10px;
+}

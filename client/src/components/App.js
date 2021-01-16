@@ -2,7 +2,9 @@ import React from "react";
 import { Router } from "@reach/router";
 
 import NavBar from "./modules/NavBar.js";
+
 import NotFound from "./pages/NotFound.js";
+import Landing from "./pages/Landing.js";
 
 import "../utilities.css";
 import "./App.css";
@@ -42,7 +44,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="app-entire">
         <NavBar
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
@@ -50,6 +52,7 @@ class App extends React.Component {
         />
         <div className='app-container'>
           <Router>
+            <Landing path="/"/>
             <NotFound default />
           </Router>
         </div>

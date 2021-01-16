@@ -1,5 +1,11 @@
 .app-container {
   max-width: 1080px;
-  padding: var(--m) var(--m);
+  /*padding: var(--m) var(--m);*/
   margin: auto;
+  flex-grow: 1;
+}
+
+.app-entire{
+  display: flex;
+  flex-direction: column;
 }
