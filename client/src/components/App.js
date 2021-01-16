@@ -1,7 +1,11 @@
 import React from "react";
 import { Router } from "@reach/router";
 
+import NavBar from "./modules/NavBar.js";
 import NotFound from "./pages/NotFound.js";
+
+import "../utilities.css";
+import "./App.css";
 
 class App extends React.Component {
   constructor(props) {
@@ -39,9 +43,16 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Router>
-          <NotFound default />
-        </Router>
+        <NavBar
+          handleLogin={this.handleLogin}
+          handleLogout={this.handleLogout}
+          userId={this.state.userId}
+        />
+        <div className='app-container'>
+          <Router>
+            <NotFound default />
+          </Router>
+        </div>
       </div>
     );
   }

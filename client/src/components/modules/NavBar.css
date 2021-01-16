@@ -1,0 +1,24 @@
+.navbar-base {
+  display: flex;
+  background-color: var(--red);
+  align-items: center;
+  height: 50px;
+}
+
+.navbar-container {
+  
+}
+
+.navbar-elm {
+  color: var(--white);
+  font-size: large;
+  padding: 2em;
+}
+
+.navbar-logo {
+  flex-grow: 1;
+  font-family: Noto Serif;
+  font-style: normal;
+  font-weight: 525;
+  font-size: 35px;
+}
