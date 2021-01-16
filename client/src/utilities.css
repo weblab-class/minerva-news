@@ -48,3 +48,8 @@ html {
   box-shadow: inset 0px 4px 4px var(--greyshadow);
   border-radius: 10px;
 }
+
+.u-greybox{
+  border: 1px solid var(--grey);
+  box-sizing: border-box;
+}
