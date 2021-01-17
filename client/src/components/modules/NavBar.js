@@ -32,8 +32,8 @@ class NavBar extends React.Component {
               onSuccess={this.props.handleLogin}
               onFailure={(err) => console.log(err)}
               className="NavBar-link NavBar-login"
-            />*/
-          )}
+            />
+          )}*/
         </div>
       </div>
     );
