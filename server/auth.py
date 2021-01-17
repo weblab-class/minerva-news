@@ -18,6 +18,14 @@ GOOGLE_PROVIDER_CFG = requests.get(GOOGLE_DISCOVERY_URL).json()
 client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 
 
+@auth_api.route("/whoami")
+def loggedin():
+    ret = {}
+    if flask_login.current_user.is_authenticated:
+        ret = flask_login.current_user.format_json()
+    return flask.jsonify(ret)
+
+
 @auth_api.route("/login")
 def login():
     # Find out what URL to hit for Google login
@@ -68,7 +76,7 @@ def callback():
     # Create user, maintain user db, and begin session
     user = User(id=id, name=name, email=email, picture=picture)
     if not user_db.find_one({'id': id}):
-        user_db.insert_one(user.json())
+        user_db.insert_one(user.format_json())
     flask_login.login_user(user)
 
     return flask.redirect(flask.url_for("index"))

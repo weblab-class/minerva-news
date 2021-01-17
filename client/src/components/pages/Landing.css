@@ -56,10 +56,6 @@
     font-weight: 600;
     font-size: 30px;
     line-height: 41px;
-    color: var(--white);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .landing-button-cont{
