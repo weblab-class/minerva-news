@@ -5,7 +5,6 @@ import requests
 import flask
 import flask_login
 
-from flask import jsonify
 from auth import auth_api
 from db import user_db
 from models.user import User
@@ -69,7 +68,7 @@ def collections():
             "imageName": "USFlag.png",
         },
     ]
-    return jsonify(collectionObjs)
+    return flask.jsonify(collectionObjs)
 
 
 if __name__ == "__main__":

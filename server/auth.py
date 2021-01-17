@@ -23,7 +23,7 @@ def loggedin():
     ret = {}
     if flask_login.current_user.is_authenticated:
         ret = flask_login.current_user.format_json()
-    return json.dumps(ret)
+    return flask.jsonify(ret)
 
 
 @auth_api.route("/login")
