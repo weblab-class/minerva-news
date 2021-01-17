@@ -25,7 +25,6 @@ class NavBar extends React.Component {
             </>
           ) : (
             <button
-              buttonText="Login"
               onClick={this.props.handleLogin}
               className="u-cute-button navbar-login"
             >Login with Google</button>

@@ -17,7 +17,7 @@ class Landing extends React.Component {
                 comprehend news
               </div>
               <div className="u-grow landing-button-cont">
-                <button className="landing-start u-cute-button">
+                <button className="landing-start u-cute-button" onClick={this.props.handleLogin}>
                   Start Reading
                 </button>
               </div>
