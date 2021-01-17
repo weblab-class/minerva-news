@@ -28,6 +28,8 @@ class Collection extends React.Component {
                 }
             </div>
             <div className="collection-create">
+              <img src={require("../../public/plusSign.png").default} className="collection-image collection-plus"></img> 
+              <button className="u-plain-button collection-text">Create Collection</button>
             </div>
         </div>
     );
@@ -46,7 +48,7 @@ class CollectionCard extends React.Component {
       return (
         <div className="collection-card">
           <img src={require(`../../public/collectionIcons/${this.props.imageName}`).default} className="collection-image"></img>
-          <button className="u-plain-button collection-button" onClick={this.changeTags}>{this.props.name}</button>
+          <button className="u-plain-button collection-text" onClick={this.changeTags}>{this.props.name}</button>
         </div>);
     }
 }
