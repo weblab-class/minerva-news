@@ -3,3 +3,4 @@ client/node_modules/
 server/secret
 .DS_Store
 __pycache__/
+test.py

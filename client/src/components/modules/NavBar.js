@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 import "./NavBar.css";
 import "../../utilities.css";
 
-class NavBar extends React.Component { 
+class NavBar extends React.Component {
   constructor(props) {
     super(props);
   }
