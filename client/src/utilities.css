@@ -47,6 +47,7 @@ html {
   box-sizing: border-box;
   box-shadow: inset 0px 4px 4px var(--greyshadow);
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .u-plain-button{
@@ -54,6 +55,7 @@ html {
   border: none;
   box-shadow: none;
   background-color: var(--white);
+  cursor: pointer;
 }
 
 .u-greybox{
