@@ -2,10 +2,11 @@ import React from "react";
 import { Router } from "@reach/router";
 
 import NavBar from "./modules/NavBar.js";
-
 import NotFound from "./pages/NotFound.js";
 import Landing from "./pages/Landing.js";
 import Home from "./pages/Home.js";
+
+import { get, post } from "../utilities";
 
 import "../utilities.css";
 import "./App.css";
@@ -19,13 +20,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    /*
-    get("/api/whoami").then((user) => {
-      if (user._id) {
+    get("/auth/whoami").then(user => {
+      if (user.hasOwnProperty('id')) {
         // they are registed in the database, and currently logged in.
-        this.setState({ userId: user._id });
+        this.setState({ userId: user.id });
       }
-    });*/
+    });
   }
 
   /*

@@ -9,7 +9,7 @@ class User(flask_login.UserMixin):
         self.email = email
         self.picture = picture
 
-    def json(self):
+    def format_json(self):
         return {
             'id': self.id,
             'name': self.name,
