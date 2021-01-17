@@ -22,6 +22,7 @@
 .tagselection-suggestbox{
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
     padding: 0px 10px;
     height: 50px;
 }
