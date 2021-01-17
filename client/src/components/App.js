@@ -1,5 +1,5 @@
 import React from "react";
-import { Router } from "@reach/router";
+import { navigate, Router } from "@reach/router";
 
 import NavBar from "./modules/NavBar.js";
 import NotFound from "./pages/NotFound.js";
@@ -28,20 +28,22 @@ class App extends React.Component {
     });
   }
 
-  /*
   handleLogin = (res) => {
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
       this.setState({ userId: user._id });
       post("/api/initsocket", { socketid: socket.id });
+      navigate("/");
     });
   };
 
   handleLogout = () => {
     this.setState({ userId: undefined });
-    post("/api/logout");
-  };*/
+    post("/api/logout").then(() => {
+      navigate("/landing");
+    });
+  };
 
   render() {
     return (
@@ -53,7 +55,7 @@ class App extends React.Component {
         />
         <div>
           <Router>
-            <Landing path="/landing"/>
+            <Landing path="/landing" handleLogin={this.handleLogin}/>
             <Home path="/"/>
             <NotFound default />
           </Router>

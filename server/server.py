@@ -5,6 +5,7 @@ import requests
 import flask
 import flask_login
 
+from flask import jsonify
 from auth import auth_api
 from db import user_db
 from models.user import User
@@ -70,6 +71,11 @@ def collections():
     ]
     return flask.jsonify(collectionObjs)
 
+
+@app.route("/api/tagsuggest", methods = ['GET'])
+def tag_suggestions():
+    suggestions = ["COVID", "Trump", "Washington"]
+    return jsonify(suggestions)
 
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # for local testing only

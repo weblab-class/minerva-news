@@ -7,7 +7,7 @@
 
 .tagselection-input{
     border:none;
-    padding: 20px 10px;
+    padding: 25px 10px;
 
 
     font-family: Open Sans;
@@ -17,4 +17,20 @@
     line-height: 25px;
     display: flex;
     align-items: center;
+}
+
+.tagselection-suggestbox{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0px 10px;
+    height: 50px;
+}
+
+.tagselection-suggestionlabel{
+    font-weight: bold;
+    margin: 0px 2px;
+}
+
+.tagselection-suggestion{
+    margin: 0px 2px;
 }
