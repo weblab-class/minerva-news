@@ -22,7 +22,10 @@ class TagSelection extends React.Component {
     return (
         <div className="tagselection-box u-greybox">
             <input type="text" placeholder={placeholder_text} className="tagselection-input"/>
-            <div className="tagselection-suggest">{this.state.suggestions}</div>
+            <div className="tagselection-suggestbox">
+              {this.state.suggestions.map((suggestion) => (
+                <div> #{suggestion} </div>
+              ))}</div>
         </div>
     );
   }

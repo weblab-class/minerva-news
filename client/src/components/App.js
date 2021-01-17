@@ -19,13 +19,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    /*
     get("/api/whoami").then((user) => {
       if (user._id) {
         // they are registed in the database, and currently logged in.
         this.setState({ userId: user._id });
       }
-    });*/
+    });
   }
 
   /*

@@ -67,6 +67,11 @@ def collections():
     ]
     return jsonify(collectionObjs)
 
+@app.route("/api/tagsuggest", methods = ['GET'])
+def tag_suggestions():
+    suggestions = ["COVID", "Trump", "Washington"]
+    return jsonify(suggestions)
+
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # for local testing only
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 3000), debug=True)

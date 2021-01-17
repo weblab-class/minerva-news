@@ -18,3 +18,9 @@
     display: flex;
     align-items: center;
 }
+
+.tagselection-suggestbox{
+    display: flex;
+    flex-wrap: wrap;
+}
+
