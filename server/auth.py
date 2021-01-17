@@ -22,7 +22,7 @@ client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 def loggedin():
     ret = {}
     if flask_login.current_user.is_authenticated:
-        ret = flask_login.current_user.get_user()
+        ret = flask_login.current_user.query_user()
     return flask.jsonify(MongoJSONEncoder().encode(ret))
 
 

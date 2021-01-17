@@ -33,7 +33,7 @@ class User(flask_login.UserMixin):
         userinfo['collections'] = DEFAULT_COLLECTIONS
         return userinfo
 
-    def get_user(self):
+    def query_user(self):
         return db.user_db.find_one(
             {'id': self.id}
         )
