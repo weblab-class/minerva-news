@@ -6,7 +6,7 @@ import NotFound from "./pages/NotFound.js";
 import Landing from "./pages/Landing.js";
 import Home from "./pages/Home.js";
 
-import { get, post } from "../utilities";
+import { get, post} from "../utilities";
 
 import "../utilities.css";
 import "./App.css";
@@ -20,9 +20,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    get("/auth/whoami").then((user) => {
-      if (user.hasOwnProperty('id')) {
+    get("/api/whoami").then((user) => {
+      if (user.id) {
         // they are registed in the database, and currently logged in.
+        alert(user);
         this.setState({ user: user });
       }
     });
