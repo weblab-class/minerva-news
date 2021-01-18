@@ -1,28 +1,26 @@
-class Article:
-    def __init__(self, source, url, text):
-        self.source = source
-        self.url = url
-        self.text = text
+import db
 
-    def format_json(self):
-        return {
-            'source': self.source,
+
+class Article:
+    ''' reference container for article in db '''
+
+    def __init__(self, id):
+        self.id = id
+
+    def create_db_article(self, url, source, text):
+        ''' json for creating article entry in database '''
+        articleinfo = {
+            'id': self.id,
             'url': self.url,
+            'source': self.source,
             'text': self.text
         }
+        db.article_db.insert_one(articleinfo)
 
-
-def read_articles(path):
-    ''' Read articles from directory specified by path '''
-    with open(path) as fin:
-        input = json.load(fin)
-    articles = [Article(a['source'], a['url'], a['text']) for n, a in input.items()]
-    return articles
-
-
-def save_articles(articles, path):
-    ''' Save articles to directory specified by path '''
-    print(articles)
-    corpus = {k: a.format_json() for k, a in enumerate(articles)}
-    with open(path, 'w') as fout:
-        json.dump(corpus, fout, indent=4)
+    def query_db_user(self):
+        ''' return article as json '''
+        return db.MongoJSONEncoder().encode(
+            db.article_db.find_one(
+                {'id': self.id}
+            )
+        )

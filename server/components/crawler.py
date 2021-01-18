@@ -6,7 +6,8 @@ from bs4 import BeautifulSoup
 
 
 class Newspaper:
-    pass
+    def __init__(self, source, url):
+
 
 def scrape(newspaper):
     pass

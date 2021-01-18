@@ -13,6 +13,7 @@ class MongoJSONEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, o)
 
 
+# connect with mongodb atlas
 with open('secret/mongodb_atlas_srv.txt', 'r') as fin:
     MONGO_ATLAS_SRV = fin.read().strip()
 
@@ -21,3 +22,4 @@ db = client.minerva
 
 # database.collections
 user_db = db.users
+article_db = db.articles

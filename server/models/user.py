@@ -16,13 +16,15 @@ DEFAULT_COLLECTIONS = {
 
 
 class User(flask_login.UserMixin):
+    ''' reference container for user in db '''
+
     def __init__(self, id, name, email, picture):
         self.id = id
         self.name = name
         self.email = email
         self.picture = picture
 
-    def create_user(self):
+    def create_db_user(self):
         ''' json for creating user entry in database '''
         userinfo = {
             'id': self.id,
@@ -31,11 +33,14 @@ class User(flask_login.UserMixin):
             'picture': self.picture
         }
         userinfo['collections'] = DEFAULT_COLLECTIONS
-        return userinfo
+        db.user_db.insert_one(userinfo)
 
-    def query_user(self):
-        return db.user_db.find_one(
-            {'id': self.id}
+    def query_db_user(self):
+        ''' return user as json '''
+        return db.MongoJSONEncoder().encode(
+            db.user_db.find_one(
+                {'id': self.id}
+            )
         )
 
     def add_collection(self, name, tags):
