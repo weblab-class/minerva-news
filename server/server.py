@@ -35,16 +35,18 @@ def load_user(id):
     )
 
 
-@app.route("/api/tagsuggest", methods = ['GET'])
+@app.route("/api/tagsuggest", methods=['GET'])
 def tag_suggestions():
     suggestions = ["COVID", "Trump", "Washington"]
     return jsonify(suggestions)
 
-@app.route("/api/feed", methods = ['GET'])
+
+@app.route("/api/feed", methods=['GET'])
 def feedids():
     return jsonify(list(range(50)))
 
-@app.route("/api/news", methods = ['POST'])
+
+@app.route("/api/news", methods=['POST'])
 def get_news():
     def id2news(newsid):
         return {
@@ -55,17 +57,18 @@ def get_news():
             "upvotes": newsid + 5,
             "image": None,
             "numComments": newsid + 10,
-            "numAnnotations": newsid + 15,    
-        }  
+            "numAnnotations": newsid + 15,
+        }
     content = request.get_json()
     return jsonify(list(map(id2news, content['newsids'])))
+
 
 @app.route("/api/summaries", methods=['GET'])
 def summaries():
     return jsonify([
         {
             "tags": ["Inauguration", "Biden"],
-            "summary": """Army deployed to defend Biden during Inauguration day 
+            "summary": """Army deployed to defend Biden during Inauguration day
             after FBI finds evidence of Washington rioters having intent on assasinations.""",
         },
         {
@@ -74,6 +77,7 @@ def summaries():
             answers to what crimes he committed.""",
         },
     ])
+
 
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # for local testing only
