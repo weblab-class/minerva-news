@@ -13,9 +13,9 @@ class NavBar extends React.Component {
     return (
       <div className="navbar-base">
         <div className="navbar-container">
-          <div className="navbar-logo u-logo"> Minerva </div>
           {this.props.userId ? (
             <>
+              <div className="navbar-logo u-logo"> Minerva </div>
               <Link className="navbar-elm" to="/"> Home </Link>
               <Link className="navbar-elm" to="/profile"> Profile </Link>
               <button
@@ -24,10 +24,13 @@ class NavBar extends React.Component {
               >Logout</button>
             </>
           ) : (
-            <button
-              onClick={this.props.handleLogin}
-              className="u-cute-button navbar-login"
-            >Login with Google</button>
+            <>
+              <div className="navbar-logo"/>
+              <button
+                onClick={this.props.handleLogin}
+                className="u-cute-button navbar-login"
+              >Login with Google</button>
+            </>
           )}
         </div>
       </div>
