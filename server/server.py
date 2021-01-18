@@ -75,6 +75,21 @@ def get_news():
     content = request.get_json()
     return jsonify(list(map(id2news, content['newsids'])))
 
+@app.route("/api/summaries", methods=['GET'])
+def summaries():
+    return jsonify([
+        {
+            "tags": ["Inauguration", "Biden"],
+            "summary": """Army deployed to defend Biden during Inauguration day 
+            after FBI finds evidence of Washington rioters having intent on assasinations.""",
+        },
+        {
+            "tags": ["Russia", "Alexei Navalny"],
+            "summary": """Alexei Navalny has been imprisoned for 30 days. Officials give no
+            answers to what crimes he committed.""",
+        },
+    ])
+
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # for local testing only
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 3000), debug=True)
