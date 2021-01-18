@@ -13,7 +13,7 @@ n_tpn = [15, 10] #tags per news
 noun_threshold = 100
 nlp = en_core_web_sm.load()
 
-with open("commonnouns") as f:
+with open("nlp_data/common_nouns.txt") as f:
     commons = f.read()
     f.close()
 common_nouns = commons.split("\n")
@@ -37,9 +37,9 @@ def process_doc(doc, freqs):
         while doc[span_end].pos_ == "PROPN" and doc[span_end].dep_ == "compound":
             span_end += 1
         if doc[span_end].pos_ == "PROPN":
-            span_end += 1        
+            span_end += 1
         if span_end > span_start:
-            text = " ".join([doc[j].text for j in range(span_start, span_end)])  
+            text = " ".join([doc[j].text for j in range(span_start, span_end)])
             freqs[0][text] = freqs[0].setdefault(text, 0) + 1
         else:
             span_end += 1

@@ -5,7 +5,7 @@ import pymongo
 class MongoJSONEncoder(json.JSONEncoder):
     ''' Flask.jsonify does not natively work with MongoDB
 
-        command: JSONEncoder().encode(JsonToConvert)
+        usage: JSONEncoder().encode(JsonToConvert)
     '''
     def default(self, o):
         if isinstance(o, bson.ObjectId):
