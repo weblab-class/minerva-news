@@ -6,6 +6,7 @@ import flask
 import flask_login
 
 from flask import jsonify
+from flask import request
 from auth import auth_api
 from db import user_db
 from models.user import User
@@ -38,6 +39,41 @@ def load_user(id):
 def tag_suggestions():
     suggestions = ["COVID", "Trump", "Washington"]
     return jsonify(suggestions)
+
+@app.route("/api/feed", methods = ['GET'])
+def feedids():
+    return jsonify(list(range(50)))
+
+@app.route("/api/news", methods = ['POST'])
+def get_news():
+    def id2news(newsid):
+        return {
+            "title": newsid * 200,
+            "source": "Fox News",
+            "id": newsid,
+            "content": str(newsid) * 200,
+            "upvotes": newsid + 5,
+            "image": None,
+            "numComments": newsid + 10,
+            "numAnnotations": newsid + 15,    
+        }  
+    content = request.get_json()
+    return jsonify(list(map(id2news, content['newsids'])))
+
+@app.route("/api/summaries", methods=['GET'])
+def summaries():
+    return jsonify([
+        {
+            "tags": ["Inauguration", "Biden"],
+            "summary": """Army deployed to defend Biden during Inauguration day 
+            after FBI finds evidence of Washington rioters having intent on assasinations.""",
+        },
+        {
+            "tags": ["Russia", "Alexei Navalny"],
+            "summary": """Alexei Navalny has been imprisoned for 30 days. Officials give no
+            answers to what crimes he committed.""",
+        },
+    ])
 
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # for local testing only
