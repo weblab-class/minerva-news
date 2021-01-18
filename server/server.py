@@ -6,6 +6,7 @@ import flask
 import flask_login
 
 from flask import jsonify
+from flask import request
 from auth import auth_api
 from db import user_db
 from models.user import User
@@ -53,6 +54,26 @@ def index():
 def tag_suggestions():
     suggestions = ["COVID", "Trump", "Washington"]
     return jsonify(suggestions)
+
+@app.route("/api/feed", methods = ['GET'])
+def feedids():
+    return jsonify(list(range(50)))
+
+@app.route("/api/news", methods = ['POST'])
+def get_news():
+    def id2news(newsid):
+        return {
+            "title": newsid * 200,
+            "source": "Fox News",
+            "id": newsid,
+            "content": str(newsid) * 200,
+            "upvotes": newsid + 5,
+            "image": None,
+            "numComments": newsid + 10,
+            "numAnnotations": newsid + 15,    
+        }  
+    content = request.get_json()
+    return jsonify(list(map(id2news, content['newsids'])))
 
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # for local testing only
