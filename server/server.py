@@ -49,29 +49,6 @@ def index():
         return '<a class="button" href="/api/login">Google Login</a>'
 
 
-@app.route("/api/collections", methods=['POST'])
-def collections():
-    collectionObjs = [
-        {
-            "name": "US",
-            "tags": [
-                "US",
-                "Donald Trump",
-            ],
-            "imageName": "USFlag.png",
-        },
-        {
-            "name": "World",
-            "tags": [
-                "World",
-                "War",
-            ],
-            "imageName": "USFlag.png",
-        },
-    ]
-    return flask.jsonify(collectionObjs)
-
-
 @app.route("/api/tagsuggest", methods = ['GET'])
 def tag_suggestions():
     suggestions = ["COVID", "Trump", "Washington"]

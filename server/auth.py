@@ -4,7 +4,7 @@ import flask
 import flask_login
 import oauthlib.oauth2
 
-from db import user_db, MongoJSONEncoder
+from db import user_db
 from models.user import User
 
 auth_api = flask.Blueprint('auth_api', __name__)
@@ -22,8 +22,8 @@ client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 def loggedin():
     ret = {}
     if flask_login.current_user.is_authenticated:
-        ret = flask_login.current_user.query_user()
-    return flask.jsonify(MongoJSONEncoder().encode(ret))
+        ret = flask_login.current_user.query_db_user()
+    return flask.jsonify(ret)
 
 
 @auth_api.route("/login")
@@ -76,7 +76,7 @@ def callback():
     # Create user, maintain user db, and begin session
     user = User(id=id, name=name, email=email, picture=picture)
     if not user_db.find_one({'id': id}):
-        user_db.insert_one(user.create_user())
+        user.create_db_user()
     flask_login.login_user(user)
 
     return flask.redirect(flask.url_for("index"))
