@@ -7,23 +7,30 @@ class Collection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collections: [],
+      collectionsList: [],
     };
   }
 
   componentDidMount() {
+    this.state.collectionsList = Object.entries(this.props.collections);
+    this.state.collectionsList.sort((a,b) => { 
+      return (a[0] > b[0])
+    });
+    /*
     post("/api/collections").then((collectionObjs) =>{
         this.setState({collections:collectionObjs});
     });
+    */
   }
 
   render() {
+
     return (
         <div className="collection-box u-greybox">
             <div className = "u-vert-list collection-list">
                 {
-                    this.state.collections.map((collectionObj) => (
-                        <CollectionCard key={collectionObj.name} setTags={this.props.setTags} {...collectionObj}/>
+                    this.state.collectionsList.map((collection) => (
+                        <CollectionCard key={collection[0]} setTags={this.props.setTags} {...(collection[1])}/>
                     ))
                 }
             </div>

@@ -44,6 +44,7 @@ class TagSelection extends React.Component {
               {this.state.suggestions.map((suggestion) => (
                 <div 
                 className="tagselection-suggestion u-plain-button" 
+                key = {suggestion}
                 onClick={() => {this.insertTag(`#${suggestion} `)}}>
                   #{suggestion} 
                 </div>
