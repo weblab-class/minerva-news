@@ -20,10 +20,10 @@ client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 
 @auth_api.route("/whoami")
 def loggedin():
-    ret = {}
+    user = {}
     if flask_login.current_user.is_authenticated:
-        ret = flask_login.current_user.query_db_user()
-    return flask.jsonify(ret)
+        user = flask_login.current_user.query_db_user()
+    return flask.jsonify(user)
 
 
 @auth_api.route("/login")
