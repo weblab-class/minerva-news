@@ -34,21 +34,6 @@ def load_user(id):
     )
 
 
-@app.route("/")
-def index():
-    if flask_login.current_user.is_authenticated:
-        return (
-            "<p>Hello, {}! You're logged in! Email: {}</p>"
-            "<div><p>Google Profile Picture:</p>"
-            '<img src="{}" alt="Google profile pic"></img></div>'
-            '<a class="button" href="/api/logout">Logout</a>'.format(
-                flask_login.current_user.name, flask_login.current_user.email, flask_login.current_user.picture
-            )
-        )
-    else:
-        return '<a class="button" href="/api/login">Google Login</a>'
-
-
 @app.route("/api/tagsuggest", methods = ['GET'])
 def tag_suggestions():
     suggestions = ["COVID", "Trump", "Washington"]

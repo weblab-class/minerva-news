@@ -28,21 +28,27 @@ def loggedin():
 
 @auth_api.route("/login")
 def login():
+    print("ASDASDAS")
     # Find out what URL to hit for Google login
+    # https://accounts.google.com/o/oauth2/v2/auth
     authorization_endpoint = GOOGLE_PROVIDER_CFG["authorization_endpoint"]
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
+    print(flask.request.base_url)
+    tmp_url = 'http://localhost:3000/api/login'
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=flask.request.base_url + "/callback",
+        redirect_uri=tmp_url + "/callback",
         scope=["openid", "email", "profile"],
     )
-    return flask.redirect(request_uri)
+    # return to frontend to ask for user permission
+    return {'request_uri': request_uri}
 
 
 @auth_api.route("/login/callback")
 def callback():
+    print("BBJBBJJBBJJBBJBJBJBJ")
     # Get authorization code Google sent back to you and request user info
     code = flask.request.args.get("code")
     token_endpoint = GOOGLE_PROVIDER_CFG["token_endpoint"]
@@ -75,15 +81,17 @@ def callback():
 
     # Create user, maintain user db, and begin session
     user = User(id=id, name=name, email=email, picture=picture)
+
     if not user_db.find_one({'id': id}):
         user.create_db_user()
     flask_login.login_user(user)
+    #print(flask_login.current_user.is_authenticated)
 
-    return flask.redirect(flask.url_for("index"))
+    return flask.redirect('http://localhost:5000')
 
 
-@auth_api.route("/logout")
+@auth_api.route("/logout", methods=['POST'])
 @flask_login.login_required
 def logout():
     flask_login.logout_user()
-    return flask.redirect(flask.url_for("index"))
+    return flask.redirect('http://localhost:5000/landing')
