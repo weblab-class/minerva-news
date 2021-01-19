@@ -13,7 +13,7 @@ class Collection extends React.Component {
 
   componentDidMount() {
     this.state.collectionsList = Object.entries(this.props.collections);
-    this.state.collectionsList.sort((a,b) => { 
+    this.state.collectionsList.sort((a,b) => {
       return (a[0] > b[0])
     });
     /*
@@ -35,7 +35,7 @@ class Collection extends React.Component {
                 }
             </div>
             <div className="collection-create">
-              <img src={require("../../public/plusSign.png").default} className="collection-image collection-plus"></img> 
+              <img src={require("../../public/plusSign.png").default} className="collection-image collection-plus"></img>
               <button className="u-plain-button collection-text">Create Collection</button>
             </div>
         </div>
@@ -46,15 +46,15 @@ class Collection extends React.Component {
 class CollectionCard extends React.Component {
     constructor(props) {
       super(props);
-    }      
+    }
     changeTags = () =>{
       this.props.setTags(this.props.tags);
     };
-  
+
     render() {
       return (
         <div className="collection-card">
-          <img src={require(`../../public/collectionIcons/${this.props.imageName}`).default} className="collection-image"></img>
+          <img src={require(`../../public/collectionIcons/${this.props.img}`).default} className="collection-image"></img>
           <button className="u-plain-button collection-text" onClick={this.changeTags}>{this.props.name}</button>
         </div>);
     }

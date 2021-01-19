@@ -17,38 +17,38 @@ GOOGLE_PROVIDER_CFG = requests.get(GOOGLE_DISCOVERY_URL).json()
 
 client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 
+# server info
+SERVER_URL = 'http://localhost:3000'
+
 
 @auth_api.route("/whoami")
 def loggedin():
-    user = {}
+    user = '{}'
     if flask_login.current_user.is_authenticated:
         user = flask_login.current_user.query_db_user()
+    print(flask_login.current_user.is_authenticated)
     return flask.jsonify(user)
 
 
 @auth_api.route("/login")
 def login():
-    print("ASDASDAS")
     # Find out what URL to hit for Google login
     # https://accounts.google.com/o/oauth2/v2/auth
     authorization_endpoint = GOOGLE_PROVIDER_CFG["authorization_endpoint"]
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
-    print(flask.request.base_url)
-    tmp_url = 'http://localhost:3000/api/login'
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=tmp_url + "/callback",
+        redirect_uri = SERVER_URL + '/api/login/callback', #flask.request.base_url
         scope=["openid", "email", "profile"],
-    )
+    ),
     # return to frontend to ask for user permission
     return {'request_uri': request_uri}
 
 
 @auth_api.route("/login/callback")
 def callback():
-    print("BBJBBJJBBJJBBJBJBJBJ")
     # Get authorization code Google sent back to you and request user info
     code = flask.request.args.get("code")
     token_endpoint = GOOGLE_PROVIDER_CFG["token_endpoint"]
@@ -85,10 +85,10 @@ def callback():
     if not user_db.find_one({'id': id}):
         user.create_db_user()
     flask_login.login_user(user)
-    #print(flask_login.current_user.is_authenticated)
+    print("SKAJHFKSHKFHCK", flask_login.current_user.is_authenticated)
 
-    return flask.redirect('http://localhost:5000/'+str(id))
-
+    #return flask.redirect('http://localhost:5000/'+str(id))
+    return 'Authenticating...', 200
 
 @auth_api.route("/logout")
 @flask_login.login_required
