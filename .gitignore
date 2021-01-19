@@ -1,5 +1,6 @@
 client/dist/bundle.js
 node_modules/
+client/node_modules/
 server/secret
 .DS_Store
 __pycache__/

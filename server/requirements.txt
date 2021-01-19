@@ -1,5 +1,6 @@
 flask
 flask-login
+flask_cors
 oauthlib
 requests
 bs4
@@ -11,5 +12,4 @@ spacy
 GoogleNews
 
 gunicorn
-flask_cors
 dnspython
