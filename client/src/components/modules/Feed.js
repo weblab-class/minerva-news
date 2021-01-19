@@ -14,14 +14,25 @@ class Feed extends React.Component {
     };
   }
 
-  componentDidMount() {
-    get("/api/feed").then((newsids) =>{
-        this.setState({newsids:newsids});
+  update_newsObjs = () => {
+    post("/api/feed", {tags: this.props.tags}).then((newsids) =>{
+        console.log("newsids");
         console.log(newsids);
+        this.setState({newsids:newsids});
         post("/api/news", {"newsids": newsids.slice(0, Math.min(5, newsids.length))}).then((newsObjs) => {
           this.setState({newsObjs: newsObjs});
         });
     });
+  }
+
+  componentDidMount() {
+    this.update_newsObjs();
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.tags !== this.props.tags){
+      this.update_newsObjs();
+    }
   }
 
   fetchMoreNews = () => {

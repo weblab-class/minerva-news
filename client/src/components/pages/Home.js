@@ -29,7 +29,7 @@ class Home extends React.Component {
             <Collection setTags={this.setTags} userId={this.props.userId}/>
             <div className="home-middle">
               <TagSelection setTags={this.setTags}/>
-              <Feed/>
+              <Feed tags={this.state.tags}/>
             </div>
             <Summaries/>
         </div>

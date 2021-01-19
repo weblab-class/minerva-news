@@ -36,12 +36,16 @@ def load_user(id):
 
 @app.route("/api/tagsuggest", methods=['GET'])
 def tag_suggestions():
-    suggestions = ["COVID", "Trump", "Washington"]
+    suggestions = ["Covid-19", "Trump", "Washington"]
     return jsonify(suggestions)
 
-@app.route("/api/feed", methods = ['GET'])
+@app.route("/api/feed", methods = ['POST'])
 def get_newsids():
-    all_ids = article_db.distinct("id")
+    tags = request.get_json()['tags']
+    if len(tags) == 0:
+        all_ids = article_db.distinct("id")
+    else:
+        all_ids = article_db.distinct("id", {"tags": {"$all": tags}})
     return jsonify(all_ids)
 
 

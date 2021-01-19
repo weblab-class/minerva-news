@@ -11,6 +11,7 @@ class Article:
         self.source = source
         self.title = title
         self.body_text = body_text
+        self.tags = []
 
     def create_db_article(self):
         ''' json for creating article entry in database '''
@@ -20,8 +21,9 @@ class Article:
             'source': self.source,
             'title': self.title,
             'body_text': self.body_text,
+            'tags': self.tags,
         }
-        articleQuery = {"id": self.id}
+        articleQuery = {"url": self.url}
         if db.article_db.find_one(articleQuery) == None:
             db.article_db.insert_one(articleinfo)
         else:
