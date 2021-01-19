@@ -2,9 +2,9 @@ const webpack = require('webpack');
 
 const config = {
   mode: 'development',
-  entry: __dirname + '/client/src/index.js',
+  entry: __dirname + '/src/index.js',
   output: {
-    path: __dirname + '/client/dist',
+    path: __dirname + '/dist',
     filename: 'bundle.js',
   },
   resolve: {
@@ -29,7 +29,7 @@ const config = {
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
-    contentBase: __dirname + '/client/dist',
+    contentBase: __dirname + '/dist',
     hot: true,
     historyApiFallback: true,
     port: 5000,
