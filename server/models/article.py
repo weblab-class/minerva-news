@@ -4,17 +4,22 @@ import db
 class Article:
     ''' reference container for article in db '''
 
-    def __init__(self, id):
+    def __init__(self, id, url, source, title, body_text):
+        ''' __init__ contains all items needed in backend processing '''
         self.id = id
+        self.url = url
+        self.source = source
+        self.title = title
+        self.body_text = body_text
 
-    def create_db_article(self, url, source, text, title):
+    def create_db_article(self):
         ''' json for creating article entry in database '''
         articleinfo = {
             'id': self.id,
-            'url': url,
-            'source': source,
-            'text': text,
-            'title': title,
+            'url': self.url,
+            'source': self.source,
+            'title': self.title,
+            'body_text': self.body_text,
         }
         articleQuery = {"id": self.id}
         if db.article_db.find_one(articleQuery) == None:
@@ -29,4 +34,3 @@ class Article:
                 {'id': self.id}
             )
         )
-

@@ -14,13 +14,13 @@ class Home extends React.Component {
       tags: [],
     }
   }
-  
+
   setTags = (tags) => {
     this.setState({tags:tags});
   };
 
   render() {
-    if(!this.props.userId){
+    if(!this.props.userId) {
       return (<div></div>);
     }
     return (

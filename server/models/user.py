@@ -19,6 +19,7 @@ class User(flask_login.UserMixin):
     ''' reference container for user in db '''
 
     def __init__(self, id, name, email, picture):
+        ''' __init__ contains all items needed in backend processing '''
         self.id = id
         self.name = name
         self.email = email
