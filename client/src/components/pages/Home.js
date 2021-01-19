@@ -25,7 +25,6 @@ class Home extends React.Component {
     }
     return (
         <div className="home-container">
-          {this.state.tags}
             <Collection setTags={this.setTags} userId={this.props.userId}/>
             <div className="home-middle">
               <TagSelection setTags={this.setTags}/>

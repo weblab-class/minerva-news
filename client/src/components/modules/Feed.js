@@ -59,7 +59,8 @@ class Feed extends React.Component {
   render() {
     return (
         <div className="feed-box u-greybox">
-          <InfiniteScroll
+          {this.state.newsids.length ?(
+            <InfiniteScroll
             dataLength={this.state.newsObjs.length}
             next={this.fetchMoreNews}
             hasMore={this.state.hasMore}
@@ -73,6 +74,12 @@ class Feed extends React.Component {
              <FeedCard newsObj={newsObj} key={index}/>
            ))}
            </InfiniteScroll>
+          ):(              
+          <p style={{ textAlign: "center" }}>
+            <b>No matching news found. Try with less tags</b>
+          </p>
+          )
+          }
         </div>
     );
   }
