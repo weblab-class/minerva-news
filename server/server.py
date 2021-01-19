@@ -34,7 +34,7 @@ def load_user(id):
     )
 
 
-@app.route("/api/tagsuggest", methods = ['GET'])
+@app.route("/api/tagsuggest", methods=['GET'])
 def tag_suggestions():
     suggestions = ["COVID", "Trump", "Washington"]
     return jsonify(suggestions)
@@ -44,7 +44,8 @@ def get_newsids():
     all_ids = article_db.distinct("id")
     return jsonify(all_ids)
 
-@app.route("/api/news", methods = ['POST'])
+
+@app.route("/api/news", methods=['POST'])
 def get_news():
     newsids = request.get_json()['newsids']
     news = article_db.find({ "id": {"$in": newsids}})
@@ -56,10 +57,19 @@ def get_news():
             "content": one_news['text'],
             "upvotes": 0,
             "image": None,
+<<<<<<< HEAD
             "numComments": 0,
             "numAnnotations": 0,  
         }  
     return jsonify(list(map(id2news, news)))
+
+=======
+            "numComments": newsid + 10,
+            "numAnnotations": newsid + 15,
+        }
+    content = request.get_json()
+    return jsonify(list(map(id2news, content['newsids'])))
+>>>>>>> 044cfdb17ca2dace6190a52399aece668ecda8eb
 
 
 @app.route("/api/summaries", methods=['GET'])
@@ -67,7 +77,7 @@ def summaries():
     return jsonify([
         {
             "tags": ["Inauguration", "Biden"],
-            "summary": """Army deployed to defend Biden during Inauguration day 
+            "summary": """Army deployed to defend Biden during Inauguration day
             after FBI finds evidence of Washington rioters having intent on assasinations.""",
         },
         {
@@ -76,6 +86,7 @@ def summaries():
             answers to what crimes he committed.""",
         },
     ])
+
 
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # for local testing only

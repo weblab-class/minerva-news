@@ -46,10 +46,9 @@ html {
   border: 3px solid var(--black);
   color: var(--white);
   box-sizing: border-box;
-  box-shadow: inset 0px 4px 4px var(--greyshadow);
+  /*box-shadow: inset 0px 4px 4px var(--greyshadow);*/
   border-radius: 10px;
   cursor: pointer;
-
   display: block;
 }
 

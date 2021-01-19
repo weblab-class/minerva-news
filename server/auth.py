@@ -87,11 +87,11 @@ def callback():
     flask_login.login_user(user)
     #print(flask_login.current_user.is_authenticated)
 
-    return flask.redirect('http://localhost:5000')
+    return flask.redirect('http://localhost:5000/'+str(id))
 
 
-@auth_api.route("/logout", methods=['POST'])
+@auth_api.route("/logout")
 @flask_login.login_required
 def logout():
     flask_login.logout_user()
-    return flask.redirect('http://localhost:5000/landing')
+    return {}, 200

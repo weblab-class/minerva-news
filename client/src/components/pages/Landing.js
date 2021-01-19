@@ -9,20 +9,19 @@ class Landing extends React.Component {
 
   render() {
     return (
-        <div className="landing-page"> 
-            <div className="landing-box">
-              <div className="landing-logo">Minerva</div>
-              <div className="landing-desc">
-                Using AI to revolutionize how we get and <br></br>
-                comprehend news
-              </div>
-              <div className="u-grow landing-button-cont">
-                <button className="landing-start u-cute-button" onClick={this.props.handleLogin}>
-                  Start Reading
-                </button>
-              </div>
-            </div>
+      <div className="landing-page">
+        <div className="landing-box">
+          <div className="landing-logo">Minerva</div>
+          <div className="landing-desc">
+            Using AI to revolutionize how we browse and <br></br> comprehend news
+          </div>
+          <div className="u-grow landing-button-cont">
+            <button className="landing-start u-cute-button" onClick={this.props.handleLogin}>
+              Start Reading
+            </button>
+          </div>
         </div>
+      </div>
     );
   }
 }

@@ -15,34 +15,39 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: undefined,
+      // user: (id, name, email, picture (url))
+      userId: undefined,
+      userCollections: {}
     };
   }
 
   componentDidMount() {
-    get("/api/whoami").then((user) => {
-      if (user.id) {
-        // they are registed in the database, and currently logged in.
-        alert(user);
-        this.setState({ user: user });
+    get("/api/whoami").then((res) => {
+      // they are registed in the database, and currently logged in.
+      res = JSON.parse(res);
+      if (res.id) {
+        this.setState({
+          userId: res.id,
+          userCollections: res.collections
+        });
       }
     });
   }
 
   handleLogin = (res) => {
-    console.log(`Logged in as ${res.profileObj.name}`);
-    const userToken = res.tokenObj.id_token;
-    post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ userId: user.id });
-      post("/api/initsocket", { socketid: socket.id });
-      navigate("/");
+    get('/api/login').then((res) => {
+      navigate(res.request_uri);
     });
   };
 
   handleLogout = () => {
-    this.setState({ userId: undefined });
-    post("/api/logout").then(() => {
-      navigate("/landing");
+    this.setState({
+      userId: undefined,
+      userCollections: undefined
+    });
+    get("/api/logout").then((res) => {
+      navigate('/landing');
+        // reserve res for future use
     });
   };
 
@@ -52,13 +57,13 @@ class App extends React.Component {
         <NavBar
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
-          userId={this.state.user? this.state.user.id : undefined}
+          userId={this.state.userId? this.state.userId : undefined}
         />
         <div>
           <Router>
-            <Landing path="/landing" handleLogin={this.handleLogin}/>
-            <Home path="/" collections={this.state.user? this.state.user.collections : {}}/>
             <NotFound default />
+            <Landing path="/landing" handleLogin={this.handleLogin}/>
+            <Home path="/:userId" collections={this.state.userCollections}/>
           </Router>
         </div>
       </div>
