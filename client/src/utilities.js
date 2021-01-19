@@ -38,7 +38,6 @@ function convertToJSON(res) {
 // Returns a Promise to a JSON Object.
 export function get(endpoint, params = {}) {
   const fullPath = endpoint + "?" + formatParams(params);
-  console.log(fetch(fullPath));
   return fetch(fullPath)
     .then(convertToJSON)
     .catch((error) => {
