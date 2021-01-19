@@ -9,3 +9,5 @@ pymongo[srv]
 
 spacy
 GoogleNews
+
+gunicorn
