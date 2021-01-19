@@ -63,7 +63,7 @@ class App extends React.Component {
           <Router>
             <NotFound default />
             <Landing path="/landing" handleLogin={this.handleLogin}/>
-            <Home path="/:userId" collections={this.state.user ? this.state.user.collections : {}}/>
+            <Home path="/:userId" collections={this.state.userCollections}/>
           </Router>
         </div>
       </div>
