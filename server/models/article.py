@@ -7,15 +7,20 @@ class Article:
     def __init__(self, id):
         self.id = id
 
-    def create_db_article(self, url, source, text):
+    def create_db_article(self, url, source, text, title):
         ''' json for creating article entry in database '''
         articleinfo = {
             'id': self.id,
             'url': url,
             'source': source,
-            'text': text
+            'text': text,
+            'title': title,
         }
-        db.article_db.insert_one(articleinfo)
+        articleQuery = {"id": self.id}
+        if db.article_db.find_one(articleQuery) == None:
+            db.article_db.insert_one(articleinfo)
+        else:
+            db.article_db.fine_one_and_replace(articleQuery, articleinfo)
 
     def query_db_article(self):
         ''' return article as json '''
@@ -24,3 +29,4 @@ class Article:
                 {'id': self.id}
             )
         )
+

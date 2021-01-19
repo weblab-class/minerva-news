@@ -57,19 +57,11 @@ def get_news():
             "content": one_news['text'],
             "upvotes": 0,
             "image": None,
-<<<<<<< HEAD
             "numComments": 0,
             "numAnnotations": 0,  
         }  
     return jsonify(list(map(id2news, news)))
 
-=======
-            "numComments": newsid + 10,
-            "numAnnotations": newsid + 15,
-        }
-    content = request.get_json()
-    return jsonify(list(map(id2news, content['newsids'])))
->>>>>>> 044cfdb17ca2dace6190a52399aece668ecda8eb
 
 
 @app.route("/api/summaries", methods=['GET'])

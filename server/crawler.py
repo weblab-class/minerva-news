@@ -9,7 +9,7 @@ from GoogleNews import GoogleNews
 
 from models.article import Article
 
-BEGIN = str(datetime.date.today() - datetime.timedelta(days=1))
+BEGIN = str(datetime.date.today() - datetime.timedelta(days=2))
 BEGIN_URL = '/'.join(BEGIN.split('-'))
 TODAY = str(datetime.date.today())  # - timedelta(days=1))
 TODAY_URL = '/'.join(TODAY.split('-'))
@@ -22,16 +22,18 @@ def alt_date_format(url):
 
 newspapers = {
     'cnn': {
+        'name': "CNN",
         'url': 'https://www.cnn.com',
         'url_pattern': r'[0-9]+/[0-9]+/[0-9]+/' + '(?!entertainment)',
         'body_classes': ['zn-body__paragraph'],
+        'title_class': 'pg-headline',
         'headings': ['h3', 'strong'],
         'source_tag': r'.*\(CNN.*?\)'
     }
 }
 
 HEADER = {'User-Agent': 'Mozilla/5.0'}  # get around 403 forbidden error
-ENDPAGE = 2
+ENDPAGE = 5
 googlenews = GoogleNews(start=alt_date_format(BEGIN_URL),
                         end=alt_date_format(TODAY_URL))
 
@@ -71,11 +73,12 @@ def scrape(source):
         sections[0] = re.sub(paper['source_tag'], '', sections[0])
         text = ' '.join([s for s in sections if len(s)])
         text = re.sub(r'\n', ' ', text)
+        title = soup.find(class_=paper['title_class']).get_text()
 
         # add article to db
         article_id = str(time.time())
         article = Article(article_id)
-        article.create_db_article(url, source, text)
+        article.create_db_article(url, source, text, title)
 
 
 def crawl():
