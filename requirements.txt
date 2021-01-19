@@ -11,3 +11,5 @@ spacy
 GoogleNews
 
 gunicorn
+flask_cors
+dnspython
