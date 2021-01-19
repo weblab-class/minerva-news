@@ -81,10 +81,10 @@ def scrape(source):
             body_text = ' '.join([s for s in sections if len(s)])
             body_text = re.sub(r'\n', ' ', body_text)
 
+            article = Article(article_id, url, source, title, body_text)
             # add article to db
             if UPDATE_DB:
                 article_id = str(time.time())
-                article = Article(article_id, url, source, title, body_text)
                 article.create_db_article()
         except:
             print('Article not valid: ' + url)

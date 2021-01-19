@@ -12,12 +12,6 @@ import "../utilities.css";
 import "./App.css";
 
 
-function sleep(miliseconds) {
-  var currentTime = new Date().getTime();
-  while (currentTime + miliseconds >= new Date().getTime()) {}
-}
-
-
 function attemptLoadUser(app, postFunc) {
   get("/api/whoami").then((res) => {
     // they are registed in the database, and currently logged in.
@@ -27,6 +21,8 @@ function attemptLoadUser(app, postFunc) {
         userId: res.id,
         userCollections: res.collections
       });
+      localStorage.setItem("userId", res.id);
+      localStorage.setItem("userCollections", JSON.stringify(res.collections));
     }
     postFunc();
   });
@@ -62,11 +58,12 @@ function cycleAttemptLoadUser(app, popup, delay, iter, maxIters) {
 class App extends React.Component {
   constructor(props) {
     super(props);
+    console.log("llllllllll");
     this.state = {
-      // user: (id, name, email, picture (url))
-      userId: undefined,
-      userCollections: {}
+      userId: localStorage.getItem("userId"),
+      userCollections: JSON.parse(localStorage.getItem("userCollections"))
     };
+    console.log(this.state);
   }
 
   componentDidMount() {
@@ -76,7 +73,7 @@ class App extends React.Component {
   handleLogin = (res) => {
     const app = this;
     const LOAD_DELAY = 3000; // milliseconds
-    const WAIT_DELAY = 5000; // wait for user to accept terms of service
+    const WAIT_DELAY = 5000;
     get('/api/login').then((res) => {
       let popup = window.open(res.request_uri,
                               'Authentication',
@@ -84,6 +81,7 @@ class App extends React.Component {
       setTimeout(() => {
         attemptLoadUser(app, () => {
           if (!checkUserLoaded(app, popup)) {
+            // wait for user to accept terms of service
             cycleAttemptLoadUser(app, popup, WAIT_DELAY, 1, 5);
           }
         });
@@ -94,7 +92,7 @@ class App extends React.Component {
   handleLogout = () => {
     this.setState({
       userId: undefined,
-      userCollections: {}
+      userCollections: undefined
     });
     //console.log(this);
     get("/api/logout").then((res) => {
@@ -115,7 +113,7 @@ class App extends React.Component {
           <Router>
             <NotFound default />
             <Landing path="/landing" handleLogin={this.handleLogin}/>
-            <Home path="/:userId" userId = {this.state.userId} collections={this.state.userCollections}/>
+            <Home path="/:userId" collections={this.state.userCollections}/>
           </Router>
         </div>
       </div>
