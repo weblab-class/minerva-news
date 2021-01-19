@@ -20,22 +20,14 @@ class Collections extends React.Component {
       })
     });
     localStorage.setItem("collectionslist", JSON.stringify(entries));
-    /*
-    post("/api/collections").then((collectionObjs) =>{
-        this.setState({collections:collectionObjs});
-    });
-    */
-
-  // <CollectionCard key={collection[0]} setTags={this.props.setTags} name={collection[0]} {...(collection[1])}/>
+  }
 
   render() {
-    console.log("OOOOOOOOOOO");
-    console.log(this.collectionsList);
     return (
       <div className="collection-box u-greybox">
         <div className = "u-vert-list collection-list"> {
           this.state.collectionsList.map((collection) => (
-            <CollectionCard key={collection[0]} setTags={this.props.setTags} name={collection[0]} {...(collection[1])}/>
+            <CollectionsCard key={collection[0]} setTags={this.props.setTags} name={collection[0]} {...(collection[1])}/>
           ))
         }
         </div>
@@ -52,6 +44,7 @@ class CollectionsCard extends React.Component {
   constructor(props) {
     super(props);
   }
+  
   changeTags = () =>{
     this.props.setTags(this.props.tags);
   };
