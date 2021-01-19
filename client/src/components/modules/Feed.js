@@ -17,6 +17,7 @@ class Feed extends React.Component {
   componentDidMount() {
     get("/api/feed").then((newsids) =>{
         this.setState({newsids:newsids});
+        console.log(newsids);
         post("/api/news", {"newsids": newsids.slice(0, Math.min(5, newsids.length))}).then((newsObjs) => {
           this.setState({newsObjs: newsObjs});
         });
@@ -73,22 +74,28 @@ class Feed extends React.Component {
              })
            }*/
 
+
+
 class FeedCard extends React.Component {
     constructor(props) {
       super(props);
+    }
+
+    sliceContent = (text) => {
+      return text.slice(0, text.slice(0, 400).lastIndexOf(' '));
     }
   
     render() {
       return (
         <div className="feedcard-cont u-greybox">
           <div className="feedcard-src">
-            source - {this.props.newsObj.source} 
+            {this.props.newsObj.source} 
           </div>
           <div className="feedcard-title">
-            title - {this.props.newsObj.title}
+            {this.props.newsObj.title}
           </div>
           <div className="feedcard-content">
-            content - {this.props.newsObj.content}
+            {this.sliceContent(this.props.newsObj.content)} ...
           </div>
           <div className="feedcard-commentbar u-greybox">
             <div className="feedcard-counts">
