@@ -12,23 +12,21 @@ class Collection extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.userId){
-      console.log(this.props.collections);
-      console.log(Object.entries(this.props.collections))
-      console.log(Object.entries(this.props.collections).length);
-      var collectionsList = Object.entries(this.props.collections);
-      console.log(collectionsList.length);
+    get("/api/collections").then((collectionsDict) => {
+      var collectionsList = Object.entries(collectionsDict);
+      console.log(collectionsList);
       this.setState({collectionsList: collectionsList.sort((a,b) => {
           return (a[0] > b[0])
         })
       });
-    }
+    });
+ 
+  }
     /*
     post("/api/collections").then((collectionObjs) =>{
         this.setState({collections:collectionObjs});
     });
     */
-  }
 
   //                        <CollectionCard key={collection[0]} setTags={this.props.setTags} name={collection[0]} {...(collection[1])}/>
 
@@ -38,7 +36,7 @@ class Collection extends React.Component {
             <div className = "u-vert-list collection-list">
                 {
                     this.state.collectionsList.map((collection) => (
-                      <div> hello </div>
+                      <CollectionCard key={collection[0]} setTags={this.props.setTags} name={collection[0]} {...(collection[1])}/>
                     ))
                 }
             </div>

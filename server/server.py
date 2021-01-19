@@ -62,6 +62,10 @@ def get_news():
         }  
     return jsonify(list(map(id2news, news)))
 
+@app.route("/api/collections", methods=['GET'])
+def collections():
+    userid = flask_login.current_user.id
+    return jsonify(user_db.find_one({"id": userid})['collections'])
 
 
 @app.route("/api/summaries", methods=['GET'])

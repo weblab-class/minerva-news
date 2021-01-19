@@ -115,7 +115,7 @@ class App extends React.Component {
           <Router>
             <NotFound default />
             <Landing path="/landing" handleLogin={this.handleLogin}/>
-            <Home path="/:userId" userId = {this.state.userId} collections={this.state.userCollections}/>
+            <Home path="/:userId" userId = {this.state.userId}/>
           </Router>
         </div>
       </div>
