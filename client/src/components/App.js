@@ -18,7 +18,7 @@ function sleep(miliseconds) {
 }
 
 
-function loadUser(app, postFunc) {
+function attemptLoadUser(app, postFunc) {
   get("/api/whoami").then((res) => {
     // they are registed in the database, and currently logged in.
     res = JSON.parse(res);
@@ -33,6 +33,32 @@ function loadUser(app, postFunc) {
 }
 
 
+function checkUserLoaded(app, popup) {
+  if (app.state.userId) {
+    popup.close();
+    navigate(`/${app.state.userId}`);
+    return true;
+  }
+  return false;
+}
+
+
+function cycleAttemptLoadUser(app, popup, delay, iter, maxIters) {
+  //console.log(iter);
+  setTimeout(() => {
+    attemptLoadUser(app, () => {
+      if (iter > maxIters) {
+        alert("Please retry and accept terms of service!");
+        return;
+      }
+      if (!checkUserLoaded(app, popup)) {
+        cycleAttemptLoadUser(app, popup, delay, iter + 1, maxIters);
+      }
+    });
+  }, delay);
+}
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -44,23 +70,21 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    loadUser(this, () => {});
+    attemptLoadUser(this, () => {});
   }
 
   handleLogin = (res) => {
     const app = this;
     const LOAD_DELAY = 3000; // milliseconds
+    const WAIT_DELAY = 5000; // wait for user to accept terms of service
     get('/api/login').then((res) => {
       let popup = window.open(res.request_uri,
                               'Authentication',
                               'width=600,height=600,left=300,top=100');
-      setTimeout(function() {
-        popup.close();
-        loadUser(app, () => {
-          if (app.state.userId) {
-            navigate(`/${app.state.userId}`);
-          } else {
-            alert("Please retry and accept terms of service!");
+      setTimeout(() => {
+        attemptLoadUser(app, () => {
+          if (!checkUserLoaded(app, popup)) {
+            cycleAttemptLoadUser(app, popup, WAIT_DELAY, 1, 5);
           }
         });
       }, LOAD_DELAY);
@@ -72,7 +96,7 @@ class App extends React.Component {
       userId: undefined,
       userCollections: {}
     });
-    console.log(this);
+    //console.log(this);
     get("/api/logout").then((res) => {
       navigate('/landing');
         // reserve res for future use
