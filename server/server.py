@@ -8,7 +8,7 @@ import flask_login
 from flask import jsonify
 from flask import request
 from auth import auth_api
-from db import user_db
+from db import user_db, article_db
 from models.user import User
 
 # app
@@ -20,7 +20,6 @@ app.register_blueprint(auth_api, url_prefix='/api')
 # authentication
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
-
 
 @login_manager.user_loader
 def load_user(id):
@@ -40,27 +39,37 @@ def tag_suggestions():
     suggestions = ["COVID", "Trump", "Washington"]
     return jsonify(suggestions)
 
-
-@app.route("/api/feed", methods=['GET'])
-def feedids():
-    return jsonify(list(range(50)))
+@app.route("/api/feed", methods = ['GET'])
+def get_newsids():
+    all_ids = article_db.distinct("id")
+    return jsonify(all_ids)
 
 
 @app.route("/api/news", methods=['POST'])
 def get_news():
-    def id2news(newsid):
+    newsids = request.get_json()['newsids']
+    news = article_db.find({ "id": {"$in": newsids}})
+    def id2news(one_news):
         return {
-            "title": newsid * 200,
-            "source": "Fox News",
-            "id": newsid,
-            "content": str(newsid) * 200,
-            "upvotes": newsid + 5,
+            "title": one_news['source'],
+            "source": one_news['source'],
+            "id": one_news['id'],
+            "content": one_news['text'],
+            "upvotes": 0,
             "image": None,
+<<<<<<< HEAD
+            "numComments": 0,
+            "numAnnotations": 0,  
+        }  
+    return jsonify(list(map(id2news, news)))
+
+=======
             "numComments": newsid + 10,
             "numAnnotations": newsid + 15,
         }
     content = request.get_json()
     return jsonify(list(map(id2news, content['newsids'])))
+>>>>>>> 044cfdb17ca2dace6190a52399aece668ecda8eb
 
 
 @app.route("/api/summaries", methods=['GET'])
