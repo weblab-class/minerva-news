@@ -36,12 +36,16 @@ def load_user(id):
 
 @app.route("/api/tagsuggest", methods=['GET'])
 def tag_suggestions():
-    suggestions = ["COVID", "Trump", "Washington"]
+    suggestions = ["Covid-19", "Trump", "Washington"]
     return jsonify(suggestions)
 
-@app.route("/api/feed", methods = ['GET'])
+@app.route("/api/feed", methods = ['POST'])
 def get_newsids():
-    all_ids = article_db.distinct("id")
+    tags = request.get_json()['tags']
+    if len(tags) == 0:
+        all_ids = article_db.distinct("id")
+    else:
+        all_ids = article_db.distinct("id", {"tags": {"$all": tags}})
     return jsonify(all_ids)
 
 
@@ -51,7 +55,7 @@ def get_news():
     news = article_db.find({ "id": {"$in": newsids}})
     def id2news(one_news):
         return {
-            "title": one_news['source'],
+            "title": one_news['title'],
             "source": one_news['source'],
             "id": one_news['id'],
             "content": one_news['body_text'],
@@ -62,6 +66,10 @@ def get_news():
         }  
     return jsonify(list(map(id2news, news)))
 
+@app.route("/api/collections", methods=['GET'])
+def collections():
+    userid = flask_login.current_user.id
+    return jsonify(user_db.find_one({"id": userid})['collections'])
 
 
 @app.route("/api/summaries", methods=['GET'])

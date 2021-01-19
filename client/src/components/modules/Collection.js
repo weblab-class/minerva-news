@@ -25,7 +25,6 @@ class Collections extends React.Component {
         this.setState({collections:collectionObjs});
     });
     */
-  }
 
   // <CollectionCard key={collection[0]} setTags={this.props.setTags} name={collection[0]} {...(collection[1])}/>
 
@@ -36,7 +35,7 @@ class Collections extends React.Component {
       <div className="collection-box u-greybox">
         <div className = "u-vert-list collection-list"> {
           this.state.collectionsList.map((collection) => (
-            <div> hello </div>
+            <CollectionCard key={collection[0]} setTags={this.props.setTags} name={collection[0]} {...(collection[1])}/>
           ))
         }
         </div>

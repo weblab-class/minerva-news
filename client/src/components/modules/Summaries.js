@@ -24,7 +24,7 @@ class Summaries extends React.Component {
             <div className="u-vert-list">
                 {
                     this.state.summaries.map((summaryObj) => (
-                        <SummaryCard summaryObj={summaryObj}/>
+                        <SummaryCard key={summaryObj.tags}summaryObj={summaryObj}/>
                     ))
                 }
             </div>
@@ -37,14 +37,14 @@ class SummaryCard extends React.Component {
     constructor(props) {
       super(props);
     }
-  
+
     render() {
       return (
       <div className="u-greybox summarycard-cont">
         <div className="summarycard-taglist">
           {
             this.props.summaryObj.tags.map((tag) => (
-              <div className="summarycard-tag">
+              <div key={tag} className="summarycard-tag">
                 #{tag}
               </div>
             ))

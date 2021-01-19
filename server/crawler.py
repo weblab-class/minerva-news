@@ -8,9 +8,10 @@ from urllib.request import Request, urlopen
 from GoogleNews import GoogleNews
 
 from models.article import Article
+from tagging import process_news
 
 # Used for development
-UPDATE_DB = False
+UPDATE_DB = True
 
 
 BEGIN = str(datetime.date.today() - datetime.timedelta(days=2))
@@ -48,6 +49,7 @@ def scrape(source):
         Creates article entry in db with id = timestamp scraped
     '''
     paper = newspapers[source]
+    articles_list = []
 
     def not_heading(x):
         tags = set([tag.name for tag in x.find_all()])
@@ -81,18 +83,28 @@ def scrape(source):
             body_text = ' '.join([s for s in sections if len(s)])
             body_text = re.sub(r'\n', ' ', body_text)
 
+            article_id = str(time.time())
             article = Article(article_id, url, source, title, body_text)
-            # add article to db
-            if UPDATE_DB:
-                article_id = str(time.time())
-                article.create_db_article()
+            articles_list.append(article)
         except:
             print('Article not valid: ' + url)
         else:
             print(url)
+    return articles_list
+
 
 def crawl():
-    scrape('cnn')
+    all_articles = []
+    all_articles.extend(scrape('cnn'))
+    return all_articles
 
 
-crawl()
+def add_to_db(articles):
+    if UPDATE_DB:
+        for article in articles:
+            article.create_db_article()
+    else:
+        print(articles)
+
+if __name__ == "__main__":
+    add_to_db(process_news(crawl()))

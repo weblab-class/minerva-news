@@ -14,14 +14,25 @@ class Feed extends React.Component {
     };
   }
 
-  componentDidMount() {
-    get("/api/feed").then((newsids) =>{
+  update_newsObjs = () => {
+    post("/api/feed", {tags: this.props.tags}).then((newsids) =>{
+        console.log("newsids");
+        console.log(newsids);
         this.setState({newsids:newsids});
-        //console.log(newsids);
         post("/api/news", {"newsids": newsids.slice(0, Math.min(5, newsids.length))}).then((newsObjs) => {
           this.setState({newsObjs: newsObjs});
         });
     });
+  }
+
+  componentDidMount() {
+    this.update_newsObjs();
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.tags !== this.props.tags){
+      this.update_newsObjs();
+    }
   }
 
   fetchMoreNews = () => {
@@ -48,7 +59,8 @@ class Feed extends React.Component {
   render() {
     return (
         <div className="feed-box u-greybox">
-          <InfiniteScroll
+          {this.state.newsids.length ?(
+            <InfiniteScroll
             dataLength={this.state.newsObjs.length}
             next={this.fetchMoreNews}
             hasMore={this.state.hasMore}
@@ -62,6 +74,12 @@ class Feed extends React.Component {
              <FeedCard newsObj={newsObj} key={index}/>
            ))}
            </InfiniteScroll>
+          ):(
+          <p style={{ textAlign: "center" }}>
+            <b>No matching news found. Try with less tags</b>
+          </p>
+          )
+          }
         </div>
     );
   }
