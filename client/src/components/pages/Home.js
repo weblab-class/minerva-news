@@ -20,10 +20,13 @@ class Home extends React.Component {
   };
 
   render() {
+    if(!this.props.userId){
+      return (<div></div>);
+    }
     return (
         <div className="home-container">
           {this.state.tags}
-            <Collection setTags={this.setTags} collections={this.props.collections}/>
+            <Collection setTags={this.setTags} userId={this.props.userId} collections={this.props.collections}/>
             <div className="home-middle">
               <TagSelection setTags={this.setTags}/>
               <Feed/>

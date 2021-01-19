@@ -54,7 +54,7 @@ def get_news():
             "title": one_news['source'],
             "source": one_news['source'],
             "id": one_news['id'],
-            "content": one_news['text'],
+            "content": one_news['body_text'],
             "upvotes": 0,
             "image": None,
             "numComments": 0,
