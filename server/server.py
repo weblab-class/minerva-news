@@ -51,7 +51,7 @@ def get_news():
     news = article_db.find({ "id": {"$in": newsids}})
     def id2news(one_news):
         return {
-            "title": one_news['source'],
+            "title": one_news['title'],
             "source": one_news['source'],
             "id": one_news['id'],
             "content": one_news['body_text'],
