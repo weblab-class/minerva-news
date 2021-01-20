@@ -4,6 +4,7 @@ import requests
 
 import flask
 import flask_login
+import flask_cors
 
 from flask import jsonify
 from flask import request
@@ -14,6 +15,8 @@ from models.user import User
 # app
 app = flask.Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+cors = flask_cors.CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.register_blueprint(auth_api, url_prefix='/api')
 
@@ -62,8 +65,8 @@ def get_news():
             "upvotes": 0,
             "image": None,
             "numComments": 0,
-            "numAnnotations": 0,  
-        }  
+            "numAnnotations": 0,
+        }
     return jsonify(list(map(id2news, news)))
 
 @app.route("/api/collections", methods=['GET'])
