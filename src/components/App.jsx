@@ -1,6 +1,8 @@
 import React from 'react';
+import { Router, navigate } from "@reach/router";
 
-import NavBar from "./modules/NavBar.js";
+import NavBar from "./modules/NavBar.jsx";
+import Landing from "./pages/Landing.jsx"
 import NotFound from "./pages/NotFound.jsx";
 
 import { get, post } from "../utilities";
@@ -18,7 +20,7 @@ class App extends React.Component {
   }
 
   handleLogin = (res) => {
-    get('/api/login').then((res) => {
+    get("/api/login").then((res) => {
       this.setState({
         userId: res.userId,
       });
@@ -31,7 +33,8 @@ class App extends React.Component {
       userId: null,
     });
     localStorage.clear();
-    post('/api/logout');
+    post("/api/logout");
+    navigate("/");
   };
 
   render() {
@@ -42,7 +45,12 @@ class App extends React.Component {
           handleLogout={this.handleLogout}
           userId={this.state.userId}
         />
-        <NotFound />
+        <div>
+          <Router>
+            <Landing path="/" handleLogin={this.handleLogin}/>
+            <NotFound default />
+          </Router>
+        </div>
       </>
     );
   }
