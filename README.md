@@ -49,4 +49,7 @@ git commit -m {COMMIT_MESSAGE}
 git push heroku master
 ```
 
-You are now ready to view the product.
+You can view the product with
+```
+heroku open
+```
