@@ -48,8 +48,3 @@ git add .
 git commit -m {COMMIT_MESSAGE}
 git push heroku master
 ```
-
-You can view the product with
-```
-heroku open
-```
