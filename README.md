@@ -16,27 +16,30 @@ pip3 install -r requirements.txt
 ```
 for the necessary Python libs
 
-To start development server.
+### Frontend
+To start the development server, which enables hotloading on http://localhost:3000
 ```
 npm start
 ```
 
-which will live update as the frontend code is updated
-
-To run backend. Make sure you are in ./server
+### App
+To test frontend + backend, we first need a production build
+```
+npm run build
+```
+Then run
 ```
 python3 app.py
 ```
+The app will be hosted on http://localhost:5000
+
+Important: Please do not attempt to set up a proxy. Authentication won't work unless frontend/backend are on same port.
 
 ## Heroku Deployment
 First make sure you have Heroku CLI installed. We will be using gunicorn, python WSGI HTTP server,
 to serve the Flask application (specified in Procfile).
 
-To get a production ready build, run
-```
-npm run build
-```
-which will create the build folder. Next create the app on Heroku. Then run
+Perform a production build. Next create the app on Heroku. Then run
 ```
 heroku git:remote -a {YOUR_APP_NAME}
 heroku buildpacks:set heroku/python
