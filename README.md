@@ -4,7 +4,7 @@ Using AI to revolutionize how we browse and comprehend news
 ## Development Notes
 React frontend, Python/Flask backend, and MongoDB
 
-npm/create-react-app is used in the development process for frontend.
+npm & create-react-app is used in the development process for frontend.
 
 When first cloning repo, make sure to run
 ```
@@ -43,7 +43,7 @@ First comment out in app.py
 ```
 app.run( ... )
 ```
-Now perform a production build. Next create the app on Heroku. Then run
+Next create the app on Heroku. Then run
 ```
 heroku git:remote -a {YOUR_APP_NAME}
 heroku buildpacks:set heroku/python
@@ -55,7 +55,7 @@ heroku config:set GOOGLE_CLIENT_ID={YOUR_GOOGLE_CLIENT_ID}
 heroku config:set GOOGLE_CLIENT_SECRET={YOUR_GOOGLE_CLIENT_SECRET}
 heroku config:set MONGODB_SRV={YOUR_MONGODB_SRV}
 ```
-Finally commit to Heroku
+Finally commit to Heroku (repeat for subsequent deploys)
 ```
 git add .
 git commit -m {COMMIT_MESSAGE}

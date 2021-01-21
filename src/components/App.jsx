@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: null,
+      userId: localStorage.getItem("userId"),
     };
   }
 
@@ -22,6 +22,7 @@ class App extends React.Component {
       this.setState({
         userId: res.userId,
       });
+      localStorage.setItem("userId", res.userId);
     });
   };
 
@@ -29,6 +30,7 @@ class App extends React.Component {
     this.setState({
       userId: null,
     });
+    localStorage.clear();
     post('/api/logout');
   };
 
