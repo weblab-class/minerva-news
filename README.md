@@ -36,16 +36,26 @@ The app will be hosted on http://localhost:5000
 Important: Please do not attempt to set up a proxy. Authentication won't work unless frontend/backend are on same port.
 
 ## Heroku Deployment
-First make sure you have Heroku CLI installed. We will be using gunicorn, python WSGI HTTP server,
+Make sure you have Heroku CLI installed. We will be using gunicorn, python WSGI HTTP server,
 to serve the Flask application (specified in Procfile).
 
-Perform a production build. Next create the app on Heroku. Then run
+First comment out in app.py
+```
+app.run( ... )
+```
+Now perform a production build. Next create the app on Heroku. Then run
 ```
 heroku git:remote -a {YOUR_APP_NAME}
 heroku buildpacks:set heroku/python
 heroku buildpacks:add --index 1 heroku/nodejs
 ```
-to set up the Heroku build environment. Finally commit to Heroku
+to set up the Heroku build environment. Next, set the environmental variables on Heroku.
+```
+heroku config:set GOOGLE_CLIENT_ID={YOUR_GOOGLE_CLIENT_ID}
+heroku config:set GOOGLE_CLIENT_SECRET={YOUR_GOOGLE_CLIENT_SECRET}
+heroku config:set MONGODB_SRV={YOUR_MONGODB_SRV}
+```
+Finally commit to Heroku
 ```
 git add .
 git commit -m {COMMIT_MESSAGE}
