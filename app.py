@@ -1,9 +1,9 @@
 import os
 
 ''' Enviornmental Variables '''
-GUNICORN = True
+os.environ['DEPLOY'] = 'HEROKU'
 
-if not GUNICORN:
+if os.environ.get('DEPLOY') != 'HEROKU':
     with open('env.txt', 'r') as fin:
         env = tuple(fin.read().splitlines())
     os.environ['GOOGLE_CLIENT_ID']     = env[0]
@@ -86,5 +86,5 @@ def handle_404(e):
     return app.send_static_file('index.html')
 
 
-if not GUNICORN:
+if os.environ.get('DEPLOY') != 'HEROKU':
     app.run(host='0.0.0.0', port=5000, debug=False)

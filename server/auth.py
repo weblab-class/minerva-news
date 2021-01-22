@@ -98,7 +98,9 @@ def callback():
         user.create_db_user()
     flask_login.login_user(user)
 
-    return flask.redirect('http://localhost:5000/')
+    if os.environ.get('DEPLOY') != 'HEROKU':
+        return flask.redirect('http://localhost:5000/')
+    return flask.redirect('https://minerva-news.herokuapp.com/')
 
 
 @auth_api.route('/logout', methods=['POST'])
