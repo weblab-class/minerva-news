@@ -23,26 +23,33 @@ npm start
 ```
 
 ### App
-To test frontend + backend, we first need a production build
+First set env variables in env.txt, specifically
+```
+{YOUR_GOOGLE_CLIENT_ID}
+{YOUR_GOOGLE_CLIENT_SECRET}
+{YOUR_MONGO_ATLAS_SRV}
+```
+To test frontend + backend, we first need a production build for frontend (only build if frontend changes)
 ```
 npm run build
 ```
-Then run
+Then to launch the app run
 ```
 python3 app.py
 ```
-The app will be hosted on http://localhost:5000
+The app will be hosted on http://localhost:5000. To run both at once do (recommended since one often forgets to build)
+```
+sh run.txt
+```
 
-Important: Please do not attempt to set up a proxy. Authentication won't work unless frontend/backend are on same port.
+**Important: Please do not attempt to set up a proxy for the npm dev server. Authentication won't work unless frontend/backend are on same port.**
 
 ## Heroku Deployment
 Make sure you have Heroku CLI installed. We will be using gunicorn, python WSGI HTTP server,
 to serve the Flask application (specified in Procfile).
 
-First comment out in app.py
-```
-app.run( ... )
-```
+First change GUNICORN in app.py to True.
+
 Next create the app on Heroku. Then run
 ```
 heroku git:remote -a {YOUR_APP_NAME}
@@ -53,7 +60,7 @@ to set up the Heroku build environment. Next, set the environmental variables on
 ```
 heroku config:set GOOGLE_CLIENT_ID={YOUR_GOOGLE_CLIENT_ID}
 heroku config:set GOOGLE_CLIENT_SECRET={YOUR_GOOGLE_CLIENT_SECRET}
-heroku config:set MONGODB_SRV={YOUR_MONGODB_SRV}
+heroku config:set MONGODB_SRV={YOUR_MONGO_ATLAS_SRV}
 ```
 Finally commit to Heroku (repeat for subsequent deploys)
 ```
