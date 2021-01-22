@@ -1,0 +1,63 @@
+.feedcard-cont {
+  min-height: 310px;
+  margin: 10px;
+  padding: 15px 15px 0px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.feedcard-src {
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+}
+
+.feedcard-content {
+  overflow-wrap: break-word;
+  font-size: 22px;
+  min-height: 180px;
+  line-height: 30px;
+  padding: 5px 0px;
+}
+
+.feedcard-title {
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 34px;
+  padding: 5px 0px;
+  display: flex;
+  align-items: center;
+}
+
+.feedcard-commentbar {
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feedcard-counts {
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 20px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.feedcard-commentbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.feedcard-comments {
+  display: flex;
+  align-items: center;
+  margin: 0px 10px;
+}
