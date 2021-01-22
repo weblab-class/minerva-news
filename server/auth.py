@@ -36,6 +36,14 @@ def load_user(id):
 ''' Client Authentication Routes '''
 client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 
+import pymongo
+
+MONGO_ATLAS_SRV = os.environ.get('MONGO_ATLAS_SRV')
+client_db = pymongo.MongoClient(MONGO_ATLAS_SRV)
+db = client_db.minerva
+user_db = db.users
+
+
 @auth_api.route('/whoami')
 def loggedin():
     user = {}
