@@ -48,7 +48,7 @@ sh run.txt
 Make sure you have Heroku CLI installed. We will be using gunicorn, python WSGI HTTP server,
 to serve the Flask application (specified in Procfile).
 
-First change GUNICORN in app.py to True.
+First change os.environ['GUNICORN'] in app.py to True.
 
 Next create the app on Heroku. Then run
 ```
