@@ -1,2 +1,15 @@
-Flask
+flask
+flask-login
+flask_cors
+oauthlib
+requests
+bs4
+
+pymongo==3.7.2
+pymongo[srv]
+
+spacy
+GoogleNews
+
 gunicorn
+dnspython
