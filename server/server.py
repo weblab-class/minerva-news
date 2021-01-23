@@ -95,17 +95,23 @@ def summaries():
 def comments():
     return jsonify([
         {
+            "id": 1,
             "ownerName": "Donald Trump",
             "content": "The West is RED, the Sun rises. Without me, there would be no NEW AMERICA! Out of AMERICA comes a Donald Trump!",
             "annotation": {
-                "backgroundColor": "red",
+                "id": 1,
+                "start": 50,
+                "end": 100,
             },
         },
         {
+            "id": 2,
             "ownerName": "Joe Biden",
             "content": "The poor boys perform just as good as the Proud Boys at school, and the White boys, the rich boys, the Black boys, the Asian boys.",
             "annotation": {
-                "backgroundColor": "blue",
+                "id": 2,
+                "start": 79,
+                "end": 85,
             },
         },
     ])

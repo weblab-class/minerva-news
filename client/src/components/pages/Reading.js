@@ -5,17 +5,34 @@ import { get, post } from "../../utilities";
 import "./Reading.css";
 import Comments from "../modules/Comments.js";
 import NotFound from "./NotFound";
+import AnnotationCard from "../modules/Annotation.js";
+import { set } from "mongoose";
 
 class Reading extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        newsObj: null
+        newsObj: null,
+        annotationsShown: [],
     }
-    this.annotationSets = [
+    this.defaultAnnotations = [
         {text: "Incorrect Facts", backgroundColor: "red"}, 
         {text: "Strong Sentiment", backgroundColor: "blue"},
     ]
+  }
+
+  remove_from_list = (list, el) => {
+    const index = list.indexOf(el);
+    return list.slice(0, index).concat(list.slice(index + 1));
+  }
+
+  toggleAnnotation = (annotationId) => {
+    if(this.state.annotationsShown.includes(annotationId)){
+      this.setState({annotationsShown: this.remove_from_list(this.state.annotationsShown, annotationId)});
+    }
+    else{
+      this.setState({annotationsShown: this.state.annotationsShown.concat([annotationId])})
+    }
   }
 
   componentDidMount() {
@@ -27,12 +44,17 @@ class Reading extends React.Component {
   render() {
     return (this.state.newsObj?(
         <div className="reading-cont">
-            <FeedCard newsObj={this.state.newsObj} expanded={true}/>
+            <FeedCard newsObj={this.state.newsObj} expanded={true} annotationsShown = {this.state.annotationsShown}/>
             <div className="reading-sidebar u-greybox">
                 <div className="reading-system-ann u-greybox">
-                    {this.annotationSets.map((annotation, i) => (<AnnotationCard {...annotation} key = {i}/>))}
+                    {this.defaultAnnotations.map((annotation, i) => (
+                    <AnnotationCard {...annotation} id = {`default${i}`} key = {i}/>
+                    ))}
                 </div>
-                <Comments />
+                <Comments 
+                  toggleAnnotation = {this.toggleAnnotation} 
+                  annotationsShown = {this.state.annotationsShown}
+                />
             </div>
         </div>
     ):(
@@ -40,22 +62,5 @@ class Reading extends React.Component {
     ));
   }
 }
-
-export class AnnotationCard extends React.Component {
-    constructor(props) {
-      super(props);
-    }
-  
-    render() {
-      return (
-          <div className="reading-ann-cont">
-              <div className="reading-ann-box" style={{backgroundColor: this.props.backgroundColor}}/>
-              <div className="reading-ann-text">
-                  {this.props.text}
-              </div>
-          </div>
-      );
-    }
-  }
 
 export default Reading;

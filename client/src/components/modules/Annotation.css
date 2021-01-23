@@ -1,0 +1,16 @@
+.reading-ann-box{
+    width: 30px;
+    height: 30px;
+}
+
+.reading-ann-cont{
+    display: flex;
+    align-items: center;
+}
+
+.reading-ann-text{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
