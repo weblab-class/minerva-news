@@ -6,6 +6,7 @@ import Collections from "../modules/Collection.js";
 import Summaries from "../modules/Summaries.js";
 import Feed from "../modules/Feed.js";
 import TagSelection from "../modules/TagSelection.js";
+import NotFound from "./NotFound";
 
 class Home extends React.Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class Home extends React.Component {
   };
 
   render() {
-    return (
+    return (this.props.userId == this.props.authenticatedId)?(
       <div className="home-container">
         <Collections setTags={this.setTags} userId={this.props.userId} collections={this.props.collections}/>
         <div className="home-middle">
@@ -29,6 +30,8 @@ class Home extends React.Component {
         </div>
         <Summaries/>
       </div>
+    ):(
+      <NotFound />
     );
   }
 }

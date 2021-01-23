@@ -54,18 +54,19 @@ def get_newsids():
 
 @app.route("/api/news", methods=['POST'])
 def get_news():
-    newsids = request.get_json()['newsids']
-    news = article_db.find({ "id": {"$in": newsids}})
+    newsIds = request.get_json()['newsIds']
+    news = article_db.find({ "id": {"$in": newsIds}})
     def id2news(one_news):
         return {
             "title": one_news['title'],
             "source": one_news['source'],
             "id": one_news['id'],
-            "content": one_news['body_text'],
+            "body_text": one_news['body_text'],
             "upvotes": 0,
             "image": None,
             "numComments": 0,
             "numAnnotations": 0,
+            "defaultAnnotations": [],
         }
     return jsonify(list(map(id2news, news)))
 

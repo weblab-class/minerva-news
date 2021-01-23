@@ -20,7 +20,7 @@ class Summaries extends React.Component {
   render() {
     return (
         <div className="summaries-box u-greybox">
-            <div className="summaries-title">Summaries</div>
+            <h2 className="summaries-title">Summaries</h2>
             <div className="u-vert-list">
                 {
                     this.state.summaries.map((summaryObj) => (

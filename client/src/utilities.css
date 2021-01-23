@@ -10,6 +10,10 @@
   --s: 8px;
   --m: 16px;
   --l: 24px;
+  --pagewidth: 1290px;
+  --rightwidth: 380px;
+  --midwidth: 660px;
+  --leftwidth: 250px;
   --greyshadow: rgba(0, 0, 0, 0.25);
 }
 
@@ -21,6 +25,15 @@ body{
   font-weight: 300;
 }
 
+h2, h3, p{
+  margin-block-start: 0.2em;
+  margin-block-end: 0.2em;
+}
+
+h2{
+  font-size: 25px;
+  line-height: 1.35;
+}
 /*
 html {
   height: 100%;
@@ -60,6 +73,10 @@ html {
   cursor: pointer;
 }
 
+.u-button{
+  cursor: pointer;
+}
+
 .u-greybox{
   border: 1px solid var(--grey);
   box-sizing: border-box;
@@ -71,3 +88,4 @@ html {
   justify-content: start;
   align-items: center;
 }
+

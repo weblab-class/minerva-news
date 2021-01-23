@@ -1,5 +1,5 @@
 .home-container {
-    max-width: 1290px;
+    max-width: var(--pagewidth);
     padding: var(--m) 0px;
     margin: auto;
     display: flex;
@@ -8,7 +8,7 @@
 }
 
 .home-middle{
-    width: 660px;
+    width: var(--midwidth);
     height: 200px;
     flex-shrink: 0;
 }

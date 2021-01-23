@@ -1,0 +1,41 @@
+.reading-cont{
+    display: flex;
+    align-items: flex-start;
+    max-width: 1290px;
+    margin: auto;
+    padding: var(--m) 0px;
+}
+.reading-sidebar{
+    width: var(--rightwidth);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    border-left: none;
+}
+.reading-system-ann{
+    display: grid;
+    height: 170px;
+    grid-template: repeat(3, 1fr)/repeat(2, 1fr);
+    place-items: center center;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.reading-ann-box{
+    width: 30px;
+    height: 30px;
+}
+
+.reading-ann-cont{
+    display: flex;
+    align-items: center;
+}
+
+.reading-ann-text{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}

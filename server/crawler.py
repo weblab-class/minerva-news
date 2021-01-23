@@ -83,7 +83,7 @@ def scrape(source):
             body_text = ' '.join([s for s in sections if len(s)])
             body_text = re.sub(r'\n', ' ', body_text)
 
-            article_id = str(time.time())
+            article_id = str(time.time()).replace('.', '')
             article = Article(article_id, url, source, title, body_text)
             articles_list.append(article)
         except:

@@ -5,6 +5,7 @@ import NavBar from "./modules/NavBar.js";
 import NotFound from "./pages/NotFound.js";
 import Landing from "./pages/Landing.js";
 import Home from "./pages/Home.js";
+import Reading from "./pages/Reading.js";
 
 import { get, post} from "../utilities";
 
@@ -99,6 +100,7 @@ class App extends React.Component {
       navigate('/landing');
         // reserve res for future use
     });
+    localStorage.clear();
   };
 
   render() {
@@ -113,7 +115,8 @@ class App extends React.Component {
           <Router>
             <NotFound default />
             <Landing path="/landing" handleLogin={this.handleLogin}/>
-            <Home path="/:userId" collections={this.state.userCollections}/>
+            <Home path="/:userId" collections={this.state.userCollections} authenticatedId={this.state.userId}/>
+            <Reading path="/reading/:newsId"/>
           </Router>
         </div>
       </div>

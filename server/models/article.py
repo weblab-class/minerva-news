@@ -13,6 +13,13 @@ class Article:
         self.body_text = body_text
         self.tags = []
 
+    @classmethod
+    def from_dict(cls, news_dict):
+        return cls(0, news_dict['url'], news_dict['source'], " ", news_dict['text'])
+
+    def to_dict(self):
+        return {"url": self.url, "source": self.source, "text": self.body_text, "tags": self.tags}
+
     def create_db_article(self):
         ''' json for creating article entry in database '''
         articleinfo = {

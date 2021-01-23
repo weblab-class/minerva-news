@@ -3,6 +3,7 @@ import "../../utilities.css";
 import "./Feed.css"
 import {get, post} from "../../utilities.js";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { navigate } from "@reach/router";
 
 class Feed extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Feed extends React.Component {
   update_newsObjs = () => {
     post("/api/feed", {tags: this.props.tags}).then((newsids) => {
       this.setState({newsids:newsids});
-      post("/api/news", {"newsids": newsids.slice(0, Math.min(5, newsids.length))}).then((newsObjs) => {
+      post("/api/news", {"newsIds": newsids.slice(0, Math.min(5, newsids.length))}).then((newsObjs) => {
         this.setState({newsObjs: newsObjs});
       });
     });
@@ -39,7 +40,7 @@ class Feed extends React.Component {
     if (cur_length == tot_length){
       this.setState({hasMore: false});
     } else{
-      post('/api/news', {"newsids": this.state.newsids.slice(cur_length, Math.min(cur_length + 5, tot_length))}).then((newsObjs) => {
+      post('/api/news', {"newsIds": this.state.newsids.slice(cur_length, Math.min(cur_length + 5, tot_length))}).then((newsObjs) => {
         this.setState({newsObjs: this.state.newsObjs.concat(newsObjs)});
       });
     }
@@ -60,7 +61,7 @@ class Feed extends React.Component {
               </p>
             }
           >{this.state.newsObjs.map((newsObj, index) => (
-            <FeedCard newsObj={newsObj} key={index}/>
+            <FeedCard newsObj={newsObj} expanded={false} key={index}/>
           ))}
           </InfiniteScroll>
         ):(
@@ -74,29 +75,31 @@ class Feed extends React.Component {
 }
 
 
-class FeedCard extends React.Component {
+export class FeedCard extends React.Component {
   constructor(props) {
     super(props);
   }
 
   sliceContent = (text) => {
-    return text.slice(0, text.slice(0, 400).lastIndexOf(' '));
+    return this.props.expanded?text:text.slice(0, text.slice(0, 400).lastIndexOf(' ')) + " ...";
+  }
+
+  read = () => {
+    navigate(`/reading/${this.props.newsObj.id}`)
   }
 
   render() {
     return (
-      <div className="feedcard-cont u-greybox">
-        // Attributes
-        <div className="feedcard-src">
+      <div className={`${this.props.expanded?"feedcard-exp-cont":"feedcard-cont"} u-greybox u-button`} onClick={this.read}>
+        <h3 className="feedcard-src">
           {this.props.newsObj.source}
-        </div>
-        <div className="feedcard-title">
+        </h3>
+        <h2>
           {this.props.newsObj.title}
-        </div>
-        <div className="feedcard-content">
-          {this.sliceContent(this.props.newsObj.content)} ...
-        </div>
-        // Body
+        </h2>
+        <p className="feedcard-content">
+          {this.sliceContent(this.props.newsObj.body_text)}
+        </p>
         <div className="feedcard-commentbar u-greybox">
           <div className="feedcard-counts">
             {this.props.newsObj.upvotes} upvotes

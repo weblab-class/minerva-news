@@ -1,6 +1,6 @@
 .collection-box{
     border-right: none;
-    width: 250px;
+    width: var(--leftwidth);
     flex-shrink:0;
 }
 
