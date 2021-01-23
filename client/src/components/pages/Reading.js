@@ -13,8 +13,8 @@ class Reading extends React.Component {
         newsObj: null
     }
     this.annotationSets = [
-        {annotation: "Incorrect Facts", backgroundColor: "red"}, 
-        {annotation: "Strong Sentiment", backgroundColor: "blue"},
+        {text: "Incorrect Facts", backgroundColor: "red"}, 
+        {text: "Strong Sentiment", backgroundColor: "blue"},
     ]
   }
 
@@ -51,7 +51,7 @@ export class AnnotationCard extends React.Component {
           <div className="reading-ann-cont">
               <div className="reading-ann-box" style={{backgroundColor: this.props.backgroundColor}}/>
               <div className="reading-ann-text">
-                  {this.props.annotation}
+                  {this.props.text}
               </div>
           </div>
       );

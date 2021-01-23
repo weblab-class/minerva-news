@@ -91,6 +91,25 @@ def summaries():
         },
     ])
 
+@app.route("/api/comments", methods=['POST'])
+def comments():
+    return jsonify([
+        {
+            "ownerName": "Donald Trump",
+            "content": "The West is RED, the Sun rises. Without me, there would be no NEW AMERICA! Out of AMERICA comes a Donald Trump!",
+            "annotation": {
+                "backgroundColor": "red",
+            },
+        },
+        {
+            "ownerName": "Joe Biden",
+            "content": "The poor boys perform just as good as the Proud Boys at school, and the White boys, the rich boys, the Black boys, the Asian boys.",
+            "annotation": {
+                "backgroundColor": "blue",
+            },
+        },
+    ])
+
 
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # for local testing only
