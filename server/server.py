@@ -100,8 +100,18 @@ def comments():
             "content": "The West is RED, the Sun rises. Without me, there would be no NEW AMERICA! Out of AMERICA comes a Donald Trump!",
             "annotation": {
                 "id": 1,
-                "start": 50,
-                "end": 100,
+                "highlights": [
+                    {
+                        "start": 50,
+                        "end": 100,
+                        "color": "yellow",
+                    },
+                    {
+                        "start": 120,
+                        "end": 180,
+                        "color": "yellow",
+                    },
+                ],
             },
         },
         {
@@ -110,8 +120,8 @@ def comments():
             "content": "The poor boys perform just as good as the Proud Boys at school, and the White boys, the rich boys, the Black boys, the Asian boys.",
             "annotation": {
                 "id": 2,
-                "start": 79,
-                "end": 85,
+                "start": [79],
+                "end": [85],
             },
         },
     ])

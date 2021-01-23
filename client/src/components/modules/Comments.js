@@ -7,21 +7,6 @@ import AnnotationCard from "./Annotation.js";
 class Comments extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {commentObjs: [{
-      id: "System Annotations",
-      ownerName: "System",
-      content: "System annotations helps you flag the parts of news which our fact checker has deemed problematic.",
-      annotation: {
-        id: "System Annotations",
-        text: "Show System Annotations"
-      }
-    }]};
-  }
-
-  componentDidMount() {
-    post("/api/comments", {newsId: this.props.newsId}).then((commentObjs) => {
-        this.setState({commentObjs: this.state.commentObjs.concat(commentObjs)});
-    });
   }
 
   render() {
@@ -30,7 +15,7 @@ class Comments extends React.Component {
         <h3 className="comments-title">
             Comments
         </h3>
-        {this.state.commentObjs.map((commentObj) => (
+        {this.props.commentObjs.map((commentObj) => (
             <CommentCard 
             {...commentObj} 
             key={commentObj.id}

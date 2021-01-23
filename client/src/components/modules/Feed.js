@@ -4,6 +4,7 @@ import "./Feed.css"
 import {get, post} from "../../utilities.js";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { navigate } from "@reach/router";
+import parse from "html-react-parser";
 
 class Feed extends React.Component {
   constructor(props) {
@@ -78,14 +79,62 @@ class Feed extends React.Component {
 export class FeedCard extends React.Component {
   constructor(props) {
     super(props);
+    
+    this.state = {
+      highlighted_text: props.newsObj.body_text,
+      //spanEndpoints: this.recalculateSpanEndpoints(props.annotations),
+    };
+  }
+
+/*
+  recalculateSpanEndpoints = (annotationObjs) => {
+    
+  }*/
+
+  apply_highlight = () => {
+    if(!this.props.annotations.length || !this.props.annotations[0].highlights){
+      this.setState({highlighted_text: this.props.newsObj.body_text});
+    }
+    else{
+      const text = this.props.newsObj.body_text;
+      var all_slices = []
+      var last_index = 0
+      this.props.annotations[0].highlights.forEach((highLightObj, index) => {
+        all_slices.push(text.slice(last_index, highLightObj.start));
+        all_slices.push(`<span style="backgroundColor:${highLightObj.color};">`);
+        all_slices.push(text.slice(highLightObj.start, highLightObj.end));
+        all_slices.push("</span>");
+        last_index = highLightObj.end;
+      });
+      all_slices.push(text.slice(last_index));
+      this.setState({highlighted_text: (all_slices).join("")});
+    }
   }
 
   sliceContent = (text) => {
-    return this.props.expanded?text:text.slice(0, text.slice(0, 400).lastIndexOf(' ')) + " ...";
-  }
+    return this.props.expanded?this.state.highlighted_text:text.slice(0, text.slice(0, 400).lastIndexOf(' ')) + " ...";
+  };
 
   read = () => {
     navigate(`/reading/${this.props.newsObj.id}`)
+  };
+
+  colorToLogPassthru = (colorName) => {
+    const body_style = getComputedStyle(document.body);
+    const colorHex = body_style.getPropertyValue(`--${colorName}`).substr(2);
+    return ([1,3,5].map((i) => {
+      return Math.log(parseInt(colorHex.substr(i, 2), 16)) - Math.log(255);
+    }));
+  };
+
+  text_to_el = (text) => {
+    return parse(`<p class="feedcard-content">${text}</p>`);
+  }
+      
+  componentDidUpdate(prevProps) {
+    if(prevProps.annotations != this.props.annotations){
+      this.apply_highlight();
+    }
   }
 
   render() {
@@ -97,9 +146,7 @@ export class FeedCard extends React.Component {
         <h2>
           {this.props.newsObj.title}
         </h2>
-        <p className="feedcard-content">
-          {this.sliceContent(this.props.newsObj.body_text)}
-        </p>
+        {this.text_to_el(this.sliceContent(this.props.newsObj.body_text))}
         <div className="feedcard-commentbar u-greybox">
           <div className="feedcard-counts">
             {this.props.newsObj.upvotes} upvotes
