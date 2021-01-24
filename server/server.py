@@ -106,10 +106,14 @@ def comments():
 
 @app.route("/api/user", methods=['POST'])
 def user():
-    user = user_db.find_one({"id": request.get_json()['id']})
-    return {
-        "userName" : user['name'],
-    }
+    ids = request.get_json()['ids']
+    users = user_db.find({"id": {"$in": ids}}, {'name': 1, 'id': 1, "_id": 0})
+    id2name = {user['id']: user['name'] for user in users}
+    def formatUser(userId):
+        return {
+            "userName" : id2name[userId],
+        }
+    return jsonify(list(map(formatUser, ids)))
 
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # for local testing only

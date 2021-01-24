@@ -17,9 +17,10 @@ class Comments extends React.Component {
             Comments
         </h3>
         {this.props.addCommentCard}
-        {this.props.commentObjs.map((commentObj) => (
+        {this.props.commentObjs.map((commentObj, index) => (
             <CommentCard 
             {...commentObj} 
+            ownerName = {this.props.commentOwnerNames[index]}
             key={commentObj.id}
             toggleAnnotation = {() => {
               this.props.toggleAnnotation(commentObj.id);
@@ -37,14 +38,6 @@ class CommentCard extends React.Component {
     super(props);
     this.state = {
       ownerName: "",
-    }
-  }
-
-  componentDidMount() {
-    if(!this.props.ownerName){
-      post('/api/user', {id: this.props.ownerId}).then((res) => {
-        this.setState({ownerName: res.userName});
-      });
     }
   }
 
@@ -79,14 +72,15 @@ export class AddCommentCard extends React.Component {
   }
 
   submitComment = (value) => {
+    console.log(this.props.currentHighlights)
     post("/api/addcomment", {
       ownerId: this.props.ownerId, 
       newsId: this.props.newsId, 
       content: value,
-      annotations: [],
+      annotations: this.props.currentHighlights,
     }).then(() => {
       document.getElementById(this.props.componentId).value = "";
-      this.props.refresh();
+      this.props.submitComment();
     });
   }
 
@@ -102,7 +96,13 @@ export class AddCommentCard extends React.Component {
     )
     const addCommentButtons = (
       <div className="addcomment-buttons-cont">
-        <button className="u-plain-button addcomment-button" style={{color: "#fdff38"}}><FontAwesomeIcon icon="highlighter"/></button>
+        <button 
+          className="u-plain-button addcomment-button" 
+          style={this.props.highlightMode?({color: "#fdff38"}):({})}
+          onClick={this.props.toggleHighlight}
+          >
+          <FontAwesomeIcon icon="highlighter"/>
+        </button>
         <button className="u-plain-button addcomment-button" 
         onClick={() => this.submitComment(document.getElementById(this.props.componentId).value)}>Post</button>
       </div>

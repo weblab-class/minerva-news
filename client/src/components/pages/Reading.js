@@ -22,6 +22,9 @@ class Reading extends React.Component {
         annotationsShown: [],
         systemComment: systemComment,
         commentObjs: [systemComment],
+        commentOwnerNames: ["System"],
+        highlightMode: false, 
+        currentHighlights: [],
     }
     this.defaultAnnotations = [
         {text: "Incorrect Facts", backgroundColor: "red"}, 
@@ -44,10 +47,43 @@ class Reading extends React.Component {
     }
   }
 
+  toggleHighlight = () => {
+    if(!this.state.highlightMode){
+      this.setState({highlightMode: true})
+    }else{
+      if(window.getSelection){
+        const sel = window.getSelection();
+        if(sel.anchorNode.parentElement && sel.anchorNode.parentElement.id == "reading-body"
+            && sel.focusNode.parentElement && sel.anchorNode.parentElement.id == "reading-body"){
+          const offsets = [sel.anchorOffset, sel.focusOffset];
+          console.log(offsets.sort((a,b) => a-b));
+          this.setState({currentHighlights: [{
+            start: offsets[0],
+            end: offsets[1],
+            color: "yellow",
+          }]}); /* for now we only restrict one span per highlight, 
+          can easily add more using concat(), but need to implement a binary search to remove duplicates*/
+        }else{
+          alert("Please select an area in news text to highlight");
+        }
+      }
+      this.setState({highlightMode: false})
+    }
+  }
+
   refresh_comments = () => {
     post("/api/comments", {newsId: this.props.newsId}).then((commentObjs) => {
       this.setState({commentObjs: [this.state.systemComment].concat(commentObjs)});
+      return post('/api/user', {ids: commentObjs.map(commentObj => commentObj.ownerId)});
+    }).then((res) => {
+      this.setState({commentOwnerNames: ['system'].concat(res.map(userObj => userObj.userName))});
+      console.log(this.state.commentOwnerNames);
     });
+  }
+
+  submitComment = () => {
+    this.refresh_comments();
+    this.setState({currentHighlights: []});
   }
 
   componentDidMount() {
@@ -60,11 +96,20 @@ class Reading extends React.Component {
   render() {
     return (this.state.newsObj?(
         <div className="reading-cont">
-            <FeedCard newsObj={this.state.newsObj} expanded={true} annotations = {
-              this.state.commentObjs              
-              .filter((commentObj) => this.state.annotationsShown.includes(commentObj.id))  
-              .map((commentObj) => commentObj.annotations)
-            }/>
+            <FeedCard 
+              newsObj={this.state.newsObj} 
+              expanded={true} 
+              highlightMode={this.state.highlightMode}
+              annotations = {
+                this.state.highlightMode?(
+                  []
+                ):(
+                  this.state.commentObjs              
+                  .filter((commentObj) => this.state.annotationsShown.includes(commentObj.id))  
+                  .map((commentObj) => commentObj.annotations)
+                )
+              }
+            />
             <div className="reading-sidebar u-greybox">
                 <div className="reading-system-ann u-greybox">
                     {this.defaultAnnotations.map((annotation, i) => (
@@ -73,6 +118,7 @@ class Reading extends React.Component {
                 </div>
                 <Comments 
                   commentObjs = {this.state.commentObjs}
+                  commentOwnerNames = {this.state.commentOwnerNames}
                   toggleAnnotation = {this.toggleAnnotation} 
                   annotationsShown = {this.state.annotationsShown}
                   addCommentCard = {(
@@ -81,7 +127,10 @@ class Reading extends React.Component {
                       ownerId = {this.props.userId}
                       ownerName = {this.props.userName}
                       componentId = {"New Comment"}
-                      refresh = {this.refresh_comments}
+                      submitComment = {this.submitComment}
+                      highlightMode = {this.state.highlightMode}
+                      toggleHighlight = {this.toggleHighlight}
+                      currentHighlights = {this.state.currentHighlights}
                     />
                   )}
                 />

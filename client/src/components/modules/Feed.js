@@ -92,20 +92,22 @@ export class FeedCard extends React.Component {
   }*/
 
   apply_highlight = () => {
-    if(!this.props.annotations.length || !this.props.annotations[0].highlights){
+    if(!this.props.annotations.length){
       this.setState({highlighted_text: this.props.newsObj.body_text});
     }
     else{
       const text = this.props.newsObj.body_text;
       var all_slices = []
       var last_index = 0
-      this.props.annotations[0].highlights.forEach((highLightObj, index) => {
+      this.props.annotations[0].forEach((highLightObj, index) => {
+        console.log(highLightObj)
         all_slices.push(text.slice(last_index, highLightObj.start));
         all_slices.push(`<span style="backgroundColor:${highLightObj.color};">`);
         all_slices.push(text.slice(highLightObj.start, highLightObj.end));
         all_slices.push("</span>");
         last_index = highLightObj.end;
       });
+      console.log(JSON.parse(JSON.stringify(all_slices)))
       all_slices.push(text.slice(last_index));
       this.setState({highlighted_text: (all_slices).join("")});
     }
@@ -128,7 +130,19 @@ export class FeedCard extends React.Component {
   };
 
   text_to_el = (text) => {
-    return parse(`<p class="feedcard-content">${text}</p>`);
+    var vw = window.innerWidth;
+    return parse(this.props.highlightMode?(
+      `<p
+          id=reading-body
+          class=feedcard-highlight-content
+        >
+        ${text}
+      </p>`
+    ):(
+      `<p id=reading-body class=feedcard-content>
+        ${text}
+      </p>`
+    ));
   }
       
   componentDidUpdate(prevProps) {
@@ -139,7 +153,10 @@ export class FeedCard extends React.Component {
 
   render() {
     return (
-      <div className={`${this.props.expanded?"feedcard-exp-cont":"feedcard-cont"} u-greybox u-button`} onClick={this.read}>
+      <div 
+        className={`${this.props.expanded?"feedcard-exp-cont":"feedcard-cont"} u-greybox u-button`} 
+        onClick={this.read}
+      >
         <h3 className="feedcard-src">
           {this.props.newsObj.source}
         </h3>
