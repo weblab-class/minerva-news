@@ -12,6 +12,11 @@ import { get, post} from "../utilities";
 import "../utilities.css";
 import "./App.css";
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHighlighter } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faHighlighter)
+
 
 function attemptLoadUser(app, postFunc) {
   get("/api/whoami").then((res) => {
@@ -20,10 +25,12 @@ function attemptLoadUser(app, postFunc) {
     if (res.id) {
       app.setState({
         userId: res.id,
-        userCollections: res.collections
+        userCollections: res.collections,
+        userName: res.name,
       });
       localStorage.setItem("userId", res.id);
       localStorage.setItem("userCollections", JSON.stringify(res.collections));
+      localStorage.setItem("userName", res.name)
     }
     postFunc();
   });
@@ -62,6 +69,7 @@ class App extends React.Component {
     console.log("llllllllll");
     this.state = {
       userId: localStorage.getItem("userId"),
+      userName: localStorage.getItem("userName"),
       userCollections: JSON.parse(localStorage.getItem("userCollections"))
     };
     console.log(this.state);
@@ -93,7 +101,8 @@ class App extends React.Component {
   handleLogout = () => {
     this.setState({
       userId: undefined,
-      userCollections: undefined
+      userCollections: undefined,
+      userName: undefined,
     });
     //console.log(this);
     get("/api/logout").then((res) => {
@@ -116,7 +125,7 @@ class App extends React.Component {
             <NotFound default />
             <Landing path="/landing" handleLogin={this.handleLogin}/>
             <Home path="/:userId" collections={this.state.userCollections} authenticatedId={this.state.userId}/>
-            <Reading path="/reading/:newsId"/>
+            <Reading path="/reading/:newsId" userName = {this.state.userName} userId = {this.state.userId}/>
           </Router>
         </div>
       </div>

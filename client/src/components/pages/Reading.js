@@ -15,15 +15,13 @@ class Reading extends React.Component {
       id: "System Annotations",
       ownerName: "System",
       content: "System annotations helps you flag the parts of news which our fact checker has deemed problematic.",
-      annotation: {
-        id: "System Annotations",
-        text: "Show System Annotations",
-        highlight: [],
-      },
+      annotations: [],
+      annotationText: "Show System Annotations",
     }
     this.state = {
         newsObj: null,
         annotationsShown: [],
+        systemComment: systemComment,
         commentObjs: [systemComment],
     }
     this.defaultAnnotations = [
@@ -42,26 +40,32 @@ class Reading extends React.Component {
       this.setState({annotationsShown: this.remove_from_list(this.state.annotationsShown, annotationId)});
     }
     else{
-      this.setState({annotationsShown: [annotationId]})
+      alert(annotationId);
+      this.setState({annotationsShown: [annotationId]});
       //this.setState({annotationsShown: this.state.annotationsShown.concat([annotationId])})
     }
+  }
+
+  refresh_comments = () => {
+    post("/api/comments", {newsId: this.props.newsId}).then((commentObjs) => {
+      this.setState({commentObjs: [this.state.systemComment].concat(commentObjs)});
+    });
   }
 
   componentDidMount() {
       post("/api/news", {newsIds: [this.props.newsId]}).then((newsObjs) => {
         this.setState({newsObj: newsObjs[0]})
       });
-      post("/api/comments", {newsId: this.props.newsId}).then((commentObjs) => {
-          this.setState({commentObjs: this.state.commentObjs.concat(commentObjs)});
-      });
+      this.refresh_comments();
   }
 
   render() {
     return (this.state.newsObj?(
         <div className="reading-cont">
             <FeedCard newsObj={this.state.newsObj} expanded={true} annotations = {
-              this.state.commentObjs.map((commentObj) => commentObj.annotation)
-              .filter((annotationObj) => this.state.annotationsShown.includes(annotationObj.id))  
+              this.state.commentObjs              
+              .filter((commentObj) => this.state.annotationsShown.includes(commentObj.id))  
+              .map((commentObj) => commentObj.annotations)
             }/>
             <div className="reading-sidebar u-greybox">
                 <div className="reading-system-ann u-greybox">
@@ -70,9 +74,15 @@ class Reading extends React.Component {
                     ))}
                 </div>
                 <Comments 
+                  addCommentProps = {{
+                    newsId: this.state.newsObj.id,
+                    ownerId: this.props.userId,
+                    ownerName: this.props.userName,
+                  }}
                   commentObjs = {this.state.commentObjs}
                   toggleAnnotation = {this.toggleAnnotation} 
                   annotationsShown = {this.state.annotationsShown}
+                  refresh = {this.refresh_comments}
                 />
             </div>
         </div>

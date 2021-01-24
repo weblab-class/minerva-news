@@ -58,3 +58,14 @@ export function post(endpoint, params = {}) {
       throw `POST request to ${endpoint} failed with error:\n${error}`;
     });
 }
+
+// Helper code to handle typing enter on text inputs
+export function handleEnter(componentId, onEnter){
+  return (e) => {
+    e = e || window.event;
+    var keyCode = e.code || e.key;
+    if(keyCode == 'Enter'){
+      onEnter(document.getElementById(componentId).value);
+    }
+  };
+}

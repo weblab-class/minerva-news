@@ -5,6 +5,7 @@ import requests
 import flask
 import flask_login
 import flask_cors
+import time
 
 from flask import jsonify
 from flask import request
@@ -35,7 +36,6 @@ def load_user(id):
         email=userinfo['email'],
         picture=userinfo['picture']
     )
-
 
 @app.route("/api/tagsuggest", methods=['GET'])
 def tag_suggestions():
@@ -91,41 +91,25 @@ def summaries():
         },
     ])
 
+@app.route("/api/addcomment", methods=['POST'])
+def addcomments():
+    form = request.get_json()
+    commentId = form['newsId'] + "b" + str(time.time()).replace('.', '-')
+    article_db.find_one_and_update({ "id": form['newsId']}, { "$set": {"comments."+commentId: form}})
+    return {}
+
 @app.route("/api/comments", methods=['POST'])
 def comments():
-    return jsonify([
-        {
-            "id": 1,
-            "ownerName": "Donald Trump",
-            "content": "The West is RED, the Sun rises. Without me, there would be no NEW AMERICA! Out of AMERICA comes a Donald Trump!",
-            "annotation": {
-                "id": 1,
-                "highlights": [
-                    {
-                        "start": 50,
-                        "end": 100,
-                        "color": "yellow",
-                    },
-                    {
-                        "start": 120,
-                        "end": 180,
-                        "color": "yellow",
-                    },
-                ],
-            },
-        },
-        {
-            "id": 2,
-            "ownerName": "Joe Biden",
-            "content": "The poor boys perform just as good as the Proud Boys at school, and the White boys, the rich boys, the Black boys, the Asian boys.",
-            "annotation": {
-                "id": 2,
-                "start": [79],
-                "end": [85],
-            },
-        },
-    ])
+    commentsDict = article_db.find_one({ "id": request.get_json()['newsId']})['comments']
+    commentsList = [{**v, "id": k} for k,v in commentsDict.items()]
+    return jsonify(commentsList)
 
+@app.route("/api/user", methods=['POST'])
+def user():
+    user = user_db.find_one({"id": request.get_json()['id']})
+    return {
+        "userName" : user['name'],
+    }
 
 if __name__ == "__main__":
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # for local testing only

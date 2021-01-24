@@ -11,6 +11,16 @@
     margin: 5px 0px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: stretch;
     padding: 10px 10px 5px;
+}
+
+.addcomment-buttons-cont{
+    padding: 5px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.addcomment-button{
+    margin: 0px 5px;
 }

@@ -1,8 +1,9 @@
 import React from "react";
 import "../../utilities.css";
-import {get, post} from "../../utilities.js";
+import {get, post, handleEnter} from "../../utilities.js";
 import "./Comments.css";
 import AnnotationCard from "./Annotation.js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Comments extends React.Component {
   constructor(props) {
@@ -15,14 +16,19 @@ class Comments extends React.Component {
         <h3 className="comments-title">
             Comments
         </h3>
+        <AddCommentCard 
+          {...this.props.addCommentProps}
+          componentId = {"New Comment"}
+          refresh = {this.props.refresh}
+        />
         {this.props.commentObjs.map((commentObj) => (
             <CommentCard 
             {...commentObj} 
             key={commentObj.id}
             toggleAnnotation = {() => {
-              this.props.toggleAnnotation(commentObj.annotation.id);
+              this.props.toggleAnnotation(commentObj.id);
             }}
-            showHighlight = {this.props.annotationsShown.includes(commentObj.annotation.id)}
+            showHighlight = {this.props.annotationsShown.includes(commentObj.id)}
             />
         ))}
         </div>
@@ -33,6 +39,17 @@ class Comments extends React.Component {
 class CommentCard extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      ownerName: "",
+    }
+  }
+
+  componentDidMount() {
+    if(!this.props.ownerName){
+      post('/api/user', {id: this.props.ownerId}).then((res) => {
+        this.setState({ownerName: res.userName});
+      });
+    }
   }
 
   render() {
@@ -40,20 +57,64 @@ class CommentCard extends React.Component {
         <div className="u-greybox commentcard-cont">
           <div>
             <p className="commentcard-texts">
-              <b>{this.props.ownerName} |</b> {this.props.content}
+              <b>{this.props.ownerName || this.state.ownerName} |</b> {this.props.addCommentSuggestive||this.props.content}
             </p>
           </div>
-          <AnnotationCard 
-            backgroundColor={"red"} 
-            text="Show Annotation" 
-            {...this.props.annotation}
-            toggleAnnotation = {this.props.toggleAnnotation}
-            showHighlight = {this.props.showHighlight}
-            clickable={true}
-          />
+          {this.props.addCommentButtons||(
+            <AnnotationCard 
+              backgroundColor={"red"} 
+              text={this.props.annotationText||"Show Annotation"}
+              annotationId={this.props.id}
+              highlights={this.props.annotations}
+              toggleAnnotation = {this.props.toggleAnnotation}
+              showHighlight = {this.props.showHighlight}
+              clickable={true}
+            />
+          )} 
         </div>
     );
   }
 }
 
 export default Comments;
+
+class AddCommentCard extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const addCommentSuggestive = (
+      <input 
+        id={this.props.componentId} 
+        type="text" 
+        placeholder="Write a comment..."
+        className="addcomment-suggestive"
+        onKeyUp={handleEnter(this.props.componentId, (value) => {
+          post("/api/addcomment", {
+            ownerId: this.props.ownerId, 
+            newsId: this.props.newsId, 
+            content: value,
+            annotations: [],
+          }).then(() => {
+            document.getElementById(this.props.componentId).value = "";
+            this.props.refresh();
+          });
+        })}
+      />
+    )
+    const addCommentButtons = (
+      <div className="addcomment-buttons-cont">
+        <button className="u-plain-button addcomment-button"><FontAwesomeIcon icon="highlighter"/></button>
+        <button className="u-plain-button addcomment-button">Post</button>
+      </div>
+    )
+    return (
+        <CommentCard 
+        ownerName = {this.props.ownerName}
+        addCommentSuggestive = {addCommentSuggestive}
+        addCommentButtons = {addCommentButtons}
+        />
+    );
+  }
+}
