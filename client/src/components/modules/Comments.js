@@ -16,11 +16,7 @@ class Comments extends React.Component {
         <h3 className="comments-title">
             Comments
         </h3>
-        <AddCommentCard 
-          {...this.props.addCommentProps}
-          componentId = {"New Comment"}
-          refresh = {this.props.refresh}
-        />
+        {this.props.addCommentCard}
         {this.props.commentObjs.map((commentObj) => (
             <CommentCard 
             {...commentObj} 
@@ -76,11 +72,22 @@ class CommentCard extends React.Component {
   }
 }
 
-export default Comments;
 
-class AddCommentCard extends React.Component {
+export class AddCommentCard extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  submitComment = (value) => {
+    post("/api/addcomment", {
+      ownerId: this.props.ownerId, 
+      newsId: this.props.newsId, 
+      content: value,
+      annotations: [],
+    }).then(() => {
+      document.getElementById(this.props.componentId).value = "";
+      this.props.refresh();
+    });
   }
 
   render() {
@@ -90,23 +97,14 @@ class AddCommentCard extends React.Component {
         type="text" 
         placeholder="Write a comment..."
         className="addcomment-suggestive"
-        onKeyUp={handleEnter(this.props.componentId, (value) => {
-          post("/api/addcomment", {
-            ownerId: this.props.ownerId, 
-            newsId: this.props.newsId, 
-            content: value,
-            annotations: [],
-          }).then(() => {
-            document.getElementById(this.props.componentId).value = "";
-            this.props.refresh();
-          });
-        })}
+        onKeyUp={handleEnter(this.props.componentId, this.submitComment)}
       />
     )
     const addCommentButtons = (
       <div className="addcomment-buttons-cont">
-        <button className="u-plain-button addcomment-button"><FontAwesomeIcon icon="highlighter"/></button>
-        <button className="u-plain-button addcomment-button">Post</button>
+        <button className="u-plain-button addcomment-button" style={{color: "#fdff38"}}><FontAwesomeIcon icon="highlighter"/></button>
+        <button className="u-plain-button addcomment-button" 
+        onClick={() => this.submitComment(document.getElementById(this.props.componentId).value)}>Post</button>
       </div>
     )
     return (
@@ -118,3 +116,5 @@ class AddCommentCard extends React.Component {
     );
   }
 }
+
+export default Comments;

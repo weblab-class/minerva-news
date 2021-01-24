@@ -3,10 +3,9 @@ import "../../utilities.css";
 import { FeedCard } from "../modules/Feed.js";
 import { get, post } from "../../utilities";
 import "./Reading.css";
-import Comments from "../modules/Comments.js";
+import Comments, {AddCommentCard} from "../modules/Comments.js";
 import NotFound from "./NotFound";
 import AnnotationCard from "../modules/Annotation.js";
-import { set } from "mongoose";
 
 class Reading extends React.Component {
   constructor(props) {
@@ -40,7 +39,6 @@ class Reading extends React.Component {
       this.setState({annotationsShown: this.remove_from_list(this.state.annotationsShown, annotationId)});
     }
     else{
-      alert(annotationId);
       this.setState({annotationsShown: [annotationId]});
       //this.setState({annotationsShown: this.state.annotationsShown.concat([annotationId])})
     }
@@ -74,15 +72,18 @@ class Reading extends React.Component {
                     ))}
                 </div>
                 <Comments 
-                  addCommentProps = {{
-                    newsId: this.state.newsObj.id,
-                    ownerId: this.props.userId,
-                    ownerName: this.props.userName,
-                  }}
                   commentObjs = {this.state.commentObjs}
                   toggleAnnotation = {this.toggleAnnotation} 
                   annotationsShown = {this.state.annotationsShown}
-                  refresh = {this.refresh_comments}
+                  addCommentCard = {(
+                    <AddCommentCard 
+                      newsId = {this.state.newsObj.id}
+                      ownerId = {this.props.userId}
+                      ownerName = {this.props.userName}
+                      componentId = {"New Comment"}
+                      refresh = {this.refresh_comments}
+                    />
+                  )}
                 />
             </div>
         </div>
