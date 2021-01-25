@@ -41,6 +41,7 @@ The app will be hosted on http://localhost:5000. To run both at once do (recomme
 ```
 sh run.txt
 ```
+If some components exhibit weird behavior after correct bugs, try clearing browser cache etc...
 
 **Important: Please do not attempt to set up a proxy for the npm dev server. Authentication won't work unless frontend/backend are on same port.**
 
@@ -60,7 +61,7 @@ to set up the Heroku build environment. Next, set the environmental variables on
 ```
 heroku config:set GOOGLE_CLIENT_ID={YOUR_GOOGLE_CLIENT_ID}
 heroku config:set GOOGLE_CLIENT_SECRET={YOUR_GOOGLE_CLIENT_SECRET}
-heroku config:set MONGODB_SRV={YOUR_MONGO_ATLAS_SRV}
+heroku config:set MONGO_ATLAS_SRV={YOUR_MONGO_ATLAS_SRV}
 ```
 Finally commit to Heroku (repeat for subsequent deploys)
 ```
@@ -68,3 +69,4 @@ git add .
 git commit -m {COMMIT_MESSAGE}
 git push heroku master
 ```
+Make sure to wait a little bit before accessing the website. Otherwise 1) it might not update or 2) freeze.

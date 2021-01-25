@@ -1,9 +1,7 @@
 import React from "react";
-
-import {get, post} from "../../utilities.js";
-
-import "./Collection.css";
 import "../../utilities.css";
+import {get, post} from "../../utilities.js";
+import "./Collection.css";
 
 class Collections extends React.Component {
   constructor(props) {
@@ -47,7 +45,7 @@ class CollectionsCard extends React.Component {
     super(props);
   }
 
-  changeTags = () => {
+  changeTags = () =>{
     this.props.setTags(this.props.tags);
   };
 

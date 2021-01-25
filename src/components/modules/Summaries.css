@@ -1,5 +1,5 @@
 .summaries-box{
-    width: 380px;
+    width: var(--rightwidth);
     border-left:none;
     padding: 10px 15px;
     display: flex;
@@ -8,13 +8,7 @@
 }
 
 .summaries-title{
-    font-weight: bold;
-    font-size: 25px;
-    line-height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
+    text-align: center;
 }
 
 .summarycard-cont{
@@ -27,6 +21,7 @@
 
 .summarycard-taglist{
     display:flex;
+    flex-flow: wrap;
     align-items: center;
     justify-content: flex-start;
     margin: 5px 0px;
