@@ -8,7 +8,7 @@ export function InputModalButton(props) {
   const [show, setShow] = React.useState(false);
   return (
     <div className="bootstrap-iso">
-      <Button variant="primary" onClick={() => setShow(true)}>
+      <Button variant="secondary" onClick={() => setShow(true)}>
         Add Collection
       </Button>
       <Modal
@@ -35,7 +35,8 @@ export function InputModalButton(props) {
         <Modal.Footer>
           <Button variant="primary" onClick={() => {
             setShow(false);
-            const text = document.getElementById(props.unique_id).value;
+            const text = document.getElementById(props.id).value;
+            console.log(text);
           }}>
             Submit
           </Button>

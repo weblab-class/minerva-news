@@ -1,4 +1,5 @@
 import React from "react";
+import { InputModalButton } from "./BootstrapModels.jsx"
 import {get, post} from "../../utilities.js";
 
 import "../../utilities.css";
@@ -24,20 +25,19 @@ class Collections extends React.Component {
     localStorage.setItem("collectionslist", JSON.stringify(entries));
   }
 
+  addCollection = (text) => {
+
+  }
+
   render() {
     return (
       <div className="collection-box u-greybox">
+        <h2 className="u-title">Collections</h2>
         <div className = "u-vert-list collection-list"> {
           this.state.collectionsList.map((collection) => (
             <CollectionsCard key={collection[0]} setTags={this.props.setTags} name={collection[0]} {...(collection[1])}/>
           ))
         }
-        </div>
-        <div className="collection-updater">
-          <button
-            onClick={this.props.handleLogout}
-            className="u-button"
-          >Create</button>
         </div>
       </div>
     );
@@ -50,6 +50,7 @@ class CollectionsCard extends React.Component {
   }
 
   changeTags = () => {
+    document.getElementById("taginput").value = "";
     this.props.setTags(this.props.tags);
   };
 

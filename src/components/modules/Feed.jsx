@@ -57,7 +57,7 @@ class Feed extends React.Component {
             dataLength={this.state.newsObjs.length}
             next={this.fetchMoreNews}
             hasMore={this.state.hasMore}
-            loader={<h4>Loading...</h4>}
+            loader={<h4></h4>}
             endMessage={
               <p style={{ textAlign: "center" }}>
                 <b>Yay! You have seen it all</b>
@@ -68,9 +68,15 @@ class Feed extends React.Component {
           ))}
           </InfiniteScroll>
         ):(
-          <p style={{ textAlign: "center" }}>
-            <b>No matching news found. Try with less tags</b>
-          </p>
+          <>
+            {this.props.tags.length ? (
+              <p style={{ textAlign: "center" }}>
+                <b>No matching news found. Try with less tags</b>
+              </p>
+            ):(
+              <p></p>
+            )}
+          </>
         )}
       </div>
     );

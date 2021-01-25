@@ -1,7 +1,7 @@
 import React from "react";
 import AnnotationCard from "./Annotation.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {get, post, handleEnter} from "../../utilities.js";
+import {get, post, submitOnEnter} from "../../utilities.js";
 
 import "../../utilities.css";
 import "./Comments.css";
@@ -92,7 +92,7 @@ export class AddCommentCard extends React.Component {
         type="text"
         placeholder="Write a comment..."
         className="addcomment-suggestive"
-        onKeyUp={handleEnter(this.props.componentId, this.submitComment)}
+        onKeyUp={submitOnEnter(this.props.componentId, this.submitComment)}
       />
     )
     const addCommentButtons = (

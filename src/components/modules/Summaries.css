@@ -1,22 +1,18 @@
-.summaries-box {
-  width: var(--rightwidth);
-  border-left: none;
-  padding: 10px 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.summaries-title {
-  text-align: center;
-}
-
 .summarycard-cont {
   margin: 5px 0px;
   border-radius: 5px;
   padding: 5px 10px 12px;
   display: flex;
   flex-direction: column;
+}
+
+.u-summary-box {
+  width: var(--rightwidth);
+  border-left: none;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .summarycard-taglist {

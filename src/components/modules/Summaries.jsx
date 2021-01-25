@@ -20,8 +20,8 @@ class Summaries extends React.Component {
 
   render() {
     return (
-      <div className="summaries-box u-greybox">
-        <h2 className="summaries-title">Summaries</h2>
+      <div className="u-summary-box u-greybox">
+        <h2 className="u-title">Summaries</h2>
         <div className="u-vert-list"> {
           this.state.summaries.map((summaryObj) => (
             <SummaryCard key={summaryObj.tags}summaryObj={summaryObj}/>
