@@ -1,0 +1,20 @@
+.home-container {
+    max-width: var(--pagewidth);
+    padding: var(--m) 0px;
+    margin: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.home-middle{
+    width: var(--midwidth);
+    height: 200px;
+    flex-shrink: 0;
+}
+
+@media (max-width:660px){
+    .home-container{
+        justify-content: start;
+    }
+}
