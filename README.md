@@ -49,7 +49,7 @@ If some components exhibit weird behavior after correct bugs, try clearing brows
 Make sure you have Heroku CLI installed. We will be using gunicorn, python WSGI HTTP server,
 to serve the Flask application (specified in Procfile).
 
-First change os.environ['GUNICORN'] in app.py to True.
+First change os.environ['GUNICORN'] in app.py to HEROKU as opposed to LOCAL.
 
 Next create the app on Heroku. Then run
 ```
