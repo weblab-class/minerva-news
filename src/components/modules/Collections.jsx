@@ -1,5 +1,5 @@
 import React from "react";
-import {get, post} from "../../utilities.js";
+import { get, post } from "../../utilities.js";
 
 import "../../utilities.css";
 import "./Collection.css";

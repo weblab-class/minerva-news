@@ -1,15 +1,14 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { handleEnter } from "../../utilities.js";
 
 // Pass in id, placeholder, and a function postfunc as props
 // postfunc is used to process the user entered text
 export function InputModal(props) {
   return (
     <Modal
-      show={show}
-      onHide={() => setShow(false)}
+      show={props.show}
+      onHide={() => props.setshow(false)}
       backdrop="static"
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
@@ -17,20 +16,21 @@ export function InputModal(props) {
     >
       <Modal.Header closeButton/>
       <Modal.Body>
-        <div class="input-group">
+        <div className="input-group">
           <textarea
-            {...props}
+            id={props.id}
+            placeholder={props.placeholder}
             className="form-control"
-            rows="3"
+            rows={props.rows}
           >
           </textarea>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" onClick={() => {
-          setShow(false);
+        <Button variant="dark" onClick={() => {
+          props.setshow(false);
           const text = document.getElementById(props.id).value;
-          this.props.postfunc(text);
+          props.postfunc(text);
         }}>
           Submit
         </Button>

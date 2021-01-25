@@ -2,7 +2,7 @@ import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import parse from "html-react-parser";
 import { navigate } from "@reach/router";
-import {get, post} from "../../utilities.js";
+import { get, post } from "../../utilities.js";
 
 import "../../utilities.css";
 import "./Feed.css"
