@@ -1,9 +1,10 @@
 import React from "react";
-import "../../utilities.css";
-import {get, post, handleEnter} from "../../utilities.js";
-import "./Comments.css";
 import AnnotationCard from "./Annotation.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {get, post, handleEnter} from "../../utilities.js";
+
+import "../../utilities.css";
+import "./Comments.css";
 
 class Comments extends React.Component {
   constructor(props) {
@@ -12,13 +13,13 @@ class Comments extends React.Component {
 
   render() {
     return (
-        <div className="comments-cont">
+      <div className="comments-cont">
         <h3 className="comments-title">
-            Comments
+          Comments
         </h3>
         {this.props.addCommentCard}
         {this.props.commentObjs.map((commentObj, index) => (
-            <CommentCard
+          <CommentCard
             {...commentObj}
             ownerName = {this.props.commentOwnerNames[index]}
             key={commentObj.id}
@@ -26,9 +27,9 @@ class Comments extends React.Component {
               this.props.toggleAnnotation(commentObj.id);
             }}
             showHighlight = {this.props.annotationsShown.includes(commentObj.id)}
-            />
+          />
         ))}
-        </div>
+      </div>
     );
   }
 }
@@ -43,24 +44,24 @@ class CommentCard extends React.Component {
 
   render() {
     return (
-        <div className="u-greybox commentcard-cont">
-          <div>
-            <p className="commentcard-texts">
-              <b>{this.props.ownerName || this.state.ownerName} |</b> {this.props.addCommentSuggestive||this.props.content}
-            </p>
-          </div>
-          {this.props.addCommentButtons||(
-            <AnnotationCard
-              backgroundColor={"red"}
-              text={this.props.annotationText||"Show Annotation"}
-              annotationId={this.props.id}
-              highlights={this.props.annotations}
-              toggleAnnotation = {this.props.toggleAnnotation}
-              showHighlight = {this.props.showHighlight}
-              clickable={true}
-            />
-          )}
-        </div>
+      <div className="u-greybox commentcard-cont">
+        <div>
+          <p className="commentcard-texts">
+            <b>{this.props.ownerName || this.state.ownerName} |</b> {this.props.addCommentSuggestive||this.props.content}
+          </p>
+        </div> {
+          this.props.addCommentButtons || (
+          <AnnotationCard
+            backgroundColor={"red"}
+            text={this.props.annotationText || "Show Annotation"}
+            annotationId={this.props.id}
+            highlights={this.props.annotations}
+            toggleAnnotation = {this.props.toggleAnnotation}
+            showHighlight = {this.props.showHighlight}
+            clickable={true}
+          />
+        )}
+      </div>
     );
   }
 }
@@ -108,11 +109,11 @@ export class AddCommentCard extends React.Component {
       </div>
     )
     return (
-        <CommentCard
+      <CommentCard
         ownerName = {this.props.ownerName}
         addCommentSuggestive = {addCommentSuggestive}
         addCommentButtons = {addCommentButtons}
-        />
+      />
     );
   }
 }

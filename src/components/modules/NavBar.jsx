@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "@reach/router";
 
-import "./NavBar.css";
 import "../../utilities.css";
+import "./NavBar.css";
+
 
 class NavBar extends React.Component {
   constructor(props) {

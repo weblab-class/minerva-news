@@ -1,12 +1,12 @@
 import React from "react";
-import "./Home.css";
-import "../../utilities.css";
-
 import Collections from "../modules/Collections.jsx";
 import Summaries from "../modules/Summaries.jsx";
 import Feed from "../modules/Feed.jsx";
 import TagSelection from "../modules/TagSelection.jsx";
 import NotFound from "./NotFound.jsx";
+
+import "../../utilities.css";
+import "./Home.css";
 
 class Home extends React.Component {
   constructor(props) {
