@@ -1,6 +1,0 @@
-secret
-.DS_Store
-__pycache__/
-test.py
-news
-models/__pycache__/
