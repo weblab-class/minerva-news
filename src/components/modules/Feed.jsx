@@ -12,16 +12,16 @@ class Feed extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newsids: [],
+      newsIds: [],
       newsObjs: [], // news items already loaded
       hasMore: true,
     };
   }
 
   update_newsObjs = () => {
-    post("/api/feed", {tags: this.props.tags}).then((newsids) => {
-      this.setState({newsids:newsids});
-      post("/api/news", {"newsIds": newsids.slice(0, Math.min(5, newsids.length))}).then((newsObjs) => {
+    post("/api/feed", {tags: this.props.tags}).then((newsIds) => {
+      this.setState({newsIds:newsIds});
+      post("/api/news", {"newsIds": newsIds.slice(0, Math.min(5, newsIds.length))}).then((newsObjs) => {
         this.setState({newsObjs: newsObjs});
       });
     });
@@ -38,12 +38,12 @@ class Feed extends React.Component {
   }
 
   fetchMoreNews = () => {
-    const tot_length = this.state.newsids.length;
+    const tot_length = this.state.newsIds.length;
     const cur_length = this.state.newsObjs.length;
     if (cur_length == tot_length){
       this.setState({hasMore: false});
     } else{
-      post('/api/news', {"newsIds": this.state.newsids.slice(cur_length, Math.min(cur_length + 5, tot_length))}).then((newsObjs) => {
+      post('/api/news', {"newsIds": this.state.newsIds.slice(cur_length, Math.min(cur_length + 5, tot_length))}).then((newsObjs) => {
         this.setState({newsObjs: this.state.newsObjs.concat(newsObjs)});
       });
     }
@@ -52,7 +52,7 @@ class Feed extends React.Component {
   render() {
     return (
       <div className="feed-box u-greybox">
-        {this.state.newsids.length ? (
+        {this.state.newsIds.length ? (
           <InfiniteScroll
             dataLength={this.state.newsObjs.length}
             next={this.fetchMoreNews}

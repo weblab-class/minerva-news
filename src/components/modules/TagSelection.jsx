@@ -44,7 +44,7 @@ class TagSelection extends React.Component {
           className="tagselection-input"
           onKeyUp={handleEnter("taginput", (value) => {
             this.props.setTags(value.split('#').slice(1).map((str) => str.trim()));
-            document.getElementById("taginput").value = "";
+            //document.getElementById("taginput").value = "";
           })}
         />
         <div className="tagselection-suggestbox">

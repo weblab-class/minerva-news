@@ -4,6 +4,7 @@ import {get, post} from "../../utilities.js";
 import "../../utilities.css";
 import "./Collection.css";
 
+
 class Collections extends React.Component {
   constructor(props) {
     super(props);
@@ -32,9 +33,11 @@ class Collections extends React.Component {
           ))
         }
         </div>
-        <div className="collection-create">
-          <img src={require("../../assets/plusSign.png").default} className="collection-image collection-plus"></img>
-          <button className="u-plain-button collection-text">Create Collection</button>
+        <div className="collection-updater">
+          <button
+            onClick={this.props.handleLogout}
+            className="u-button"
+          >Create</button>
         </div>
       </div>
     );
@@ -46,7 +49,7 @@ class CollectionsCard extends React.Component {
     super(props);
   }
 
-  changeTags = () =>{
+  changeTags = () => {
     this.props.setTags(this.props.tags);
   };
 

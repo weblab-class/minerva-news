@@ -1,9 +1,10 @@
 import React from "react";
 import { FeedCard } from "../modules/Feed.jsx";
-import { get, post } from "../../utilities";
 import Comments, {AddCommentCard} from "../modules/Comments.jsx";
 import NotFound from "./NotFound";
 import AnnotationCard from "../modules/Annotation.jsx";
+import { navigate } from "@reach/router";
+import { get, post } from "../../utilities";
 
 import "../../utilities.css";
 import "./Reading.css";
@@ -39,19 +40,19 @@ class Reading extends React.Component {
   }
 
   toggleAnnotation = (annotationId) => {
-    if(this.state.annotationsShown.includes(annotationId)){
+    if (this.state.annotationsShown.includes(annotationId)) {
       this.setState({annotationsShown: this.remove_from_list(this.state.annotationsShown, annotationId)});
     }
-    else{
+    else {
       this.setState({annotationsShown: [annotationId]});
       //this.setState({annotationsShown: this.state.annotationsShown.concat([annotationId])})
     }
   }
 
   toggleHighlight = () => {
-    if(!this.state.highlightMode){
+    if(!this.state.highlightMode) {
       this.setState({highlightMode: true})
-    }else{
+    } else {
       if(window.getSelection){
         const sel = window.getSelection();
         if(sel.anchorNode.parentElement && sel.anchorNode.parentElement.id == "reading-body"
@@ -64,7 +65,7 @@ class Reading extends React.Component {
             color: "yellow",
           }]}); /* for now we only restrict one span per highlight,
           can easily add more using concat(), but need to implement a binary search to remove duplicates*/
-        }else{
+        } else{
           alert("Please select an area in news text to highlight");
         }
       }
@@ -88,14 +89,17 @@ class Reading extends React.Component {
   }
 
   componentDidMount() {
-      post("/api/news", {newsIds: [this.props.newsId]}).then((newsObjs) => {
-        this.setState({newsObj: newsObjs[0]})
-      });
+    post("/api/news", {newsIds: [this.props.newsId]}).then((newsObjs) => {
+      if (newsObjs.length == 0) {
+        navigate("/notfound");
+      }
+      this.setState({newsObj: newsObjs[0]});
       this.refresh_comments();
+    });
   }
 
   render() {
-    return (this.state.newsObj?(
+    return (this.state.newsObj ? (
       <div className="reading-cont">
         <FeedCard
          newsObj={this.state.newsObj}
@@ -139,7 +143,7 @@ class Reading extends React.Component {
           </div>
         </div>
     ):(
-      <NotFound />
+      <div></div>
     ));
   }
 }

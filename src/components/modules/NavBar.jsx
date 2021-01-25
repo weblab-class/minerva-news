@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "react-bootstrap/Button";
 import { Link } from "@reach/router";
 
 import "../../utilities.css";
@@ -17,8 +18,8 @@ class NavBar extends React.Component {
           {this.props.userId ? (
             <>
               <div className="navbar-logo u-logo"> Minerva </div>
-              <Link className="navbar-elm" to={`/${this.props.userId}`}> Home </Link>
-              <Link className="navbar-elm" to={`/profile/${this.props.userId}`}> Profile </Link>
+              <Link className="navbar-elm" to={"/"}> Home </Link>
+              <Link className="navbar-elm" to={"/profile"}> Profile </Link>
               <button
                 onClick={this.props.handleLogout}
                 className="u-cute-button navbar-login"

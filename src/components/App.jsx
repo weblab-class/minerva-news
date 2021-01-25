@@ -27,8 +27,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    get('/api/whoami')
-      .then((res) => {
+    if (!this.state.userId) {
+      get('/api/whoami').then((res) => {
         if (res.id) {
           this.setState({
             userId: res.id,
@@ -36,12 +36,9 @@ class App extends React.Component {
           });
           localStorage.setItem("userId", res.id);
           localStorage.setItem("userCollections", JSON.stringify(res.collections));
-          return res.id;
         }
-        return '';
-      }).then((id) => {
-        navigate('/' + id);
       });
+    }
   }
 
   handleLogin = (res) => {
@@ -69,12 +66,15 @@ class App extends React.Component {
           userId={this.state.userId}
         />
         <div>
-          <Router>
-            <Landing path="/" handleLogin={this.handleLogin}/>
-            <Home path="/:userId" collections={this.state.userCollections} authenticatedId={this.state.userId}/>
-            <Reading path="/reading/:newsId" userName = {this.state.userName} userId = {this.state.userId}/>
-            <NotFound default />
-          </Router>
+          {this.state.userId ? (
+            <Router>
+              <Home path="/" collections={this.state.userCollections} userId={this.state.userId}/>
+              <Reading path="/reading/:newsId" userName={this.state.userName} userId={this.state.userId}/>
+              <NotFound default />
+            </Router>
+          ):(
+            <Landing default handleLogin={this.handleLogin}/>
+          )}
         </div>
       </>
     );

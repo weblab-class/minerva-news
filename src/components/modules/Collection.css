@@ -40,6 +40,10 @@
   width: 25px;
 }
 
+.collection-updater {
+  
+}
+
 @media (max-width: 800px) {
   .collection-box {
     display: none;

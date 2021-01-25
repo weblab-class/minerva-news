@@ -13,6 +13,7 @@ if os.environ.get('DEPLOY') != 'HEROKU':
 
 
 ''' Server entry point '''
+import time
 import json
 import flask
 
@@ -82,30 +83,30 @@ def summaries():
     ])
 
 
-@app.route("/api/addcomment", methods=['POST'])
+@app.route('/api/addcomment', methods=['POST'])
 def addcomments():
     form = flask.request.get_json()
-    commentId = form['newsId'] + "b" + str(time.time()).replace('.', '-')
-    article_db.find_one_and_update({ "id": form['newsId']}, {"$set": {"comments."+commentId: form}})
+    commentId = form['newsId'] + 'b' + str(time.time()).replace('.', '-')
+    db.article_db.find_one_and_update({'id': form['newsId']}, {'$set': {'comments.' + commentId: form}})
     return {}
 
 
-@app.route("/api/comments", methods=['POST'])
+@app.route('/api/comments', methods=['POST'])
 def comments():
-    commentsDict = article_db.find_one({ "id": request.get_json()['newsId']})['comments']
-    commentsList = [{**v, "id": k} for k,v in commentsDict.items()]
+    ret = db.article_db.find_one({'id': flask.request.get_json()['newsId']})
+    if not ret:
+        return {}
+    commentsList = [{**v, 'id': k} for k, v in ret['comments'].items()]
     return flask.jsonify(commentsList)
 
 
-@app.route("/api/user", methods=['POST'])
+@app.route('/api/user', methods=['POST'])
 def user():
     ids = flask.request.get_json()['ids']
-    users = user_db.find({"id": {"$in": ids}}, {'name': 1, 'id': 1, "_id": 0})
+    users = db.user_db.find({'id': {'$in': ids}}, {'name': 1, 'id': 1, '_id': 0})
     id2name = {user['id']: user['name'] for user in users}
     def formatUser(userId):
-        return {
-            "userName" : id2name[userId],
-        }
+        return {'userName' : id2name[userId]}
     return flask.jsonify(list(map(formatUser, ids)))
 
 

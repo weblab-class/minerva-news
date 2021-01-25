@@ -22,11 +22,11 @@ class Summaries extends React.Component {
     return (
       <div className="summaries-box u-greybox">
         <h2 className="summaries-title">Summaries</h2>
-          <div className="u-vert-list"> {
-            this.state.summaries.map((summaryObj) => (
-              <SummaryCard key={summaryObj.tags}summaryObj={summaryObj}/>
-            ))
-          }
+        <div className="u-vert-list"> {
+          this.state.summaries.map((summaryObj) => (
+            <SummaryCard key={summaryObj.tags}summaryObj={summaryObj}/>
+          ))
+        }
         </div>
       </div>
     );
