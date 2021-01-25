@@ -12,10 +12,13 @@ class Article:
         self.title = title
         self.body_text = body_text
         self.tags = []
+        self.lemmas = {}
 
     @classmethod
     def from_dict(cls, news_dict):
-        return cls(0, news_dict['url'], news_dict['source'], " ", news_dict['text'])
+        article = cls(news_dict['id'], news_dict['url'], news_dict['source'], news_dict['title'], news_dict['body_text'])
+        article.tags = news_dict['tags']
+        return article
 
     def to_dict(self):
         return {"url": self.url, "source": self.source, "text": self.body_text, "tags": self.tags}
