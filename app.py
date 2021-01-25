@@ -16,6 +16,7 @@ if os.environ.get('DEPLOY') != 'HEROKU':
 import time
 import json
 import flask
+import time
 
 from server import auth
 from server import db
