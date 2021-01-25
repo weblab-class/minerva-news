@@ -1,9 +1,7 @@
 import React from "react";
-
-import {get, post} from "../../utilities.js";
-
-import "./Summaries.css";
 import "../../utilities.css";
+import {get} from "../../utilities.js";
+import "./Summaries.css";
 
 class Summaries extends React.Component {
   constructor(props) {
@@ -21,19 +19,19 @@ class Summaries extends React.Component {
 
   render() {
     return (
-      <div className="summaries-box u-greybox">
-        <div className="summaries-title"> Summaries </div>
-          <div className="u-vert-list"> {
-            this.state.summaries.map((summaryObj) => (
-              <SummaryCard key={summaryObj.tags} summaryObj={summaryObj}/>
-            ))
-          }
+        <div className="summaries-box u-greybox">
+            <h2 className="summaries-title">Summaries</h2>
+            <div className="u-vert-list">
+                {
+                    this.state.summaries.map((summaryObj) => (
+                        <SummaryCard key={summaryObj.tags}summaryObj={summaryObj}/>
+                    ))
+                }
+            </div>
         </div>
-      </div>
     );
   }
 }
-
 
 class SummaryCard extends React.Component {
     constructor(props) {
@@ -43,7 +41,8 @@ class SummaryCard extends React.Component {
     render() {
       return (
       <div className="u-greybox summarycard-cont">
-        <div className="summarycard-taglist"> {
+        <div className="summarycard-taglist">
+          {
             this.props.summaryObj.tags.map((tag) => (
               <div key={tag} className="summarycard-tag">
                 #{tag}

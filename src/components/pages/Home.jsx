@@ -1,12 +1,12 @@
 import React from "react";
-
-import Collections from "../modules/Collection.jsx";
-import TagSelection from "../modules/TagSelection.jsx";
-import Feed from "../modules/Feed.jsx";
-import Summaries from "../modules/Summaries.jsx";
-
 import "./Home.css";
 import "../../utilities.css";
+
+import Collections from "../modules/Collections.jsx";
+import Summaries from "../modules/Summaries.jsx";
+import Feed from "../modules/Feed.jsx";
+import TagSelection from "../modules/TagSelection.jsx";
+import NotFound from "./NotFound.jsx";
 
 class Home extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class Home extends React.Component {
   };
 
   render() {
-    return (
+    return (this.props.userId == this.props.authenticatedId)?(
       <div className="home-container">
         <Collections setTags={this.setTags} userId={this.props.userId} collections={this.props.collections}/>
         <div className="home-middle">
@@ -30,6 +30,8 @@ class Home extends React.Component {
         </div>
         <Summaries/>
       </div>
+    ):(
+      <NotFound />
     );
   }
 }

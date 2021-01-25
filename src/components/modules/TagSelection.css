@@ -1,35 +1,37 @@
-.tagselection-box {
-  border-bottom: none;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+.tagselection-box{
+    border-bottom: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
-.tagselection-input {
-  border: none;
-  padding: 25px 10px;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 25px;
-  display: flex;
-  align-items: center;
+.tagselection-input{
+    border:none;
+    padding: 25px 10px;
+
+
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    display: flex;
+    align-items: center;
 }
 
-.tagselection-suggestbox {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  padding: 0px 10px;
-  height: 50px;
+.tagselection-suggestbox{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 0px 10px;
+    height: 50px;
 }
 
-.tagselection-suggestionlabel {
-  font-weight: bold;
-  margin: 0px 2px;
+.tagselection-suggestionlabel{
+    font-weight: bold;
+    margin: 0px 2px;
 }
 
-.tagselection-suggestion {
-  margin: 0px 2px;
+.tagselection-suggestion{
+    margin: 0px 2px;
 }

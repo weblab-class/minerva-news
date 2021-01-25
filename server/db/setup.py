@@ -2,7 +2,6 @@ import os
 import bson, json
 import pymongo
 
-
 class MongoJSONEncoder(json.JSONEncoder):
     ''' Flask.jsonify does not natively work with MongoDB
 

@@ -1,6 +1,6 @@
 import flask_login
 
-from .db import MongoJSONEncoder, user_db
+from .setup import MongoJSONEncoder, user_db
 
 DEFAULT_COLLECTIONS = {
     'US': {
@@ -10,7 +10,7 @@ DEFAULT_COLLECTIONS = {
     'World': {
         'tags': ['china', 'un'],
         'img': 'USFlag.png'
-    }
+    },
 }
 
 
@@ -24,44 +24,37 @@ class User(flask_login.UserMixin):
         self.email = email
         self.picture = picture
 
-    def create_db_user(self):
-        ''' json for creating user entry in database '''
-        userinfo = {
+    def format_json(self):
+        return {
             'id': self.id,
             'name': self.name,
             'email': self.email,
             'picture': self.picture
         }
-        userinfo['collections'] = DEFAULT_COLLECTIONS
-        user_db.insert_one(userinfo)
 
-    def query_db_user(self):
+    def create_db_entry(self):
+        ''' json for creating user entry in database '''
+        info = self.format_json()
+        info['collections'] = DEFAULT_COLLECTIONS
+        user_db.insert_one(info)
+
+    def query_db_entry(self):
         ''' return user as json '''
         return MongoJSONEncoder().encode(
-            user_db.find_one(
-                {'id': self.id}
-            )
+            user_db.find_one({'id': self.id})
         )
 
-    def add_collection(self, name, tags):
+    def add_db_collection(self, name, tags):
         user_db.update_one(
-            { 'id': self.id },
-            {
-                '$set': {
-                    'collections.' + name : {
-                        'tags': tags,
-                        'img': 'user_collection.png'
-                    }
-                }
-            }
+            {'id': self.id},
+            {'$set': {'collections.' + name: {
+                'tags': tags,
+                'img': 'user_collection.png'
+            }}}
         )
 
-    def remove_collection(self, name):
+    def remove_db_collection(self, name):
         user_db.update_one(
-            { 'id': self.id },
-            {
-                '$unset': {
-                    'collections.' + name : 1
-                }
-            }
+            {'id': self.id},
+            {'$unset': {'collections.' + name: 1}}
         )

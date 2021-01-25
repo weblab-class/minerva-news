@@ -6,7 +6,6 @@ import oauthlib.oauth2
 
 from .db import user_db, User
 
-
 GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
 GOOGLE_DISCOVERY_URL = 'https://accounts.google.com/.well-known/openid-configuration'
@@ -36,19 +35,12 @@ def load_user(id):
 ''' Client Authentication Routes '''
 client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 
-import pymongo
-
-MONGO_ATLAS_SRV = os.environ.get('MONGO_ATLAS_SRV')
-client_db = pymongo.MongoClient(MONGO_ATLAS_SRV)
-db = client_db.minerva
-user_db = db.users
-
 
 @auth_api.route('/whoami')
 def loggedin():
     user = {}
     if flask_login.current_user.is_authenticated:
-        user = json.loads(flask_login.current_user.query_db_user())
+        user = json.loads(flask_login.current_user.query_db_entry())
     return flask.jsonify(user)
 
 
@@ -103,7 +95,7 @@ def callback():
     user = User(id=id, name=name, email=email, picture=picture)
 
     if not user_db.find_one({'id': id}):
-        user.create_db_user()
+        user.create_db_entry()
     flask_login.login_user(user)
 
     if os.environ.get('DEPLOY') != 'HEROKU':

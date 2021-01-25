@@ -1,11 +1,20 @@
 import React from 'react';
 import { Router, navigate } from "@reach/router";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHighlighter } from '@fortawesome/free-solid-svg-icons'
 
 import NavBar from "./modules/NavBar.jsx";
 import Landing from "./pages/Landing.jsx"
 import Home from "./pages/Home.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Reading from "./pages/Reading.jsx";
 import { get, post } from "../utilities.js";
+
+import "../utilities.css";
+
+
+library.add(faHighlighter)
+
 
 class App extends React.Component {
   constructor(props) {
@@ -27,7 +36,7 @@ class App extends React.Component {
           });
           localStorage.setItem("userId", res.id);
           localStorage.setItem("userCollections", JSON.stringify(res.collections));
-          return res.id
+          return res.id;
         }
         return '';
       }).then((id) => {
@@ -62,7 +71,8 @@ class App extends React.Component {
         <div>
           <Router>
             <Landing path="/" handleLogin={this.handleLogin}/>
-            <Home path="/:userId" collections={this.state.userCollections}/>
+            <Home path="/:userId" collections={this.state.userCollections} authenticatedId={this.state.userId}/>
+            <Reading path="/reading/:newsId" userName = {this.state.userName} userId = {this.state.userId}/>
             <NotFound default />
           </Router>
         </div>
