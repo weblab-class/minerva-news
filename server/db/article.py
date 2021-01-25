@@ -15,6 +15,7 @@ class Article():
         self.title = title
         self.body_text = body_text
         self.tags = tags
+        self.lemmas = {}
 
     def format_json(self):
         return {
@@ -40,3 +41,9 @@ class Article():
         return MongoJSONEncoder().encode(
             article_db.find_one({'id': self.id})
         )
+
+    @classmethod
+    def from_dict(cls, news_dict):
+        article = cls(news_dict['id'], news_dict['url'], news_dict['source'], news_dict['title'], news_dict['body_text'])
+        article.tags = news_dict['tags']
+        return article
