@@ -18,6 +18,9 @@
   text-decoration: none;
   padding: 2em;
 }
+.navbar-elm:hover {
+   color: var(--white);
+}
 
 .navbar-logo {
   font-size: 30px;

@@ -1,15 +1,13 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { handleEnter } from "../../utilities";
-
-import "bootstrap/dist/css/bootstrap.min.css";
+import { handleEnter } from "../../utilities.js";
 
 
-export function InputModalButton(unique_id, placeholder_text) {
+export function InputModalButton(props) {
   const [show, setShow] = React.useState(false);
   return (
-    <>
+    <div className="bootstrap-iso">
       <Button variant="primary" onClick={() => setShow(true)}>
         Add Collection
       </Button>
@@ -25,22 +23,24 @@ export function InputModalButton(unique_id, placeholder_text) {
           <Modal.Title>Add Collection</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <input
-            id={unique_id}
-            type="text"
-            placeholder={placeholder_text}
-            className=""
-          />
+          <div class="input-group">
+            <textarea
+              {...props}
+              className="form-control"
+              rows="3"
+            >
+            </textarea>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={() => {
             setShow(false);
-            const text = document.getElementById(unique_id).value;
+            const text = document.getElementById(props.unique_id).value;
           }}>
             Submit
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }

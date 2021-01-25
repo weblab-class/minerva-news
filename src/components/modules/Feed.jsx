@@ -171,9 +171,6 @@ export class FeedCard extends React.Component {
             {this.props.newsObj.upvotes} upvotes
           </div>
           <div className="feedcard-commentbar-right">
-            <div className="feedcard-counts feedcard-comments">
-              {this.props.newsObj.numComments} comments
-            </div>
             <div className="feedcard-counts">
               {this.props.newsObj.numAnnotations} annotations
             </div>
