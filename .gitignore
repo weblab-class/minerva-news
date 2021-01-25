@@ -1,7 +1,9 @@
 node_modules/
 build/
 
+/__pycache__
 __pycache__/
 env.txt
 
 .DS_Store
+.eslintcache
