@@ -1,7 +1,7 @@
 import os
 
 ''' Enviornmental Variables '''
-os.environ['DEPLOY'] = 'HEROKU' #LOCAL
+os.environ['DEPLOY'] = 'LOCAL' #LOCAL
 
 if os.environ.get('DEPLOY') != 'HEROKU':
     with open('env.txt', 'r') as fin:
@@ -15,6 +15,7 @@ if os.environ.get('DEPLOY') != 'HEROKU':
 ''' Server entry point '''
 import json
 import flask
+import time
 
 from server import auth
 from server import db
@@ -86,13 +87,13 @@ def summaries():
 def addcomments():
     form = flask.request.get_json()
     commentId = form['newsId'] + "b" + str(time.time()).replace('.', '-')
-    article_db.find_one_and_update({ "id": form['newsId']}, {"$set": {"comments."+commentId: form}})
+    db.article_db.find_one_and_update({ "id": form['newsId']}, {"$set": {"comments."+commentId: form}})
     return {}
 
 
 @app.route("/api/comments", methods=['POST'])
 def comments():
-    commentsDict = article_db.find_one({ "id": request.get_json()['newsId']})['comments']
+    commentsDict = db.article_db.find_one({ "id": flask.request.get_json()['newsId']})['comments']
     commentsList = [{**v, "id": k} for k,v in commentsDict.items()]
     return flask.jsonify(commentsList)
 
@@ -100,7 +101,7 @@ def comments():
 @app.route("/api/user", methods=['POST'])
 def user():
     ids = flask.request.get_json()['ids']
-    users = user_db.find({"id": {"$in": ids}}, {'name': 1, 'id': 1, "_id": 0})
+    users = db.user_db.find({"id": {"$in": ids}}, {'name': 1, 'id': 1, "_id": 0})
     id2name = {user['id']: user['name'] for user in users}
     def formatUser(userId):
         return {

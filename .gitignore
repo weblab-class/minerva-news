@@ -1,8 +1,10 @@
 node_modules/
 build/
+.vscode/
 
 __pycache__/
 env.txt
 
 .DS_Store
 .eslintcache
+
