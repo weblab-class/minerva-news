@@ -21,7 +21,7 @@
   --greyshadow: rgba(0, 0, 0, 0.25);
 }
 
-body{
+body {
   /*height: 100%;*/
   margin: 0;
   padding: 0;
@@ -29,25 +29,26 @@ body{
   font-weight: 300;
 }
 
-h2, h3, p{
+h2, h3, p {
   margin-block-start: 0.2em;
   margin-block-end: 0.2em;
 }
 
-h2{
+h2 {
   font-size: 25px;
   line-height: 1.35;
 }
+
 /*
 html {
   height: 100%;
 }*/
-
 .u-app-container {
   max-width: 1080px;
   padding: var(--m);
   margin: auto;
 }
+
 .u-logo {
   color: var(--white);
   font-family: "Noto Serif", serif;
@@ -58,7 +59,7 @@ html {
   flex-grow: 1;
 }
 
-.u-cute-button{
+.u-cute-button {
   background: var(--red);
   border: 3px solid var(--black);
   color: var(--white);
@@ -69,7 +70,7 @@ html {
   display: block;
 }
 
-.u-plain-button{
+.u-plain-button {
   text-decoration: none;
   border: none;
   box-shadow: none;
@@ -77,16 +78,16 @@ html {
   cursor: pointer;
 }
 
-.u-button{
+.u-button {
   cursor: pointer;
 }
 
-.u-greybox{
+.u-greybox {
   border: 1px solid var(--grey);
   box-sizing: border-box;
 }
 
-.u-vert-list{
+.u-vert-list {
   display: flex;
   flex-direction: column;
   justify-content: start;

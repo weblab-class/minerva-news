@@ -1,11 +1,12 @@
 import React from "react";
-import "../../utilities.css";
 import { FeedCard } from "../modules/Feed.jsx";
 import { get, post } from "../../utilities";
-import "./Reading.css";
 import Comments, {AddCommentCard} from "../modules/Comments.jsx";
 import NotFound from "./NotFound";
 import AnnotationCard from "../modules/Annotation.jsx";
+
+import "../../utilities.css";
+import "./Reading.css";
 
 class Reading extends React.Component {
   constructor(props) {
@@ -95,49 +96,50 @@ class Reading extends React.Component {
 
   render() {
     return (this.state.newsObj?(
-        <div className="reading-cont">
-            <FeedCard
-              newsObj={this.state.newsObj}
-              expanded={true}
-              highlightMode={this.state.highlightMode}
-              annotations = {
-                this.state.highlightMode?(
-                  []
-                ):(
-                  this.state.commentObjs
-                  .filter((commentObj) => this.state.annotationsShown.includes(commentObj.id))
-                  .map((commentObj) => commentObj.annotations)
-                )
-              }
-            />
-            <div className="reading-sidebar u-greybox">
-                <div className="reading-system-ann u-greybox">
-                    {this.defaultAnnotations.map((annotation, i) => (
-                    <AnnotationCard {...annotation} id = {`default${i}`} key = {i}/>
-                    ))}
-                </div>
-                <Comments
-                  commentObjs = {this.state.commentObjs}
-                  commentOwnerNames = {this.state.commentOwnerNames}
-                  toggleAnnotation = {this.toggleAnnotation}
-                  annotationsShown = {this.state.annotationsShown}
-                  addCommentCard = {(
-                    <AddCommentCard
-                      newsId = {this.state.newsObj.id}
-                      ownerId = {this.props.userId}
-                      ownerName = {this.props.userName}
-                      componentId = {"New Comment"}
-                      submitComment = {this.submitComment}
-                      highlightMode = {this.state.highlightMode}
-                      toggleHighlight = {this.toggleHighlight}
-                      currentHighlights = {this.state.currentHighlights}
-                    />
-                  )}
+      <div className="reading-cont">
+        <FeedCard
+         newsObj={this.state.newsObj}
+         expanded={true}
+         highlightMode={this.state.highlightMode}
+         annotations = {
+           this.state.highlightMode ? (
+             []
+            ):(
+              this.state.commentObjs
+                .filter((commentObj) => this.state.annotationsShown.includes(commentObj.id))
+                .map((commentObj) => commentObj.annotations)
+            )
+          }
+        />
+        <div className="reading-sidebar u-greybox">
+          <div className="reading-system-ann u-greybox"> {
+            this.defaultAnnotations.map((annotation, i) => (
+            <AnnotationCard {...annotation} id = {`default${i}`} key = {i}/>
+            ))
+          }
+          </div>
+            <Comments
+              commentObjs = {this.state.commentObjs}
+              commentOwnerNames = {this.state.commentOwnerNames}
+              toggleAnnotation = {this.toggleAnnotation}
+              annotationsShown = {this.state.annotationsShown}
+              addCommentCard = {(
+                <AddCommentCard
+                  newsId = {this.state.newsObj.id}
+                  ownerId = {this.props.userId}
+                  ownerName = {this.props.userName}
+                  componentId = {"New Comment"}
+                  submitComment = {this.submitComment}
+                  highlightMode = {this.state.highlightMode}
+                  toggleHighlight = {this.toggleHighlight}
+                  currentHighlights = {this.state.currentHighlights}
                 />
-            </div>
+              )}
+            />
+          </div>
         </div>
     ):(
-        <NotFound />
+      <NotFound />
     ));
   }
 }

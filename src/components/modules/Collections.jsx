@@ -1,6 +1,7 @@
 import React from "react";
-import "../../utilities.css";
 import {get, post} from "../../utilities.js";
+
+import "../../utilities.css";
 import "./Collection.css";
 
 class Collections extends React.Component {

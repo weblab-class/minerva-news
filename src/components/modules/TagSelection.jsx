@@ -1,5 +1,6 @@
 import React from "react";
 import { get, handleEnter } from "../../utilities";
+
 import "../../utilities.css";
 import "./TagSelection.css";
 
@@ -35,27 +36,30 @@ class TagSelection extends React.Component {
   render() {
     const placeholder_text = "Tag topics you want to explore using #topic...";
     return (
-        <div className="tagselection-box u-greybox">
-            <input 
-            id="taginput" 
-            type="text" 
-            placeholder={placeholder_text} 
-            className="tagselection-input"
-            onKeyUp={handleEnter("taginput", (value) => {
-              this.props.setTags(value.split('#').slice(1).map((str) => str.trim()));
-              document.getElementById("taginput").value = "";
-            })}/>
-            <div className="tagselection-suggestbox">
-              <div className="tagselection-suggestionlabel">Suggestions: </div>
-              {this.state.suggestions.map((suggestion) => (
-                <div 
-                className="tagselection-suggestion u-plain-button" 
-                key = {suggestion}
-                onClick={() => {this.insertTag(`#${suggestion} `)}}>
-                  #{suggestion} 
-                </div>
-              ))}</div>
+      <div className="tagselection-box u-greybox">
+        <input
+          id="taginput"
+          type="text"
+          placeholder={placeholder_text}
+          className="tagselection-input"
+          onKeyUp={handleEnter("taginput", (value) => {
+            this.props.setTags(value.split('#').slice(1).map((str) => str.trim()));
+            document.getElementById("taginput").value = "";
+          })}
+        />
+        <div className="tagselection-suggestbox">
+          <div className="tagselection-suggestionlabel">Suggestions: </div> {
+            this.state.suggestions.map((suggestion) => (
+            <div
+              className="tagselection-suggestion u-plain-button"
+              key = {suggestion}
+              onClick={() => {this.insertTag(`#${suggestion} `)}}
+            >
+              #{suggestion}
+            </div>
+          ))}
         </div>
+      </div>
     );
   }
 }

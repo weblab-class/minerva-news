@@ -1,10 +1,12 @@
 import React from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import parse from "html-react-parser";
+import { navigate } from "@reach/router";
+import {get, post} from "../../utilities.js";
+
 import "../../utilities.css";
 import "./Feed.css"
-import {get, post} from "../../utilities.js";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { navigate } from "@reach/router";
-import parse from "html-react-parser";
+
 
 class Feed extends React.Component {
   constructor(props) {
@@ -79,7 +81,7 @@ class Feed extends React.Component {
 export class FeedCard extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       highlighted_text: props.newsObj.body_text,
       //spanEndpoints: this.recalculateSpanEndpoints(props.annotations),
@@ -88,7 +90,7 @@ export class FeedCard extends React.Component {
 
 /*
   recalculateSpanEndpoints = (annotationObjs) => {
-    
+
   }*/
 
   apply_highlight = () => {
@@ -144,7 +146,7 @@ export class FeedCard extends React.Component {
       </p>`
     ));
   }
-      
+
   componentDidUpdate(prevProps) {
     if(prevProps.annotations != this.props.annotations){
       this.apply_highlight();
@@ -153,8 +155,8 @@ export class FeedCard extends React.Component {
 
   render() {
     return (
-      <div 
-        className={`${this.props.expanded?"feedcard-exp-cont":"feedcard-cont"} u-greybox u-button`} 
+      <div
+        className={`${this.props.expanded?"feedcard-exp-cont":"feedcard-cont"} u-greybox u-button`}
         onClick={this.read}
       >
         <h3 className="feedcard-src">

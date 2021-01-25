@@ -1,6 +1,7 @@
 import React from "react";
-import "./Landing.css";
+
 import "../../utilities.css";
+import "./Landing.css";
 
 class Landing extends React.Component {
   constructor(props) {
