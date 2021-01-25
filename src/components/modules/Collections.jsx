@@ -1,5 +1,4 @@
 import React from "react";
-import { InputModalButton } from "./BootstrapModels.jsx"
 import {get, post} from "../../utilities.js";
 
 import "../../utilities.css";
@@ -23,10 +22,6 @@ class Collections extends React.Component {
       })
     });
     localStorage.setItem("collectionslist", JSON.stringify(entries));
-  }
-
-  addCollection = (text) => {
-
   }
 
   render() {

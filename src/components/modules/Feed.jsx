@@ -32,7 +32,8 @@ class Feed extends React.Component {
   }
 
   componentDidUpdate(prevProps){
-    if(prevProps.tags !== this.props.tags){
+    if(prevProps.tags !== this.props.tags) {
+      this.setState({hasMore: true});
       this.update_newsObjs();
     }
   }
@@ -40,9 +41,9 @@ class Feed extends React.Component {
   fetchMoreNews = () => {
     const tot_length = this.state.newsIds.length;
     const cur_length = this.state.newsObjs.length;
-    if (cur_length == tot_length){
+    if (cur_length == tot_length) {
       this.setState({hasMore: false});
-    } else{
+    } else {
       post('/api/news', {"newsIds": this.state.newsIds.slice(cur_length, Math.min(cur_length + 5, tot_length))}).then((newsObjs) => {
         this.setState({newsObjs: this.state.newsObjs.concat(newsObjs)});
       });
