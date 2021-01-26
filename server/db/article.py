@@ -16,6 +16,8 @@ class Article():
         self.body_text = body_text
         self.tags = tags
         self.lemmas = {}
+        self.sentences = []
+        self.true_sentences = []
 
     def format_json(self):
         return {

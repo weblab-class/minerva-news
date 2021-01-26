@@ -33,7 +33,7 @@ newspapers = {
         'source_tag': r'.*\(CNN.*?\)'
     },
     'huffpost': {
-        'name': 'HuffPost',
+        'name': 'Huffington Post',
         'url': 'https://www.huffpost.com',
         'url_pattern': '',
         'is_article_pattern': 'entry',
@@ -41,6 +41,13 @@ newspapers = {
         'body_classes': ['content-list-component yr-content-list-text text'],
         'headings': [],
         'source_tag': r'.* [—-] (?=[A-Z])'
+    },
+    'apnews': {
+        'name': "AP News",
+        'sitemap': [f"https://apnews.com/sitemap/sitemap_{YEAR}-{pad_date(MONTH)}-{pad_date(DAY)}T05:00:0{i}+00:00.xml" for i in range(10)],
+        'sitemap_type': "xml",
+        'sitemap_attr': "loc",
+        'sitemap_postfunc': lambda x: x,
     }
     # nyt, lat, apnews, dailymail, usatoday
 }
@@ -66,8 +73,6 @@ def get_urls(source):
         if not paper['url_pattern'] in url:
             continue
         urls.append(url)
-
-    randomize_scrape_pattern()
 
     return urls
 
