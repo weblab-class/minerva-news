@@ -6,9 +6,6 @@ class Summary():
         self.newsIds = newsIds
         self.category = category
         self.tags = tags
-        summary_db.insert_one({"one": "one"})
-        #print(type(self.newsIds[0]))
-        #print(type(self.tags[0]))
 
     def format_json(self):
         ''' json for creating summary entry in database '''
@@ -28,4 +25,4 @@ class Summary():
     @classmethod
     def nuke_summary_db(cls):
         summary_db.delete_many({})
-        """
+"""

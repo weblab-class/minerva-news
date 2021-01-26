@@ -108,3 +108,6 @@ def callback():
 def logout():
     flask_login.logout_user()
     return 'Success'
+
+if __name__ == "__main__":
+    print("Auth")

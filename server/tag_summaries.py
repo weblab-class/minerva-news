@@ -1,11 +1,26 @@
+import os
+''' Enviornmental Variables '''
+os.environ['DEPLOY'] = 'LOCAL'
+
+if os.environ.get('DEPLOY') != 'HEROKU':
+    with open('../env.txt', 'r') as fin:
+        env = tuple(fin.read().splitlines())
+    os.environ['GOOGLE_CLIENT_ID']     = env[0]
+    os.environ['GOOGLE_CLIENT_SECRET'] = env[1]
+    os.environ['MONGO_ATLAS_SRV']      = env[2]
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+
+
 import spacy
 import json
 import en_core_web_sm
 import time
-from db import Article, Summary
+import db
+from db import Article, Summary, summary_db
 from collections import Counter
-from db.setup import MongoJSONEncoder, summary_db
 
+'''
 NLP = en_core_web_sm.load()
 with open('nlp_data/common_nouns.txt', 'r') as fin:
     COMMON_NOUNS = fin.read().split('\n')
@@ -46,8 +61,11 @@ for item in summaries:
     item["tags"] = [x[0] for x in word_counts.most_common(3)]
     summaryObj = Summary(item['summary'], item['newsids'], item['category'], item['tags'])
     summaryObj.create_db_entry()
+'''
 
 if __name__ == "__main__":
-    insert_result = summary_db.insert_one({"one": "one"})
+    insert_result = db.summary_db.insert_one({"one": "one"})
+    '''
     print(dir(insert_result))
     print(insert_result.inserted_id)
+    '''
