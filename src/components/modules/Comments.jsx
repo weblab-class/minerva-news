@@ -17,13 +17,13 @@ class Comments extends React.Component {
         <h3 className="comments-title">
           Comments
         </h3>
-        {this.props.addCommentCard}
         {this.props.commentObjs.map((commentObj, index) => (
           <CommentCard
             {...commentObj}
             ownerName = {this.props.commentOwnerNames[index]}
             key={commentObj.id}
-            toggleAnnotation = {() => {
+            toggleAnnotation = {(e) => {
+              e.stopPropagation();
               this.props.toggleAnnotation(commentObj.id);
             }}
             showHighlight = {this.props.annotationsShown.includes(commentObj.id)}
@@ -66,7 +66,8 @@ class CommentCard extends React.Component {
   }
 }
 
-
+/*
+{this.props.addCommentCard}
 export class AddCommentCard extends React.Component {
   constructor(props) {
     super(props);
@@ -116,7 +117,7 @@ export class AddCommentCard extends React.Component {
       />
     );
   }
-}
+}*/
 
 export default Comments;
 
