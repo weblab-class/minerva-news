@@ -43,23 +43,23 @@ class CommentCard extends React.Component {
   }
 
   render() {
+    console.log(this.props.showHighlight);
     return (
-      <div className="u-greybox commentcard-cont">
+      <div 
+        className="u-greybox commentcard-cont u-button" 
+        onClick={this.props.toggleAnnotation}
+        style={this.props.showHighlight?{
+          borderColor: "#9ecaed",
+          boxShadow: "0 0 10px #9ecaed"
+        }:{}}
+      >
         <div>
           <p className="commentcard-texts">
             <b>{this.props.ownerName || this.state.ownerName} |</b> {this.props.addCommentSuggestive||this.props.content}
           </p>
         </div> {
           this.props.addCommentButtons || (
-          <AnnotationCard
-            backgroundColor={"red"}
-            text={this.props.annotationText || "Show Annotation"}
-            annotationId={this.props.id}
-            highlights={this.props.annotations}
-            toggleAnnotation = {this.props.toggleAnnotation}
-            showHighlight = {this.props.showHighlight}
-            clickable={true}
-          />
+          <></>
         )}
       </div>
     );
@@ -119,3 +119,13 @@ export class AddCommentCard extends React.Component {
 }
 
 export default Comments;
+
+/*
+         <AnnotationCard
+            backgroundColor={"red"}
+            text={this.props.annotationText || "Show Annotation"}
+            annotationId={this.props.id}
+            highlights={this.props.annotations}
+            toggleAnnotation = {this.props.toggleAnnotation}
+            showHighlight = {this.props.showHighlight}
+            clickable={true}*/
