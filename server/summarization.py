@@ -12,7 +12,8 @@ from sklearn.cluster import KMeans
 
 nlp = en_core_web_sm.load()
 
-
+with open("./news_data/1-13/summaries.txt") as f:
+    pass
 """
 load news data and stopwords
 id2news: a dictionary mapping id to article objects
@@ -22,17 +23,14 @@ stopwords: a list of common stop words
 with open("./news_data/1-13/cnn_with_tags.txt") as f:
     news = json.load(f)
     id2news = {v['id']:Article.from_dict(v) for k,v in news.items()}
-    f.close()
 #print(len(id2news.items()))
 with open("./news_data/1-13/cnn_cat.txt") as f:
     cnn_cat = json.load(f)
     categories = {}
     for k,v in cnn_cat.items():
         categories.setdefault(v['cat'], set()).add(v['id'])
-    f.close()
 with open("nlp_data/stopwords.txt", encoding='utf-8') as f:
     commons = f.read()
-    f.close()
 stopwords = set(commons.split("\n"))
 list_cat = list(categories)
 
@@ -181,7 +179,7 @@ summaries = []
 for cat in list_cat:
     subclusters = all_subclusters[cat]
     for i, sc in enumerate(subclusters):
-        joined = ' '.join([textrank(newsId) for newsId in sc])
+        joined = ' '.join([id2news[newsId].body_text for newsId in sc])
         output = pegasus_eval(joined, params)   
         print(time.time() - curTime)
         curTime = time.time()
@@ -199,6 +197,5 @@ for cat in list_cat:
             }
             i += 1
 
-with open("./news_data/1-13/textrank-summaries.txt") as f:
+with open("./news_data/1-13/summaries.txt", 'w') as f:
     json.dump(summaries, f)
-    f.close()
