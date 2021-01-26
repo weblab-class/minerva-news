@@ -104,12 +104,12 @@ def textrank(artId):
     of indices of top sentence in the article, using pagerank algorithm
     """
     divisor = 4
-    min_num, max_num = 1, 12
+    min_num, max_num = 3, 10
 
     art = id2news[artId]
 
-    if len(art.sentences) == 1:
-        return [0] #no textrank if no text to rank...
+    if len(art.sentences) <= 3:
+        return art.body_text #no textrank if no text to rank...
 
     cosine_matrix = np.asarray([[lemma_similarity(sent_1, sent_2) for sent_1 in art.sentences] for sent_2 in art.sentences])
     graph = nx.from_numpy_array(cosine_matrix)
@@ -119,7 +119,7 @@ def textrank(artId):
     num_top = min(max(round(n_sents/divisor), min_num), max_num)
     ranked_sentences = sorted(((scores[i], i) for i in range(n_sents)), reverse=True)[:num_top]
     ranked_sentences.sort(key=lambda x: x[1]) #preserving order will help give more context
-    return [x[1] for x in ranked_sentences]
+    return ' '.join([art.true_sentences[x[1]] for x in ranked_sentences])
 
 
 """
@@ -148,8 +148,8 @@ for cat, ids in categories.items():
     all_subclusters[cat] = subclusters
     #for sc in subclusters:
         #print([id2news[newsId].title for newsId in sc])
-
 print("num subclusters", sum([len(v) for k,v in all_subclusters.items()]))
+
 
 import torch
 from transformers import PegasusForConditionalGeneration, PegasusTokenizer
@@ -177,27 +177,28 @@ params = pegasus_load()
 print(time.time() - curTime)
 curTime = time.time()
 
-
 summaries = []
 for cat in list_cat:
     subclusters = all_subclusters[cat]
     for i, sc in enumerate(subclusters):
-        joined = ' '.join([id2news[newsId].body_text for newsId in sc])
+        joined = ' '.join([textrank(newsId) for newsId in sc])
         output = pegasus_eval(joined, params)   
         print(time.time() - curTime)
         curTime = time.time()
         summaries.append(output)
+print(len(summaries))
 
 for cat in list_cat:
     subclusters = all_subclusters[cat]
     for sc in subclusters:
-        summaries[i] = {
-            "summary": summaries[i], 
-            "category": cat,
-            "newsids": list(sc)
-        }
-        i += 1
+        if i < len(summaries):
+            summaries[i] = {
+                "summary": summaries[i], 
+                "category": cat,
+                "newsids": list(sc)
+            }
+            i += 1
 
-with open("./news_data/1-13/summaries.txt") as f:
+with open("./news_data/1-13/textrank-summaries.txt") as f:
     json.dump(summaries, f)
     f.close()
