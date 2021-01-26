@@ -38,7 +38,7 @@ class TagSelection extends React.Component {
           })}
         />
         <div className="tagselection-suggestbox">
-          <div className="tagselection-suggestionlabel">Suggestions: </div> {
+          <div className="tagselection-suggestionlabel">Popular: </div> {
             this.state.suggestions.map((suggestion) => (
             <div
               className="tagselection-suggestion u-plain-button"

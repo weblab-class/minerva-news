@@ -1,5 +1,8 @@
+import math
 import json
 from collections import Counter
+import spacy, en_core_web_sm
+
 
 from db import Article
 from crawler import load_articles
@@ -9,11 +12,27 @@ DICT_MAX_SIZE = 750
 DEFAULT_COLLECTION_LABELS = ['us', 'world', 'politics', 'health', 'business', 'science & tech', 'sports & entertainment']
 GENERAL_CONTEXT_WORDS = {'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                          'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august',
-                         'september', 'october', 'november', 'december', 'cnn', '%'}
+                         'september', 'october', 'november', 'december', 'cnn', 'state', 'month', 'day',
+                         'year', 'week', 'people', 'person', 'group', 'state', 'statement', 'country', 'nation',
+                         'time', 'company', 'office', 'official'}
 
 TRAINING_PHASE = True
 TRAINING_MAPPING = {(i + 1): w for i, w in enumerate(DEFAULT_COLLECTION_LABELS)}
 TRAINING_LABELS = []
+
+
+NLP = en_core_web_sm.load()
+
+
+def make_counter(article):
+    freq = Counter()
+    tags = set(article.tags)
+    for token in NLP(article.body_text):
+        word = token.lemma_.lower()
+        if word in tags:
+            freq[word] += 1
+    return freq
+
 
 def classify(article, cat_freq):
     accum = Counter()
@@ -33,10 +52,13 @@ def classify(article, cat_freq):
     print(accum)
     return max(accum, key=accum.get)
     '''
+    freq = make_counter(article)
+    print(freq)
     max_score, best_cat = 0, None
     for cat in cat_freq.keys():
         dist = cat_freq[cat]['dist']
-        score = sum([dist[tag] for tag in article.tags if tag in dist]) / cat_freq[cat]['total']
+        total = cat_freq[cat]['total']
+        score = sum([(dist[tag] * freq[tag])**0.5 for tag in freq.keys() if tag in dist]) / (total)**0.5
         accum[cat] = score
         if score > max_score:
             best_cat = cat
@@ -60,14 +82,13 @@ def category_freq(articles, prev_cat_freq):
             continue
 
         if TRAINING_PHASE:
-            print(article.tags)
             try:
                 idx = int(input('1) us   2) world   3) politics   4) health   5) business   6) science & tech   7) sports & entertainment: '))
                 cat = TRAINING_MAPPING[idx]
-                TRAINING_LABELS.append({'id': article.id, 'cat': cat})
             except Exception as e:
                 if e == KeyboardInterrupt:
                     exit(0)
+            TRAINING_LABELS.append({'id': article.id, 'cat': cat})
             print()
 
         for tag in article.tags:
@@ -143,7 +164,7 @@ def build_dist(articles_path, labels_path, cat_freq_path):
 
 
 if __name__ == '__main__':
-    day = 17
+    day = 22
     '''
     build_dist('news_data/1-'+str(day)+'/cnn_with_tags.txt',
                'news_data/1-'+str(day)+'/cnn_cat.txt',

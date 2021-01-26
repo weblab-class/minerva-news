@@ -67,9 +67,9 @@ for cat, ids in categories.items():
         for sent in doc.sents:
             sent_bag = {}
             for token in sent:
-                if ((not token.text in stopwords) 
-                and (not token.lemma_ in stopwords) 
-                and (token.pos_ in usefulPositions) 
+                if ((not token.text in stopwords)
+                and (not token.lemma_ in stopwords)
+                and (token.pos_ in usefulPositions)
                 and (len(token.text) > 2)):
                     art.lemmas[token.lemma_] = art.lemmas.get(token.lemma_, 0) + 1
                     all_lemmas.add(token.lemma_)
@@ -77,8 +77,8 @@ for cat, ids in categories.items():
             normalize(sent_bag)
             art.sentences.append(sent_bag)
             art.true_sentences.append(sent.text)
-        normalize(art.lemmas)    
-lem2ind = {lemma: i for i, lemma in enumerate(list(all_lemmas))}   
+        normalize(art.lemmas)
+lem2ind = {lemma: i for i, lemma in enumerate(list(all_lemmas))}
 
 
 print(time.time() - curTime)
@@ -98,7 +98,7 @@ def lemma_similarity(lemmas_sm, lemmas_lg):
 
 def textrank(artId):
     """
-    uses article Id, returns a list of ids (descending order of relevance) 
+    uses article Id, returns a list of ids (descending order of relevance)
     of indices of top sentence in the article, using pagerank algorithm
     """
     divisor = 4
@@ -180,7 +180,7 @@ for cat in list_cat:
     subclusters = all_subclusters[cat]
     for i, sc in enumerate(subclusters):
         joined = ' '.join([id2news[newsId].body_text for newsId in sc])
-        output = pegasus_eval(joined, params)   
+        output = pegasus_eval(joined, params)
         print(time.time() - curTime)
         curTime = time.time()
         summaries.append(output)
@@ -191,7 +191,7 @@ for cat in list_cat:
     for sc in subclusters:
         if i < len(summaries):
             summaries[i] = {
-                "summary": summaries[i], 
+                "summary": summaries[i],
                 "category": cat,
                 "newsids": list(sc)
             }

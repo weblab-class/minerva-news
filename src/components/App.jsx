@@ -27,6 +27,7 @@ class App extends React.Component {
       userName: localStorage.getItem("userName"),
       userPicture: localStorage.getItem("userPicture"),
       userCollections: retrieved ? JSON.parse(retrieved) : [],
+      loggingIn: localStorage.getItem("loggingIn"),
     };
   }
 
@@ -50,6 +51,7 @@ class App extends React.Component {
   }
 
   handleLogin = (res) => {
+    localStorage.setItem("loggingIn", "YES"), //  'welcomes' redirect from server
     get('/api/login').then((res) => {
       navigate(res.request_uri);
     });
@@ -61,6 +63,7 @@ class App extends React.Component {
       userName: undefined,
       userPicture: undefined,
       userCollections: undefined,
+      loggingIn: undefined,
     });
     localStorage.clear();
     post("/api/logout");
@@ -68,6 +71,7 @@ class App extends React.Component {
   };
 
   render() {
+    console.log(this.state.loggingIn);
     return (
       <>
         <NavBar
@@ -85,7 +89,11 @@ class App extends React.Component {
             </Router>
           ):(
             <>
-              <Landing default handleLogin={this.handleLogin}/>
+              { this.state.loggingIn ? (
+                <div/>
+              ) : (
+                <Landing default handleLogin={this.handleLogin}/>
+              )}
             </>
           )}
         </div>

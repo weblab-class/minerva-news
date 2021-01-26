@@ -19,10 +19,14 @@ class Feed extends React.Component {
   }
 
   update_newsObjs = () => {
+    if (this.props.tags[0] == "reload_delay_hack") {
+      return;
+    }
     post("/api/feed", {tags: this.props.tags}).then((newsIds) => {
       this.setState({newsIds:newsIds});
       post("/api/news", {"newsIds": newsIds.slice(0, Math.min(5, newsIds.length))}).then((newsObjs) => {
         this.setState({newsObjs: newsObjs});
+        this.props.setFeedLoaded();
       });
     });
   }
@@ -31,7 +35,7 @@ class Feed extends React.Component {
     this.update_newsObjs();
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
     if(prevProps.tags !== this.props.tags) {
       this.setState({hasMore: true});
       this.update_newsObjs();
@@ -70,7 +74,7 @@ class Feed extends React.Component {
           </InfiniteScroll>
         ):(
           <>
-            {this.props.tags.length ? (
+            {(this.props.tags.length && !this.props.feedLoading)? (
               <p style={{ textAlign: "center" }}>
                 <b>No matching news found. Try with less tags</b>
               </p>
@@ -81,6 +85,7 @@ class Feed extends React.Component {
         )}
       </div>
     );
+    return ret_html;
   }
 }
 
@@ -175,7 +180,7 @@ export class FeedCard extends React.Component {
         {this.text_to_el(this.sliceContent(this.props.newsObj.body_text))}
         <div className="feedcard-commentbar u-greybox">
           <div className="feedcard-counts">
-          
+
           </div>
           <div className="feedcard-commentbar-right">
             <div className="feedcard-counts">

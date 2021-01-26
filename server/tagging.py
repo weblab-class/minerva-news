@@ -74,7 +74,7 @@ def build_docs(articles):
 
 
 if __name__ == '__main__':
-    for i in range(23, 24):
+    for i in range(23, 26):
         day = i
         print(day)
         TAG_PARAMS['NOUN']['vocab_freq'].clear()

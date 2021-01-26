@@ -22,3 +22,4 @@ db = client.minerva
 user_db = db.users
 article_db = db.articles
 summary_db = db.summaries
+common_db = db.common

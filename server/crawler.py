@@ -12,7 +12,7 @@ from GoogleNews import GoogleNews
 from db import Article
 
 
-TODAY = str(datetime.date.today() - datetime.timedelta(days=3))
+TODAY = str(datetime.date.today() - datetime.timedelta(days=1))
 YEAR, MONTH, DAY = (int(x) for x in TODAY.split('-'))
 
 def pad_date(date):
@@ -25,6 +25,7 @@ newspapers = {
         'sitemap_type': 'html.parser',
         'sitemap_attr': 'a',
         'sitemap_postfunc': lambda x: x['href'],
+        'get_date': lambda x: None,
         'url_pattern': 'https://www.cnn.com/' + str(YEAR) + '/' + pad_date(MONTH) + '/' + pad_date(DAY),
         'article_pattern': 'index.html',
         'title_class': 'pg-headline',
@@ -48,6 +49,12 @@ newspapers = {
         'sitemap_type': "xml",
         'sitemap_attr': "loc",
         'sitemap_postfunc': lambda x: x,
+        'get_date': None,
+        'article_pattern': '',
+        'title_class': '',
+        'body_classes': [],
+        'headings': [],
+        'source_tag': r''
     }
     # nyt, lat, apnews, dailymail, usatoday
 }
@@ -75,6 +82,10 @@ def get_urls(source):
         urls.append(url)
 
     return urls
+
+
+def read_urls(path):
+    pass
 
 
 def scrape(source):
@@ -156,4 +167,4 @@ def save_articles(articles, path):
 
 if __name__ == '__main__':
     articles = crawl()
-    save_articles(articles, 'news_data/1-23/cnn.txt')
+    save_articles(articles, 'news_data/1-25/cnn.txt')

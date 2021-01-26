@@ -18,7 +18,6 @@ class Summary():
 
     def create_db_entry(self):
         info = self.format_json()
-        #print("insert", info)
         summary_db.insert_one(info)
 
 """
