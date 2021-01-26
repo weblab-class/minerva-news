@@ -21,3 +21,4 @@ db = client.minerva
 ''' Collections '''
 user_db = db.users
 article_db = db.articles
+summary_db = db.summaries

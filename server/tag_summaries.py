@@ -1,0 +1,53 @@
+import spacy
+import json
+import en_core_web_sm
+import time
+from db import Article, Summary
+from collections import Counter
+from db.setup import MongoJSONEncoder, summary_db
+
+NLP = en_core_web_sm.load()
+with open('nlp_data/common_nouns.txt', 'r') as fin:
+    COMMON_NOUNS = fin.read().split('\n')
+with open("./news_data/1-13/cnn_with_tags.txt") as f:
+    news = json.load(f)
+    id2news = {v['id']:Article.from_dict(v) for k,v in news.items()}
+with open("./news_data/1-13/cnn_cat.txt") as f:
+    cnn_cat = json.load(f)
+    categories = {}
+    for k,v in cnn_cat.items():
+        categories.setdefault(v['cat'], set()).add(v['id'])
+    list_cat = list(categories)
+with open("./news_data/1-13/summaries") as f:
+    summaries = json.load(f)
+summaries = [item for item in summaries if isinstance(item, dict)]
+for item in summaries:
+    summary = item['summary']
+    start, end = 0, 0
+    doc = NLP(summary)
+    word_counts = Counter()
+    colons = []
+    while start < len(doc):
+        while doc[end].pos_ == "PROPN" and doc[end].dep_ == "compound" and len(doc[end].text) > 2:
+            end += 1
+        if doc[end].pos_ == "PROPN" and len(doc[end].text) > 2:
+            end += 1
+        if end > start:
+            if doc[end].text == ":":
+                colons.append(end)
+            text = " ".join([doc[j].text for j in range(start, end)])
+            word_counts[text] += 1
+        else:
+            token = doc[start]
+            if token.pos_ == "NOUN" and token.text not in COMMON_NOUNS and len(token.text) > 2:
+                word_counts[token.lemma_] += 1
+            end += 1
+        start = end
+    item["tags"] = [x[0] for x in word_counts.most_common(3)]
+    summaryObj = Summary(item['summary'], item['newsids'], item['category'], item['tags'])
+    summaryObj.create_db_entry()
+
+if __name__ == "__main__":
+    insert_result = summary_db.insert_one({"one": "one"})
+    print(dir(insert_result))
+    print(insert_result.inserted_id)
