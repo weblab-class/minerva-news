@@ -5,7 +5,7 @@ import NotFound from "./NotFound";
 import AnnotationCard from "../modules/Annotation.jsx";
 import { navigate } from "@reach/router";
 import { get, post } from "../../utilities";
-import {InputModal} from "../modules/BootstrapModels.jsx";
+import {InputModal, InfoModalIcon} from "../modules/BootstrapModels.jsx";
 
 import "../../utilities.css";
 import "./Reading.css";
@@ -138,11 +138,31 @@ class Reading extends React.Component {
           }
         />
         <div className="reading-sidebar u-greybox">
-          <div className="reading-system-ann u-greybox"> {
-            this.defaultAnnotations.map((annotation, i) => (
-            <AnnotationCard {...annotation} id = {`default${i}`} key = {i}/>
-            ))
-          }
+          <div className="u-title-with-icon">
+            <h3 style={{gridArea:"title", whiteSpace: "nowrap"}}>Annotation Toolbox</h3>
+            <InfoModalIcon 
+              heading="Writing Annotation"
+              text={(
+                <>
+                  Minerva encourages its users to have conversations through the use of Annotations.
+                  This box helps you write and post an annotation. Simply select one of the colors below, then drag and hold
+                  to select a part of the news content which you want to highlight with your mouse, and a modal will pop up for you
+                  to post an annotation on the region you selected. Try it out!
+                  <br></br>
+                  <br></br>
+                  You have currently selected: {this.state.highlightColor}.
+                </>
+              )}
+            />            
+          </div>
+          <div className="reading-annbox-cont u-greybox">
+            <div className="reading-system-ann"> {
+              this.defaultAnnotations.map((annotation, i) => (
+              <AnnotationCard {...annotation} id = {`default${i}`} key = {i}/>
+              ))
+            }
+          </div>
+
           </div>
           <Comments
             commentObjs = {this.state.commentObjs}

@@ -2,6 +2,7 @@ import React from "react";
 import AnnotationCard from "./Annotation.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {get, post, submitOnEnter} from "../../utilities.js";
+import {InfoModalIcon} from "./BootstrapModels.jsx";
 
 import "../../utilities.css";
 import "./Comments.css";
@@ -14,9 +15,20 @@ class Comments extends React.Component {
   render() {
     return (
       <div className="comments-cont">
-        <h3 className="comments-title">
-          Comments
-        </h3>
+        <div className="u-title-with-icon">
+          <h3 className="comments-title" style={{gridArea:"title"}}>
+            Annotations
+          </h3>
+          <InfoModalIcon 
+              heading="View Annotations"
+              text={(
+                <>
+                  The Annotations posted by other users will display here. You can view the are highlighed by the comment
+                  by clicking on it. Clicking anywhere else to deselect the comment and remove the highlight.
+                </>
+              )}
+            />
+        </div>
         {this.props.commentObjs.map((commentObj, index) => (
           <CommentCard
             {...commentObj}

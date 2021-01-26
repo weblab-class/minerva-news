@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-.u-summary-box {
+.summary-box {
   width: var(--rightwidth);
   border-left: none;
   padding: 10px 15px;
@@ -37,7 +37,7 @@
 }
 
 @media (max-width: 1050px) {
-  .summaries-box {
+  .summary-box {
     display: none;
   }
 }

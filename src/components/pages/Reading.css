@@ -12,6 +12,12 @@
   height: 170px;
   grid-template: repeat(3, 1fr)/repeat(2, 1fr);
   place-items: center center;
+}
+
+.reading-annbox-cont {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   border-top: none;
   border-left: none;
   border-right: none;
