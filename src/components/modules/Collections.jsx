@@ -9,9 +9,9 @@ import "./Collection.css";
 class Collections extends React.Component {
   constructor(props) {
     super(props);
-    const entries = JSON.parse(localStorage.getItem("collectionsList"));
+    const entries = localStorage.getItem("collectionsList");
     this.state = {
-      collectionsList: entries ? entries : [],
+      collectionsList: entries ? JSON.parse(entries) : [],
     };
   }
 
@@ -22,7 +22,7 @@ class Collections extends React.Component {
         return (a[0] > b[0])
       })
     });
-    localStorage.setItem("collectionslist", JSON.stringify(entries));
+    localStorage.setItem("collectionsList", JSON.stringify(entries));
   }
 
   render() {

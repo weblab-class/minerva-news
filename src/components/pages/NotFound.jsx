@@ -1,11 +1,11 @@
 import React from "react";
+import "../../utilities.css";
 
 class NotFound extends React.Component {
   render() {
     return (
-      <div>
+      <div className="u-page-container">
         <h1>404 Not Found</h1>
-        <p>The page you requested couldn't be found.</p>
       </div>
     );
   }

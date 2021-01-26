@@ -133,7 +133,7 @@ def crawl():
 
 def add_articles_to_db(articles):
     for article in articles:
-        article.create_db_article()
+        article.create_db_entry()
 
 
 def load_articles(path):

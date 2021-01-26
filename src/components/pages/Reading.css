@@ -1,11 +1,3 @@
-.reading-cont {
-  display: flex;
-  align-items: flex-start;
-  max-width: 1290px;
-  margin: auto;
-  padding: var(--m) 0px;
-}
-
 .reading-sidebar {
   width: var(--rightwidth);
   flex-shrink: 0;

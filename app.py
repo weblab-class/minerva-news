@@ -13,10 +13,10 @@ if os.environ.get('DEPLOY') != 'HEROKU':
 
 
 ''' Server entry point '''
-import time
 import json
 import flask
 import time
+import re
 
 from server import auth
 from server import db
@@ -41,10 +41,16 @@ def tag_suggestions():
 @app.route('/api/feed', methods = ['POST'])
 def get_newsids():
     tags = flask.request.get_json()['tags']
+    # tags are all lowercased and compound words split
+    processed_tags = []
+    for t in tags:
+        processed_tags.extend(re.split(r' |-', t.strip().lower()))
+    processed_tags = list(set(processed_tags))
+
     if len(tags) == 0:
         all_ids = db.article_db.distinct('id')
     else:
-        all_ids = db.article_db.distinct('id', {'tags': {'$all': tags}})
+        all_ids = db.article_db.distinct('id', {'tags': {'$all': processed_tags}})
     return flask.jsonify(all_ids)
 
 
@@ -54,6 +60,7 @@ def get_news():
     news = db.article_db.find({'id': {'$in': newsids}})
 
     def id2news(one_news):
+        num_comments = len(one_news['comments']) if 'comments' in one_news else 0
         return {
             'title': one_news['title'],
             'source': one_news['source'],
@@ -61,8 +68,8 @@ def get_news():
             'body_text': one_news['body_text'],
             'upvotes': 0,
             'image': None,
-            'numComments': 0,
-            'numAnnotations': 0,
+            'numComments': num_comments,
+            'numAnnotations': num_comments,
         }
 
     return flask.jsonify(list(map(id2news, news)))

@@ -100,7 +100,7 @@ class Reading extends React.Component {
 
   render() {
     return (this.state.newsObj ? (
-      <div className="reading-cont">
+      <div className="u-page-container">
         <FeedCard
          newsObj={this.state.newsObj}
          expanded={true}

@@ -175,7 +175,7 @@ export class FeedCard extends React.Component {
         {this.text_to_el(this.sliceContent(this.props.newsObj.body_text))}
         <div className="feedcard-commentbar u-greybox">
           <div className="feedcard-counts">
-            {this.props.newsObj.upvotes} upvotes
+          
           </div>
           <div className="feedcard-commentbar-right">
             <div className="feedcard-counts">

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,600");
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
 
 :root {
@@ -26,7 +26,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Open Sans", sans-serif;
-  font-weight: 400;
+  font-weight: 300;
 }
 
 input:focus,
@@ -110,4 +110,12 @@ html {
 .u-title-with-icon {
   display: grid;
   grid-template-columns: 1.25fr 2fr 0.5fr 0.5fr;
+}
+
+.u-page-container {
+  display: flex;
+  align-items: flex-start;
+  max-width: var(--pagewidth);
+  margin: auto;
+  padding: var(--m) 0px;
 }
