@@ -4,6 +4,7 @@ import random
 import time
 import datetime
 import requests
+import sys
 
 from collections import deque
 from bs4 import BeautifulSoup
@@ -55,7 +56,7 @@ def crawl(src, url_crawl, url_save, visited, parser = "html.parser",selector = '
                 all_urls.extend(crawl(url, url_crawl, url_save, visited, parser, selector, postfunc))
 
         return all_urls
-    except HTTPError:
+    except Exception:
         return []
 
 if __name__ == "__main__":
@@ -64,23 +65,28 @@ if __name__ == "__main__":
         "name": "New York Times",
         "src": "https://www.nytimes.com/",
         "crawl": r"https://www.nytimes.com/(?!video)[^#]*",
-        "article": r"https://www.nytimes.com/(article/|(live/)?[0-9]+/[0-9]+/[0-9]+/)[^#]*",
+        "article": r"https://www.nytimes.com/(article/|(live/)?2021/01/2[0-9]/)[^#]+",
     }
-    
     
     params = {
         "name": "AP News",
         "src": "https://apnews.com/",
         "crawl": r"https://apnews.com/.*",
-        "article": r"https://apnews.com/article/.*" 
+        "article": r"https://apnews.com/article/.+" 
     }
-    """
-
+    
     params = {
         "name": "BBC News",
         "src": "https://www.bbc.co.uk/news/10628494#userss",
         "crawl": r"https://(feeds.bbci.co.uk|www.bbc.co.uk|www.bbc.com)/",
-        
+        "article": r"https://www.bbc.(co.uk|.com)/news/[a-z]+[^/]+"
+    }
+    """
+    params = {
+        "name": "Fox News",
+        "src": "https://www.foxnews.com/",
+        "crawl": r"https://www.foxnews.com/((?!shows)[^/]*|category/.*)",
+        "article": r"https://www.foxnews.com/(us|politics|media|opinion|sports|world|science|health|tech)/.+"
     }
     
     
