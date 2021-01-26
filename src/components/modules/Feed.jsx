@@ -2,7 +2,7 @@ import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import parse from "html-react-parser";
 import { navigate } from "@reach/router";
-import {get, post} from "../../utilities.js";
+import { get, post } from "../../utilities.js";
 
 import "../../utilities.css";
 import "./Feed.css"
@@ -32,7 +32,8 @@ class Feed extends React.Component {
   }
 
   componentDidUpdate(prevProps){
-    if(prevProps.tags !== this.props.tags){
+    if(prevProps.tags !== this.props.tags) {
+      this.setState({hasMore: true});
       this.update_newsObjs();
     }
   }
@@ -40,9 +41,9 @@ class Feed extends React.Component {
   fetchMoreNews = () => {
     const tot_length = this.state.newsIds.length;
     const cur_length = this.state.newsObjs.length;
-    if (cur_length == tot_length){
+    if (cur_length == tot_length) {
       this.setState({hasMore: false});
-    } else{
+    } else {
       post('/api/news', {"newsIds": this.state.newsIds.slice(cur_length, Math.min(cur_length + 5, tot_length))}).then((newsObjs) => {
         this.setState({newsObjs: this.state.newsObjs.concat(newsObjs)});
       });
@@ -57,7 +58,7 @@ class Feed extends React.Component {
             dataLength={this.state.newsObjs.length}
             next={this.fetchMoreNews}
             hasMore={this.state.hasMore}
-            loader={<h4>Loading...</h4>}
+            loader={<h4></h4>}
             endMessage={
               <p style={{ textAlign: "center" }}>
                 <b>Yay! You have seen it all</b>
@@ -68,9 +69,15 @@ class Feed extends React.Component {
           ))}
           </InfiniteScroll>
         ):(
-          <p style={{ textAlign: "center" }}>
-            <b>No matching news found. Try with less tags</b>
-          </p>
+          <>
+            {this.props.tags.length ? (
+              <p style={{ textAlign: "center" }}>
+                <b>No matching news found. Try with less tags</b>
+              </p>
+            ):(
+              <p></p>
+            )}
+          </>
         )}
       </div>
     );
@@ -171,9 +178,6 @@ export class FeedCard extends React.Component {
             {this.props.newsObj.upvotes} upvotes
           </div>
           <div className="feedcard-commentbar-right">
-            <div className="feedcard-counts feedcard-comments">
-              {this.props.newsObj.numComments} comments
-            </div>
             <div className="feedcard-counts">
               {this.props.newsObj.numAnnotations} annotations
             </div>

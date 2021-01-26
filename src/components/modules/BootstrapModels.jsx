@@ -1,46 +1,40 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { handleEnter } from "../../utilities";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
-
-export function InputModalButton(unique_id, placeholder_text) {
-  const [show, setShow] = React.useState(false);
+// Pass in id, placeholder, and a function postfunc as props
+// postfunc is used to process the user entered text
+export function InputModal(props) {
   return (
-    <>
-      <Button variant="primary" onClick={() => setShow(true)}>
-        Add Collection
-      </Button>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        backdrop="static"
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Add Collection</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <input
-            id={unique_id}
-            type="text"
-            placeholder={placeholder_text}
-            className=""
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={() => {
-            setShow(false);
-            const text = document.getElementById(unique_id).value;
-          }}>
-            Submit
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    <Modal
+      show={props.show}
+      onHide={() => props.setshow(false)}
+      backdrop="static"
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton/>
+      <Modal.Body>
+        <div className="input-group">
+          <textarea
+            id={props.id}
+            placeholder={props.placeholder}
+            className="form-control"
+            rows={props.rows}
+          >
+          </textarea>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="dark" onClick={() => {
+          props.setshow(false);
+          const text = document.getElementById(props.id).value;
+          props.postfunc(text);
+        }}>
+          Submit
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }

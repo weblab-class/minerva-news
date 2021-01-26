@@ -1,14 +1,36 @@
+// import Bootstrap css first to be overriden by custom css
+import "bootstrap/dist/css/bootstrap.min.css"
+
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App.jsx";
 
-import { InputModalButton } from "./components/modules/BootstrapModels.jsx";
-
-// renders React Component "Root" into the DOM element with ID "root"
 ReactDOM.render(<App />, document.getElementById("root"));
 
-// Playground for testing indvidual features
-// ReactDOM.render(<InputModalButton unique_id="asd" placeholder_text="TETTE"/>, document.getElementById("root"));
+/*
+import { InputModal } from "./components/modules/BootstrapModels.jsx"
+
+function Playground() {
+  const [show, setshow] = React.useState(false);
+  return (
+    <>
+    <button onClick={() => setshow(true)}>Trigger/Replace with highlight mouse up</button>
+    <InputModal
+      show={show}
+      setshow={setshow}
+      id="unique_id"
+      placeholder="Type your comment here"
+      rows="6"
+      postfunc = {(text) => {
+        console.log(text);
+      }}
+    />
+    </>
+  )
+}
+
+ReactDOM.render(<Playground/>, document.getElementById("root"));
+*/
 
 // allows for live updating
 if (module.hot) {

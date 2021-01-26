@@ -60,11 +60,12 @@ export function post(endpoint, params = {}) {
 }
 
 // Helper code to handle typing enter on text inputs
-export function handleEnter(componentId, onEnter){
+export function submitOnEnter(componentId, onEnter){
   return (e) => {
     e = e || window.event;
     var keyCode = e.code || e.key;
-    if(keyCode == 'Enter'){
+    if(keyCode == 'Enter') {
+      e.preventDefault();
       onEnter(document.getElementById(componentId).value);
     }
   };

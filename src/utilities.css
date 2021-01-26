@@ -29,6 +29,13 @@ body {
   font-weight: 400;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
 h2, h3, p {
   margin-block-start: 0.2em;
   margin-block-end: 0.2em;
@@ -37,6 +44,11 @@ h2, h3, p {
 h2 {
   font-size: 25px;
   line-height: 1.35;
+  font-weight: bold;
+}
+
+b {
+  font-weight: bold;
 }
 
 /*
@@ -90,6 +102,10 @@ html {
 .u-vert-list {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
+}
+
+.u-title {
+  text-align: center;
 }
