@@ -150,7 +150,7 @@ export class FeedCard extends React.Component {
         ${text}
       </p>`
     ):(
-      <div onClick={this.props.onMouseUp} onMouseDown={this.props.deselectAnnotations}>
+      <div onMouseUp={this.props.onMouseUp} onMouseDown={this.props.deselectAnnotations}>
       {parse(
         `<p id=reading-body class=feedcard-content>
           ${text}

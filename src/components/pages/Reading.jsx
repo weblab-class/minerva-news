@@ -9,6 +9,7 @@ import {InputModal} from "../modules/BootstrapModels.jsx";
 
 import "../../utilities.css";
 import "./Reading.css";
+import { parse } from "@babel/core";
 
 class Reading extends React.Component {
   constructor(props) {
@@ -56,22 +57,27 @@ class Reading extends React.Component {
 
   onMouseUp = (e) => {
     e.stopPropagation();
+    const parserOffset = 11; //react-html-parser introduces an offset of 11, will switch to a different method in constructing span in the future
     console.log("mouse released");
     if(window.getSelection){
       const sel = window.getSelection();
+      console.log(sel.anchorNode.parentElement)
+      console.log(sel.focusNode.parentElement)
       if(sel.anchorNode.parentElement && sel.anchorNode.parentElement.id == "reading-body"
           && sel.focusNode.parentElement && sel.anchorNode.parentElement.id == "reading-body"){
         const offsets = [sel.anchorOffset, sel.focusOffset];
         console.log(offsets.sort((a,b) => a-b));
-        this.setState({currentHighlights: [{
-          start: offsets[0],
-          end: offsets[1],
-          color: "yellow",
-        }]}); /* for now we only restrict one span per highlight,
-        can easily add more using concat(), but need to implement a binary search to remove duplicates*/
+        if(offsets[0] !== offsets[1]){
+          this.setState({currentHighlights: [{
+            start: offsets[0] - parserOffset,
+            end: offsets[1] - parserOffset,
+            color: "yellow",
+          }]}); /* for now we only restrict one span per highlight,
+          can easily add more using concat(), but need to implement a binary search to remove duplicates*/
+          this.setState({highlightMode: true});
+        }
       }
     }
-    this.setState({highlightMode: true})
   }
 
   setHighlightMode = (bool) => {
