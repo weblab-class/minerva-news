@@ -33,7 +33,8 @@ input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-  outline: none;
+  outline: none !important;
+  box-shadow:none !important;
 }
 
 h2, h3, p {
@@ -106,6 +107,7 @@ html {
   align-items: center;
 }
 
-.u-title {
-  text-align: center;
+.u-title-with-icon {
+  display: grid;
+  grid-template-columns: 1.25fr 2fr 0.5fr 0.5fr;
 }

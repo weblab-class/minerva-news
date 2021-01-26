@@ -1,4 +1,5 @@
 import React from "react";
+import { InfoModalIcon } from "./BootstrapModels.jsx"
 import { get, post } from "../../utilities.js";
 
 import "../../utilities.css";
@@ -27,7 +28,17 @@ class Collections extends React.Component {
   render() {
     return (
       <div className="collection-box u-greybox">
-        <h2 className="u-title">Collections</h2>
+        <div className="u-title-with-icon">
+          <div/>
+          <h2>Collections</h2>
+          <div/>
+          <InfoModalIcon
+            heading="How Collections work"
+            text={`A collection is really just a group of #topic #tags (albiet a massive group).
+                   Minerva smartly adapts these tags based on current news as well as recent news.
+                   Coming soon: you will be able to define your own tag groups for quick future reference :)`}
+          />
+        </div>
         <div className = "u-vert-list collection-list"> {
           this.state.collectionsList.map((collection) => (
             <CollectionsCard key={collection[0]} setTags={this.props.setTags} name={collection[0]} {...(collection[1])}/>
