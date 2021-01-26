@@ -21,8 +21,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     const retrieved = localStorage.getItem("userCollections");
+    console.log(this.state ? "ASKJD" : "BBB");
     this.state = {
       userId: localStorage.getItem("userId"),
+      userName: localStorage.getItem("userName"),
+      userPicture: localStorage.getItem("userPicture"),
       userCollections: retrieved ? JSON.parse(retrieved) : [],
     };
   }
@@ -33,9 +36,13 @@ class App extends React.Component {
         if (res.id) {
           this.setState({
             userId: res.id,
-            userCollections: res.collections
+            userName: res.name,
+            userPicture: res.picture,
+            userCollections: res.collections,
           });
           localStorage.setItem("userId", res.id);
+          localStorage.setItem("userName", res.name);
+          localStorage.setItem("userPicture", res.picture);
           localStorage.setItem("userCollections", JSON.stringify(res.collections));
         }
       });
@@ -51,7 +58,9 @@ class App extends React.Component {
   handleLogout = () => {
     this.setState({
       userId: undefined,
-      userCollections: undefined
+      userName: undefined,
+      userPicture: undefined,
+      userCollections: undefined,
     });
     localStorage.clear();
     post("/api/logout");
@@ -71,11 +80,13 @@ class App extends React.Component {
             <Router>
               <Home path="/" collections={this.state.userCollections} userId={this.state.userId}/>
               <Reading path="/reading/:newsId" userName={this.state.userName} userId={this.state.userId}/>
-              <Profile path="/profile"/>
+              <Profile path="/profile" userName={this.state.userName} userPicture={this.state.userPicture}/>
               <NotFound default />
             </Router>
           ):(
-            <Landing default handleLogin={this.handleLogin}/>
+            <>
+              <Landing default handleLogin={this.handleLogin}/>
+            </>
           )}
         </div>
       </>

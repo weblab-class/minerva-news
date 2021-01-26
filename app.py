@@ -1,7 +1,7 @@
 import os
 
 ''' Enviornmental Variables '''
-os.environ['DEPLOY'] = 'LOCAL'
+os.environ['DEPLOY'] = 'HEROKU'
 
 if os.environ.get('DEPLOY') != 'HEROKU':
     with open('env.txt', 'r') as fin:

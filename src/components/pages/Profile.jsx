@@ -12,7 +12,7 @@ class Profile extends React.Component {
   render() {
     return (
       <div className="u-page-container">
-        <UserInfo />
+        <UserInfo userName={this.props.userName} userPicture={this.props.userPicture}/>
       </div>
     );
   }
@@ -25,14 +25,17 @@ class UserInfo extends React.Component {
   }
 
   componentDidMount() {
-    post('/api/whoami')
+
   }
 
   render() {
     return (
+      <>
       <div className="userinfo-container">
-        Text that is good tea
+        <img src={this.props.userPicture}/>
+        <b>{this.props.userName}</b>
       </div>
+      </>
     );
   }
 
