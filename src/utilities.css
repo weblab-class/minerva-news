@@ -110,6 +110,7 @@ html {
 .u-title-with-icon {
   display: grid;
   grid-template-columns: 1.25fr 2fr 0.5fr 0.5fr;
+  grid-template-areas: ". title . icon";
 }
 
 .u-page-container {

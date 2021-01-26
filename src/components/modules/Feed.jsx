@@ -143,20 +143,25 @@ export class FeedCard extends React.Component {
     }));
   };
 
+  doNothing = () => {}
+
   text_to_el = (text) => {
     var vw = window.innerWidth;
-    return parse(this.props.highlightMode?(
+    return this.props.highlightMode?parse(
       `<p
           id=reading-body
-          class=feedcard-highlight-content
+          class=feedcard-content
         >
         ${text}
       </p>`
     ):(
-      `<p id=reading-body class=feedcard-content>
-        ${text}
-      </p>`
-    ));
+      <div onMouseUp={this.props.onMouseUp} onMouseDown={this.props.deselectAnnotations}>
+      {parse(
+        `<p id=reading-body class=feedcard-content>
+          ${text}
+        </p>`)}
+      </div>
+    )
   }
 
   componentDidUpdate(prevProps) {
@@ -169,7 +174,7 @@ export class FeedCard extends React.Component {
     return (
       <div
         className={`${this.props.expanded?"feedcard-exp-cont":"feedcard-cont"} u-greybox u-button`}
-        onClick={this.read}
+        onClick={this.props.expanded?this.doNothing:this.read}
       >
         <h3 className="feedcard-src">
           {this.props.newsObj.source}

@@ -2,6 +2,7 @@ import React from "react";
 import AnnotationCard from "./Annotation.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {get, post, submitOnEnter} from "../../utilities.js";
+import {InfoModalIcon} from "./BootstrapModels.jsx";
 
 import "../../utilities.css";
 import "./Comments.css";
@@ -14,16 +15,27 @@ class Comments extends React.Component {
   render() {
     return (
       <div className="comments-cont">
-        <h3 className="comments-title">
-          Comments
-        </h3>
-        {this.props.addCommentCard}
+        <div className="u-title-with-icon">
+          <h3 className="comments-title" style={{gridArea:"title"}}>
+            Annotations
+          </h3>
+          <InfoModalIcon 
+              heading="View Annotations"
+              text={(
+                <>
+                  The Annotations posted by other users will display here. You can view the are highlighed by the comment
+                  by clicking on it. Clicking anywhere else to deselect the comment and remove the highlight.
+                </>
+              )}
+            />
+        </div>
         {this.props.commentObjs.map((commentObj, index) => (
           <CommentCard
             {...commentObj}
             ownerName = {this.props.commentOwnerNames[index]}
             key={commentObj.id}
-            toggleAnnotation = {() => {
+            toggleAnnotation = {(e) => {
+              e.stopPropagation();
               this.props.toggleAnnotation(commentObj.id);
             }}
             showHighlight = {this.props.annotationsShown.includes(commentObj.id)}
@@ -43,30 +55,31 @@ class CommentCard extends React.Component {
   }
 
   render() {
+    console.log(this.props.showHighlight);
     return (
-      <div className="u-greybox commentcard-cont">
+      <div 
+        className="u-greybox commentcard-cont u-button" 
+        onClick={this.props.toggleAnnotation}
+        style={this.props.showHighlight?{
+          borderColor: "#9ecaed",
+          boxShadow: "0 0 10px #9ecaed"
+        }:{}}
+      >
         <div>
           <p className="commentcard-texts">
             <b>{this.props.ownerName || this.state.ownerName} |</b> {this.props.addCommentSuggestive||this.props.content}
           </p>
         </div> {
           this.props.addCommentButtons || (
-          <AnnotationCard
-            backgroundColor={"red"}
-            text={this.props.annotationText || "Show Annotation"}
-            annotationId={this.props.id}
-            highlights={this.props.annotations}
-            toggleAnnotation = {this.props.toggleAnnotation}
-            showHighlight = {this.props.showHighlight}
-            clickable={true}
-          />
+          <></>
         )}
       </div>
     );
   }
 }
 
-
+/*
+{this.props.addCommentCard}
 export class AddCommentCard extends React.Component {
   constructor(props) {
     super(props);
@@ -116,6 +129,16 @@ export class AddCommentCard extends React.Component {
       />
     );
   }
-}
+}*/
 
 export default Comments;
+
+/*
+         <AnnotationCard
+            backgroundColor={"red"}
+            text={this.props.annotationText || "Show Annotation"}
+            annotationId={this.props.id}
+            highlights={this.props.annotations}
+            toggleAnnotation = {this.props.toggleAnnotation}
+            showHighlight = {this.props.showHighlight}
+            clickable={true}*/

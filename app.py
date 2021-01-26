@@ -92,7 +92,7 @@ def addcomments():
     form = flask.request.get_json()
     commentId = form['newsId'] + 'b' + str(time.time()).replace('.', '-')
     db.article_db.find_one_and_update({'id': form['newsId']}, {'$set': {'comments.' + commentId: form}})
-    return {}
+    return {'id': commentId}
 
 
 @app.route('/api/comments', methods=['POST'])

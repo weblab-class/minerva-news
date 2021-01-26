@@ -21,22 +21,26 @@ class Summaries extends React.Component {
 
   render() {
     return (
-      <div className="u-summary-box u-greybox">
+      <div className="summary-box u-greybox">
         <div className="u-title-with-icon">
-          <div/>
-          <h2>Summaries</h2>
-          <div/>
+          <h2 style={{gridArea: "title"}}>Summaries</h2>
           <InfoModalIcon
             heading="News Summarization with Minerva"
-            text={`Everyday, Minerva sifts through hundreds of pieces of breaking news and summarizes
-                  the day's key events as part of the Minerva document pipeline, which involves state-of-the-art
-                  deep learning. Fake/opinionated news is implicitly filtered out in the process,
-                  and all sources are considered, so you can be sure you get an impartial and accurate understanding
-                  of the world's happenings.
-
-                  If you're interested in the underlying pipeline, please check out the github repo.
-
-                  Also coming soon: explicit fact checking on the reading page. Stay tuned!`}
+            text={(
+              <>
+                Everyday, Minerva sifts through hundreds of pieces of breaking news and summarizes
+                the day's key events as part of the Minerva document pipeline, which involves state-of-the-art
+                deep learning. Fake/opinionated news is implicitly filtered out in the process,
+                and all sources are considered, so you can be sure you get an impartial and accurate understanding
+                of the world's happenings.
+                <br></br>
+                <br></br>
+                If you're interested in the underlying pipeline, please check out the github repo.
+                <br></br>
+                <br></br>
+                Also coming soon: explicit fact checking on the reading page. Stay tuned!`
+              </>
+            )}
           />
         </div>
         <div className="u-vert-list"> {

@@ -71,6 +71,7 @@ export function InfoModalIcon(props) {
   return (
     <>
     <button
+      style={{gridArea: "icon"}}
       type="button"
       className="btn btn-link"
       onClick={() => setshow(true)}

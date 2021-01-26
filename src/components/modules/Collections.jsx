@@ -34,9 +34,14 @@ class Collections extends React.Component {
           <div/>
           <InfoModalIcon
             heading="How Collections work"
-            text={`A collection is really just a group of #topic #tags (albiet a massive group).
-                   Minerva smartly adapts these tags based on current news as well as recent news.
-                   Coming soon: you will be able to define your own tag groups for quick future reference :)`}
+            text={(
+              <>
+                A collection is really just a group of #topic #tags (albiet a massive group). 
+                Minerva smartly adapts these tags based on current news as well as recent news.
+                <br></br>
+                Coming soon: you will be able to define your own tag groups for quick future reference :)
+              </>
+            )}
           />
         </div>
         <div className = "u-vert-list collection-list"> {
