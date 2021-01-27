@@ -8,7 +8,7 @@
 
 .summarycard-cont:hover{
   border-color: var(--blueglow);
-  box-shadow: 0 0 10px var(--blueglow);
+  box-shadow: 0 0 5px var(--blueglow);
 }
 
 .summary-box {

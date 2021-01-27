@@ -76,6 +76,7 @@ def get_newsids():
     processed_tags = list(set(processed_tags))
     related_ids = db.article_db.distinct('id', {'tags': {'$in': processed_tags}})
 
+    random.shuffle(related_ids)
     return flask.jsonify(related_ids)
 
 
