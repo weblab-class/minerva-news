@@ -16,7 +16,7 @@ GENERAL_CONTEXT_WORDS = {'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
                          'year', 'week', 'people', 'person', 'group', 'state', 'statement', 'country', 'nation',
                          'time', 'company', 'office', 'official'}
 
-TRAINING_PHASE = True
+TRAINING_PHASE = False
 TRAINING_MAPPING = {(i + 1): w for i, w in enumerate(DEFAULT_COLLECTION_LABELS)}
 TRAINING_LABELS = []
 
@@ -64,7 +64,7 @@ def classify(article, cat_freq):
             best_cat = cat
             max_score = score
 
-    print(accum)
+    #print(accum)
     return best_cat
 
 
@@ -89,8 +89,8 @@ def category_freq(articles, prev_cat_freq):
             except Exception as e:
                 if e == KeyboardInterrupt:
                     exit(0)
-            TRAINING_LABELS.append({'id': article.id, 'cat': cat})
-            print()
+                print()
+        TRAINING_LABELS.append({'id': article.id, 'cat': cat})
 
         for tag in article.tags:
             if tag not in GENERAL_CONTEXT_WORDS:
@@ -165,17 +165,17 @@ def build_dist(articles_path, labels_path, cat_freq_path):
 
 
 if __name__ == '__main__':
-    day = 24
+    day = 25
     '''
     build_dist('news_data/1-'+str(day)+'/cnn_with_tags.txt',
                'news_data/1-'+str(day)+'/cnn_cat.txt',
                'news_data/1-'+str(day)+'/cat_freq.txt')
     '''
-    articles = load_articles('news_data/1-'+str(day+1)+'/cnn_with_tags.txt')
+    articles = load_articles('news_data/1-'+str(day+1)+'/all_articles_with_tags.txt')
     prev_cat_freq = load_freq_dists('news_data/1-'+str(day)+'/cat_freq.txt')
     cat_freq = maintain_dist(articles, prev_cat_freq)
-    save_freq_dists(cat_freq, 'news_data/1-'+str(day+1)+'/cat_freq.txt')
-    if TRAINING_PHASE:
-        corpus = {k: a for k, a in enumerate(TRAINING_LABELS)}
-        with open('news_data/1-'+str(day+1)+'/cnn_cat.txt', 'w') as fout:
-            json.dump(corpus, fout, indent=4)
+    save_freq_dists(cat_freq, 'news_data/1-'+str(day+1)+'/all_articles_cat_freq.txt')
+    #if TRAINING_PHASE:
+    corpus = {k: a for k, a in enumerate(TRAINING_LABELS)}
+    with open('news_data/1-'+str(day+1)+'/all_articles_cat.txt', 'w') as fout:
+        json.dump(corpus, fout, indent=4)

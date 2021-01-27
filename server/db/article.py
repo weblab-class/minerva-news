@@ -9,7 +9,7 @@ class Article():
 
     def __init__(self, id, url, source, title, body_text, tags=[]):
         ''' __init__ contains all items needed in backend processing '''
-        self.id = id
+        self.id = self.id = id.replace('.', '')
         self.url = url
         self.source = source
         self.title = title

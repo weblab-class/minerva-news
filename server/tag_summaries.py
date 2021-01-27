@@ -22,16 +22,16 @@ from collections import Counter
 NLP = en_core_web_sm.load()
 with open('nlp_data/common_nouns.txt', 'r') as fin:
     COMMON_NOUNS = fin.read().split('\n')
-with open("./news_data/1-13/cnn_with_tags.txt") as f:
+with open("./news_data/1-26/all_articles_with_tags.txt") as f:
     news = json.load(f)
     id2news = {v['id']:Article.from_dict(v) for k,v in news.items()}
-with open("./news_data/1-13/cnn_cat.txt") as f:
+with open("./news_data/1-26/all_articles_cat.txt") as f:
     cnn_cat = json.load(f)
     categories = {}
     for k,v in cnn_cat.items():
         categories.setdefault(v['cat'], set()).add(v['id'])
     list_cat = list(categories)
-with open("./news_data/1-13/summaries") as f:
+with open("./news_data/1-26/summaries.txt") as f:
     summaries = json.load(f)
 summaries = [item for item in summaries if isinstance(item, dict)]
 for item in summaries:

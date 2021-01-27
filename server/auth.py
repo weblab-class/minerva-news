@@ -35,12 +35,26 @@ def load_user(id):
 ''' Client Authentication Routes '''
 client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 
+with open('news_data/1-26/all_articles_cat_freq.txt') as fin:
+    input = json.load(fin)
+    imgRef = {
+        'US': 'US.png',
+        'World': 'UN.png',
+        'Politics': 'USCapitol.png',
+        'Health': 'MedBox.png',
+        'Science & Tech': 'Lab.png',
+        'Business': 'MoneyBag.png',
+        'Sports & Entertainment': 'Badminton.png'
+    }
+    DEFAULT_COLLECTIONS = {cat: {'img': imgRef[cat], 'tags': list(input[cat]['dist'].keys())} for cat in input.keys()}
+
 
 @auth_api.route('/whoami')
 def loggedin():
     user = {}
     if flask_login.current_user.is_authenticated:
         user = json.loads(flask_login.current_user.query_db_entry())
+        user['collections'] = DEFAULT_COLLECTIONS
     return flask.jsonify(user)
 
 

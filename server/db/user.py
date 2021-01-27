@@ -2,17 +2,6 @@ import flask_login
 
 from .setup import MongoJSONEncoder, user_db
 
-DEFAULT_COLLECTIONS = {
-    'US': {
-        'tags': ['trump', 'america', 'covid-19'],
-        'img': 'USFlag.png'
-    },
-    'World': {
-        'tags': ['china', 'un'],
-        'img': 'USFlag.png'
-    },
-}
-
 
 class User(flask_login.UserMixin):
     ''' reference container for user in db '''
@@ -35,7 +24,7 @@ class User(flask_login.UserMixin):
     def create_db_entry(self):
         ''' json for creating user entry in database '''
         info = self.format_json()
-        info['collections'] = DEFAULT_COLLECTIONS
+        info['collections'] = {}
         user_db.insert_one(info)
 
     def query_db_entry(self):

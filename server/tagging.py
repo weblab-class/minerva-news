@@ -74,6 +74,7 @@ def build_docs(articles):
 
 
 if __name__ == '__main__':
+    '''
     for i in range(23, 26):
         day = i
         print(day)
@@ -83,3 +84,9 @@ if __name__ == '__main__':
         docs = build_docs(articles)
         generate_tags(articles, docs)
         save_articles(articles, 'news_data/1-'+str(day)+'/cnn_with_tags.txt')
+    '''
+    day = 26
+    articles = load_articles('news_data/1-'+str(day)+'/all_articles.txt')
+    docs = build_docs(articles)
+    generate_tags(articles, docs)
+    save_articles(articles, 'news_data/1-'+str(day)+'/all_articles_with_tags.txt')

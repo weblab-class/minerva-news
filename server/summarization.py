@@ -12,19 +12,17 @@ from sklearn.cluster import KMeans
 
 nlp = en_core_web_sm.load()
 
-with open("./news_data/1-13/summaries.txt") as f:
-    pass
 """
 load news data and stopwords
 id2news: a dictionary mapping id to article objects
 categories: a dictionary mapping category names to a set of ids of the news articles in that category
 stopwords: a list of common stop words
 """
-with open("./news_data/1-13/cnn_with_tags.txt") as f:
+with open("./news_data/1-26/all_articles_with_tags.txt") as f:
     news = json.load(f)
     id2news = {v['id']:Article.from_dict(v) for k,v in news.items()}
 #print(len(id2news.items()))
-with open("./news_data/1-13/cnn_cat.txt") as f:
+with open("./news_data/1-26/all_articles_cat.txt") as f:
     cnn_cat = json.load(f)
     categories = {}
     for k,v in cnn_cat.items():
@@ -138,9 +136,10 @@ for cat, ids in categories.items():
             cols.append(lem2ind[lem])
             data.append(freq)
     csr = csr_matrix((data, (rows, cols)))
-    labels = KMeans(n_clusters = (len(ids)-1)//7 + 1, copy_x = False).fit_predict(csr)
+    NUM_DIV = 13
+    labels = KMeans(n_clusters = (len(ids)-1)//NUM_DIV + 1, copy_x = False).fit_predict(csr)
     curTime = time.time()
-    subclusters = [set() for i in range((len(ids)-1)//7 + 1)]
+    subclusters = [set() for i in range((len(ids)-1)//NUM_DIV + 1)]
     for newsId in ids:
         subclusters[labels[ids2ind[newsId]]].add(newsId)
     all_subclusters[cat] = subclusters
@@ -197,5 +196,5 @@ for cat in list_cat:
             }
             i += 1
 
-with open("./news_data/1-13/summaries.txt", 'w') as f:
+with open("./news_data/1-26/summaries.txt", 'w') as f:
     json.dump(summaries, f)
