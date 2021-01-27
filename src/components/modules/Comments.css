@@ -17,6 +17,11 @@
   border-radius: 10px;
 }
 
+.commentcard-cont:hover{
+  border-color: var(--blueglow);
+  box-shadow: 0 0 3px var(--blueglow);
+}
+
 .addcomment-buttons-cont {
   padding: 5px;
   display: flex;

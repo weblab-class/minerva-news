@@ -99,6 +99,12 @@ export class FeedCard extends React.Component {
       highlighted_text: props.newsObj.body_text,
       //spanEndpoints: this.recalculateSpanEndpoints(props.annotations),
     };
+    this.sourceName = {
+      "nyt": "New York Times",
+      "cnn": "CNN",
+      "huffpost": "Huffington Post",
+      "washpost": "Washington Post",
+    }
   }
 
 /*
@@ -124,19 +130,19 @@ export class FeedCard extends React.Component {
         });
         if(highLightObj.start[0] == highLightObj.end[0]){
           var chunk = text_chunks[highLightObj.start[0]];
-          var offset = `<div id=reading-para-${highLightObj.start[0].toString()}>`.length;
+          var offset = `<div id=reading-para-${highLightObj.start[0].toString()} class=reading-para>`.length;
           all_slices = all_slices.concat(this.add_span(chunk, highLightObj.start[1], highLightObj.end[1], color, offset));
           console.log(JSON.parse(JSON.stringify(all_slices)))
         }else{
           var chunk_s = text_chunks[highLightObj.start[0]];
-          var offset = `<div id=reading-para-${highLightObj.start[0].toString()}>`.length;
+          var offset = `<div id=reading-para-${highLightObj.start[0].toString()} class=reading-para>`.length;
           all_slices = all_slices.concat(this.add_span(chunk_s, highLightObj.start[1] + offset, null, color, 0))
           text_chunks.slice(highLightObj.start[0] + 1, highLightObj.end[0]).forEach((chunk, index) => {
-            var offset = `<div id=reading-para-${(highLightObj.start[0] + index + 1).toString()}>`.length;
+            var offset = `<div id=reading-para-${(highLightObj.start[0] + index + 1).toString()} class=reading-para>`.length;
             all_slices = all_slices.concat(this.add_span(chunk, offset, null, color, 0))
           })
           var chunk_e = text_chunks[highLightObj.end[0]];
-          offset = `<div id=reading-para-${highLightObj.end[0].toString()}>`.length;
+          offset = `<div id=reading-para-${highLightObj.end[0].toString()} class=reading-para>`.length;
           all_slices = all_slices.concat(this.add_span(chunk_e, 0, highLightObj.end[1], color, offset))
         }
         last_chunk_index = highLightObj.end[0] + 1
@@ -186,7 +192,7 @@ export class FeedCard extends React.Component {
     var text_chunks = text.split("\n");
     var all_slices = []
     text_chunks.forEach((para, index) => {
-      all_slices.push(`<div id=reading-para-${index.toString()}>`)
+      all_slices.push(`<div id=reading-para-${index.toString()} class=reading-para>`)
       all_slices.push(para)
       all_slices.push("</div>")
     });
@@ -224,7 +230,7 @@ export class FeedCard extends React.Component {
         onClick={this.props.expanded?this.doNothing:this.read}
       >
         <h3 className="feedcard-src">
-          {this.props.newsObj.source}
+          {this.sourceName[this.props.newsObj.source]}
         </h3>
         <h2>
           {this.props.newsObj.title}

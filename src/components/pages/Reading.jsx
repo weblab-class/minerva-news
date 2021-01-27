@@ -83,7 +83,12 @@ class Reading extends React.Component {
         console.log("selected");
         const offsets = [[parseInt(sel.anchorNode.parentElement.id.slice(13)),sel.anchorOffset], 
         [parseInt(sel.focusNode.parentElement.id.slice(13)), sel.focusOffset]];
-        console.log(offsets.sort((a,b) => a[0]-b[0]));
+        console.log(offsets.sort((a,b) => {
+          if(a[0] !== b[0]){
+            return a[0] - b[0];
+          }
+          return a[1] - b[1];
+        }));
         if((offsets[0][1] !== offsets[1][1]) || (offsets[0][0] !== offsets[1][0])){
           console.log(offsets);
           this.setState({currentHighlights: [{

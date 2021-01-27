@@ -10,7 +10,7 @@
 
 .feedcard-cont:hover{
     border-color: var(--blueglow);
-    box-shadow: 0 0 10px var(--blueglow);
+    box-shadow: 0 0 5px var(--blueglow);
 }
 
 .feedcard-exp-cont {
@@ -90,4 +90,8 @@
   display: flex;
   align-items: center;
   margin: 0px 10px;
+}
+
+.reading-para{
+  margin: 10px 0px;
 }
