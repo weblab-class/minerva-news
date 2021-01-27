@@ -18,7 +18,7 @@ class NavBar extends React.Component {
             <>
               <div className="navbar-logo u-logo"> Minerva </div>
               <Link className="navbar-elm" to={"/"}> Home </Link>
-              <Link className="navbar-elm"> Profile </Link>
+              <Link className="navbar-elm" to={"/profile"}> Profile </Link>
               <button
                 onClick={this.props.handleLogout}
                 className="u-cute-button navbar-login"
