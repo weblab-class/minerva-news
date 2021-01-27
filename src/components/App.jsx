@@ -19,6 +19,9 @@ library.add(faHighlighter)
 
 class App extends React.Component {
   constructor(props) {
+    if (location.protocol !== 'https:') {
+      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+    }
     super(props);
     const retrieved = localStorage.getItem("userCollections");
     this.state = {
