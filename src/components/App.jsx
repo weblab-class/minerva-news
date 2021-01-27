@@ -7,7 +7,6 @@ import NavBar from "./modules/NavBar.jsx";
 import Landing from "./pages/Landing.jsx"
 import Home from "./pages/Home.jsx";
 import Reading from "./pages/Reading.jsx";
-import Profile from "./pages/Profile.jsx"
 import NotFound from "./pages/NotFound.jsx";
 import { get, post } from "../utilities.js";
 
@@ -84,7 +83,6 @@ class App extends React.Component {
             <Router>
               <Home path="/" collections={this.state.userCollections} userId={this.state.userId}/>
               <Reading path="/reading/:newsId" userName={this.state.userName} userId={this.state.userId}/>
-              <Profile path="/profile" userName={this.state.userName} userPicture={this.state.userPicture}/>
               <NotFound default />
             </Router>
           ):(

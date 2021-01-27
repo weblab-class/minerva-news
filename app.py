@@ -100,7 +100,7 @@ def comments():
     ret = db.article_db.find_one({'id': flask.request.get_json()['newsId']})
     if not ret:
         return {}
-    commentsList = [{**v, 'id': k} for k, v in ret['comments'].items()] if 'comments' else []
+    commentsList = [{**v, 'id': k} for k, v in ret['comments'].items()] if 'comments' in ret else []
     return flask.jsonify(commentsList)
 
 

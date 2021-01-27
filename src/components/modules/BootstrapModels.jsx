@@ -101,3 +101,8 @@ export function InfoModalIcon(props) {
     </>
   );
 }
+
+
+export function ProfileModal(props) {
+  
+}
