@@ -30,11 +30,15 @@ class Reading extends React.Component {
         highlightMode: false,
         currentHighlights: [],
         highlightColor: null,
+        highlightText: "None",
     }
     this.defaultAnnotations = [
-        {text: "Incorrect Facts", backgroundColor: "red"},
-        {text: "Strong Sentiment", backgroundColor: "blue"},
-        {text: "General Highlight", backgroundColor: "yellow"},
+        {text: "General Highlight", backgroundColor: "#FDF2CC"},
+        {text: "Great Reporting", backgroundColor: "#E1F8DC"},
+        {text: "Incorrect Facts", backgroundColor: "#F4C2C2"},
+        {text: "Biased Sentiment", backgroundColor: "#B0E1E2"},
+        {text: "Misleading", backgroundColor: "#F9B2EF"},
+        {text: "Lack of Context", backgroundColor: "#DCD0FF"},
     ]
   }
 
@@ -53,11 +57,13 @@ class Reading extends React.Component {
     }
   }
 
-  changeHighlightColor = (color) => {
+  changeHighlightColor = (color, text) => {
     if (this.state.highlightColor == color){
       this.setState({highlightColor: null});
+      this.setState({highlightText: "None"})
     }else{
       this.setState({highlightColor: color});
+      this.setState({highlightText: text})
     }
   }
 
@@ -69,7 +75,7 @@ class Reading extends React.Component {
     e.stopPropagation();
     const parserOffset = 11; //react-html-parser introduces an offset of 11, will switch to a different method in constructing span in the future
     console.log("mouse released");
-    if(window.getSelection){
+    if(window.getSelection && this.state.highlightColor){
       const sel = window.getSelection();
       console.log(sel.anchorNode.parentElement)
       console.log(sel.focusNode.parentElement)
@@ -159,7 +165,7 @@ class Reading extends React.Component {
                   to post an annotation on the region you selected. Try it out!
                   <br></br>
                   <br></br>
-                  You have currently selected: {this.state.highlightColor}.
+                  You have currently selected: {this.state.highlightText}.
                 </>
               )}
             />            
@@ -170,7 +176,7 @@ class Reading extends React.Component {
               <AnnotationCard {...annotation} 
                 id = {`default${i}`} 
                 key = {i} 
-                changeColor = {() => this.changeHighlightColor(annotation.backgroundColor)}
+                changeColor = {() => this.changeHighlightColor(annotation.backgroundColor, annotation.text)}
                 clickable = {true}
                 selected = {(this.state.highlightColor == annotation.backgroundColor)}
               />
@@ -190,7 +196,8 @@ class Reading extends React.Component {
           show={this.state.highlightMode}
           setshow={this.setHighlightMode}
           id="highlighing modal"
-          placeholder = "Write a comment"
+          heading="Create Annotation"
+          placeholder = "What do you think?"
           rows="6"
           postfunc = {this.submitComment}
           />

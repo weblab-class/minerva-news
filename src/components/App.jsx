@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, navigate } from "@reach/router";
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHighlighter } from '@fortawesome/free-solid-svg-icons'
+import { faHighlighter, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 import NavBar from "./modules/NavBar.jsx";
 import Landing from "./pages/Landing.jsx"
