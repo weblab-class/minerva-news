@@ -101,14 +101,18 @@ First, Minerva is built upon tags-- keywords from a piece of text. Although one 
 to do much, frequency distributions have many nice properties which we exploit to yield maximum performance.
 
 ### Tag Extraction
-We now discuss how to extract tags from text. We utilize an industrial-grade nlp library, [spacy](https://spacy.io/),
-to preprocess the text; from which we obtain word tokenization, parts-of-speech, and word lemmatization. We
-consider proper and improper nouns only, since verbs, adverbs, and adjectives are often used subjectively
-and generally can apply to anything,
-
+We now discuss how to extract tags from text. We utilize an industrial-grade nlp library, [spacy](https://spacy.io/), to preprocess the text; from which we obtain word tokenization, parts-of-speech, and word lemmatization. We consider proper and improper nouns only, since verbs, adverbs, and adjectives are often used subjectively and generally can apply to anything. We then filter out a list of noun stopwords which we gratefully obtained from https://github.com/isaacg1/words. From this, we choose the most frequently occurring proper nouns and nouns as tags for the article. Lastly, we split the compound words and convert everything to lower case so that our tag search is case-insensitive.
 
 ### Article Category Classification
+We categorize articles and update the categories on a daily basis via an algorithm inspired by K-means, in order to keep our categories up to date with the changing events. We have 7 clusters with fixed labels, and have manually tagged some 100 articles into these clusters as a starting point. The news articles are represented as frequency dictionaries of the lemmas of nouns and pronouns (as in the tagging algorithm).  We thus have an embedding of all news articles into a Euclidean space. The categories are represented by the “centroid” of its news articles, i.e., a dictionary which, for each lemma, saves the average frequency which it occurs in its news. 
+Each day, using newly scraped news on the day of, we complete 1 iteration of our categorizing algorithm, which has 2 steps.
+Step 1: Classification. 
+For every new article, we classify it based on which category has a closer cosine distance to it. Specifically, if the news article is represented as a dictionary {k: n_k}, where k ranges through all lemmas in the news article, and a category is represented as {k: c_k}, then the distance is set as sum(n_kc_k)/sqrt(sum(n_k^2)sum(c_k^2)).
+Step 2: Re-assignment:
+For each cluster, we delete the old news in it, then reassign its value to the average of the frequency dicts of all the news it now contains. This will keep the categories gradually updated from day to day and keep up with the changing events.
 
 ### Information Clustering and Main Idea Extraction
+For generating the summaries, we have a second layer of clustering to make more specific clusters by main ideas and generate more comprehensive summaries overall. For this we apply K-means on each category obtained above. The news are again represented as frequency dictionaries of word lemma. However, in order to fully utilize our data, we have included verbs, adverbs and adjectives, in addition to nouns and pronouns. We filter these words against a list of stopwords, gratefully obtained from... to obtain the freq dict for each news. We have chosen to set the clusters to have an average size of 12 articles each.
 
 ### Summary Generation
+To generate the summary from each subcluster, we join them together as a string, and put it as an input to Google’s Pegasus-CNN_Dailymail model. We then make some minor changes to the output to remove excessive punctuations to obtain the summaries we display. Lastly, we run the tagging algorithm again on the obtained summaries, except without splitting compound proper nouns, to obtain the tags for each summary.
