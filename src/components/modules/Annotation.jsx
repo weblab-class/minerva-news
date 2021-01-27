@@ -13,10 +13,10 @@ class AnnotationCard extends React.Component {
         <div className="reading-ann-cont">
           <div className="reading-ann-box"
             style={{
-              backgroundColor: this.props.showHighlight?"green":this.props.backgroundColor,
+              backgroundColor: this.props.selected?"green":this.props.backgroundColor,
               cursor: this.props.clickable?"pointer":"default",
             }}
-            onClick={this.props.toggleAnnotation}
+            onClick={this.props.changeColor}
           />
           <div className="reading-ann-text">
             {this.props.text}

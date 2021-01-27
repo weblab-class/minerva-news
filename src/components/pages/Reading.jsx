@@ -29,10 +29,12 @@ class Reading extends React.Component {
         commentOwnerNames: ["System"],
         highlightMode: false,
         currentHighlights: [],
+        highlightColor: null,
     }
     this.defaultAnnotations = [
         {text: "Incorrect Facts", backgroundColor: "red"},
         {text: "Strong Sentiment", backgroundColor: "blue"},
+        {text: "General Highlight", backgroundColor: "yellow"},
     ]
   }
 
@@ -48,6 +50,14 @@ class Reading extends React.Component {
     else {
       this.setState({annotationsShown: [commentId]});
       //this.setState({annotationsShown: this.state.annotationsShown.concat([annotationId])})
+    }
+  }
+
+  changeHighlightColor = (color) => {
+    if (this.state.highlightColor == color){
+      this.setState({highlightColor: null});
+    }else{
+      this.setState({highlightColor: color});
     }
   }
 
@@ -71,7 +81,7 @@ class Reading extends React.Component {
           this.setState({currentHighlights: [{
             start: offsets[0] - parserOffset,
             end: offsets[1] - parserOffset,
-            color: "yellow",
+            color: this.state.highlightColor,
           }]}); /* for now we only restrict one span per highlight,
           can easily add more using concat(), but need to implement a binary search to remove duplicates*/
           this.setState({highlightMode: true});
@@ -158,7 +168,13 @@ class Reading extends React.Component {
           <div className="reading-annbox-cont u-greybox">
             <div className="reading-system-ann"> {
               this.defaultAnnotations.map((annotation, i) => (
-              <AnnotationCard {...annotation} id = {`default${i}`} key = {i}/>
+              <AnnotationCard {...annotation} 
+                id = {`default${i}`} 
+                key = {i} 
+                changeColor = {() => this.changeHighlightColor(annotation.backgroundColor)}
+                clickable = {true}
+                selected = {(this.state.highlightColor == annotation.backgroundColor)}
+              />
               ))
             }
           </div>
