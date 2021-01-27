@@ -17,6 +17,7 @@ import json
 import flask
 import time, datetime
 import re
+import random
 
 from server import auth
 from server import db
@@ -28,6 +29,16 @@ auth.login_manager.init_app(app)
 
 TODAY = str(datetime.date.today())
 YESTERDAY = str(datetime.date.today() - datetime.timedelta(days=1))
+
+with open('server/news_data/1-26/all_articles_cat.txt', 'r') as fin:
+    input = json.load(fin)
+    IDS_BY_CAT = {}
+    for _, v in input.items():
+        cat, id = v['cat'], v['id']
+        if cat not in IDS_BY_CAT:
+            IDS_BY_CAT[cat] = []
+        IDS_BY_CAT[cat].append(id)
+
 
 @app.route('/')
 def index():
@@ -46,20 +57,26 @@ def tag_suggestions():
 @app.route('/api/feed', methods = ['POST'])
 def get_newsids():
     tags = flask.request.get_json()['tags']
+    if len(tags) == 0:
+        all_ids = db.article_db.distinct('id')
+        return flask.jsonify(all_ids)
+
+    # check for collection query
+    check = tags[0].split('@')
+    if check[0] == 'LABELHACK':
+        return flask.jsonify(IDS_BY_CAT[check[1].lower()])
+
     # tags are all lowercased and compound words split
     processed_tags = []
     for t in tags:
         if "covid" in t.lower() or "coronavirus" in t.lower():
-            processed_tags.extend(['covid', 'coronavirus'])
+            processed_tags.extend(['covid', 'coronavirus', 'covid-19'])
         else:
             processed_tags.extend(re.split(r' |-', t.strip().lower()))
     processed_tags = list(set(processed_tags))
+    related_ids = db.article_db.distinct('id', {'tags': {'$in': processed_tags}})
 
-    if len(tags) == 0:
-        all_ids = db.article_db.distinct('id')
-    else:
-        all_ids = db.article_db.distinct('id', {'tags': {'$all': processed_tags}})
-    return flask.jsonify(all_ids)
+    return flask.jsonify(related_ids)
 
 
 @app.route('/api/news', methods=['POST'])

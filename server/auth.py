@@ -35,19 +35,15 @@ def load_user(id):
 ''' Client Authentication Routes '''
 client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 
-with open('news_data/1-26/all_articles_cat_freq.txt') as fin:
-    input = json.load(fin)
-    imgRef = {
-        'US': 'US.png',
-        'World': 'UN.png',
-        'Politics': 'USCapitol.png',
-        'Health': 'MedBox.png',
-        'Science & Tech': 'Lab.png',
-        'Business': 'MoneyBag.png',
-        'Sports & Entertainment': 'Badminton.png'
-    }
-    DEFAULT_COLLECTIONS = {cat: {'img': imgRef[cat], 'tags': list(input[cat]['dist'].keys())} for cat in input.keys()}
-
+DEFAULT_COLLECTIONS = {
+    'US': {'img': 'US.png', 'tags': ['LABELHACK@us']},
+    'World': {'img': 'UN.png', 'tags': ['LABELHACK@world']},
+    'Politics': {'img': 'USCapitol.png', 'tags': ['LABELHACK@politics']},
+    'Health': {'img': 'MedBox.png', 'tags': ['LABELHACK@Health']},
+    'Science & Tech': {'img': 'Lab.png', 'tags': ['LABELHACK@science & tech']},
+    'Business': {'img': 'MoneyBag.png', 'tags': ['LABELHACK@business']},
+    'Sports & Entmt': {'img': 'Badminton.png', 'tags': ['LABELHACK@sports & entertainment']}
+}
 
 @auth_api.route('/whoami')
 def loggedin():

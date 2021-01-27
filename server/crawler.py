@@ -10,7 +10,7 @@ if os.environ.get('DEPLOY') != 'HEROKU':
     os.environ['MONGO_ATLAS_SRV']      = env[2]
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-    
+
 import re
 import json
 import random
@@ -283,8 +283,13 @@ if __name__ == '__main__':
     random.shuffle(articles)
     save_articles(articles, 'news_data/1-26/all_articles.txt')
     '''
-    articles = load_articles('news_data/1-26/all_articles_with_tags.txt')
+    articles = [a for a in load_articles('news_data/1-26/all_articles_with_tags.txt') if a.source != 'latimes']
+    random.shuffle(articles)
+    random.shuffle(articles)
+    for article in articles:
+        article.id = str(time.time()).replace('.', '')
     add_articles_to_db(articles)
+    save_articles(articles, 'news_data/1-26/all_articles_with_tags.txt')
 
 
 

@@ -7,7 +7,7 @@ import { get, post } from "../../utilities.js";
 import "../../utilities.css";
 import "./Feed.css"
 
-const NUM_ARTICLES = 10;
+const NUM_ARTICLES = 25;
 
 class Feed extends React.Component {
   constructor(props) {
@@ -138,7 +138,7 @@ export class FeedCard extends React.Component {
           var chunk_e = text_chunks[highLightObj.end[0]];
           offset = `<div id=reading-para-${highLightObj.end[0].toString()}>`.length;
           all_slices = all_slices.concat(this.add_span(chunk_e, 0, highLightObj.end[1], color, offset))
-        } 
+        }
         last_chunk_index = highLightObj.end[0] + 1
       });
       text_chunks.slice(last_chunk_index).forEach((chunk) => {
