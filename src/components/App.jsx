@@ -30,7 +30,7 @@ class App extends React.Component {
       userEmail: localStorage.getItem("userEmail"),
       userPicture: localStorage.getItem("userPicture"),
       userCollections: retrieved ? JSON.parse(retrieved) : [],
-      //loggingIn: localStorage.getItem("loggingIn"),
+      loggingIn: localStorage.getItem("loggingIn"),
     };
   }
 
@@ -57,7 +57,7 @@ class App extends React.Component {
     get('/api/login').then((res) => {
       //console.log(localStorage.getItem("loggingIn"));
       //console.log(res);
-      //localStorage.setItem("loggingIn", "YES"); //  'welcomes' redirect from server
+      localStorage.setItem("loggingIn", "YES"); //  'welcomes' redirect from server
       navigate(res.request_uri);
     });
   };
@@ -98,7 +98,11 @@ class App extends React.Component {
               </Router>
             ):(
               <>
-                <Landing default handleLogin={this.handleLogin}/>
+                { this.state.loggingIn ? (
+                  <div/>
+                ) : (
+                  <Landing default handleLogin={this.handleLogin}/>
+                )}
               </>
             )}
           </div>
