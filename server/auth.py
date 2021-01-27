@@ -48,8 +48,7 @@ DEFAULT_COLLECTIONS = {
 
 @auth_api.route('/whoami')
 def loggedin():
-    user = {"print": time.time()}
-    print("AKSJGFGKASFGK")
+    user = {}
     if flask_login.current_user.is_authenticated:
         user = json.loads(flask_login.current_user.query_db_entry())
         user['collections'] = DEFAULT_COLLECTIONS
@@ -112,7 +111,6 @@ def callback():
 
     if os.environ.get('DEPLOY') != 'HEROKU':
         return flask.redirect('http://localhost:5000/')
-    print("BBBBBBB")
     return flask.redirect('https://minerva-news.herokuapp.com/')
 
 
@@ -123,4 +121,4 @@ def logout():
     return flask.jsonify('Success')
 
 if __name__ == "__main__":
-    print("Auth")
+    pass
