@@ -99,7 +99,7 @@ def callback():
     flask_login.login_user(user)
 
     if os.environ.get('DEPLOY') != 'HEROKU':
-        return flask.redirect('http://localhost:5000/')
+        return flask.redirect('http://localhost:3000/')
     return flask.redirect('https://minerva-news.herokuapp.com/')
 
 

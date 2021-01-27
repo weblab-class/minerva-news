@@ -1,13 +1,14 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { Container, Row, Col } from 'react-bootstrap';
 
 /*
 Usage:
   const [show, setshow] = React.useState(false);
   return (
     <>
-      <button onClick={() => setshow(true)}>Trigger/Replace with highlight mouse up</button>
+      <button onClick={() => setshow(true)}> Trigger/Replace with highlight mouse up</button>
       <InputModal
         show={show}
         setshow={setshow}
@@ -104,5 +105,32 @@ export function InfoModalIcon(props) {
 
 
 export function ProfileModal(props) {
-  
+  const style = {
+    display: 'flex',
+    padding: '0 0 0 10px',
+  };
+  return (
+    <Modal
+      show={props.show}
+      onHide={() => props.setshow(false)}
+      aria-labelledby="contained-modal-title-vcenter"
+      size="md"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Me</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="show-grid">
+        <Container>
+          <Row>
+            <Col xs={3} md={3}>
+              <img src={props.userPicture}/>
+            </Col>
+            <Col xs={9} md={9}>
+              <b>Name</b>: {props.userName} <br></br> <b>User Email</b>: {props.userEmail}
+            </Col>
+          </Row>
+        </Container>
+      </Modal.Body>
+    </Modal>
+  )
 }

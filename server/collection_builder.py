@@ -53,7 +53,7 @@ def classify(article, cat_freq):
     return max(accum, key=accum.get)
     '''
     freq = make_counter(article)
-    print(freq)
+
     max_score, best_cat = 0, None
     for cat in cat_freq.keys():
         dist = cat_freq[cat]['dist']
@@ -63,6 +63,7 @@ def classify(article, cat_freq):
         if score > max_score:
             best_cat = cat
             max_score = score
+
     print(accum)
     return best_cat
 
@@ -164,7 +165,7 @@ def build_dist(articles_path, labels_path, cat_freq_path):
 
 
 if __name__ == '__main__':
-    day = 22
+    day = 24
     '''
     build_dist('news_data/1-'+str(day)+'/cnn_with_tags.txt',
                'news_data/1-'+str(day)+'/cnn_cat.txt',

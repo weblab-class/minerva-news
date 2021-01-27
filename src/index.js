@@ -8,7 +8,7 @@ import App from "./components/App.jsx";
 ReactDOM.render(<App />, document.getElementById("root"));
 
 /*
-import { InputModal, InfoModalIcon } from "./components/modules/BootstrapModels.jsx"
+import { InputModal, InfoModalIcon, ProfileModal } from "./components/modules/BootstrapModels.jsx"
 
 function Playground() {
 

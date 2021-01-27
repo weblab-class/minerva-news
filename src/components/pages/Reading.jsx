@@ -139,7 +139,7 @@ class Reading extends React.Component {
         <div className="reading-sidebar u-greybox">
           <div className="u-title-with-icon">
             <h3 style={{gridArea:"title", whiteSpace: "nowrap"}}>Annotation Toolbox</h3>
-            <InfoModalIcon 
+            <InfoModalIcon
               heading="Writing Annotation"
               text={(
                 <>
@@ -152,7 +152,7 @@ class Reading extends React.Component {
                   You have currently selected: {this.state.highlightColor}.
                 </>
               )}
-            />            
+            />
           </div>
           <div className="reading-annbox-cont u-greybox">
             <div className="reading-system-ann"> {
@@ -173,7 +173,7 @@ class Reading extends React.Component {
         <InputModal
           show={this.state.highlightMode}
           setshow={this.setHighlightMode}
-          id="highlighing modal"
+          id="highlighting-modal"
           placeholder = "Write a comment"
           rows="6"
           postfunc = {this.submitComment}

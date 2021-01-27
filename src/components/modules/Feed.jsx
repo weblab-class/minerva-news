@@ -7,6 +7,7 @@ import { get, post } from "../../utilities.js";
 import "../../utilities.css";
 import "./Feed.css"
 
+const NUM_ARTICLES = 10;
 
 class Feed extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class Feed extends React.Component {
     }
     post("/api/feed", {tags: this.props.tags}).then((newsIds) => {
       this.setState({newsIds:newsIds});
-      post("/api/news", {"newsIds": newsIds.slice(0, Math.min(5, newsIds.length))}).then((newsObjs) => {
+      post("/api/news", {"newsIds": newsIds.slice(0, Math.min(NUM_ARTICLES, newsIds.length))}).then((newsObjs) => {
         this.setState({newsObjs: newsObjs});
         this.props.setFeedLoaded();
       });
@@ -48,7 +49,7 @@ class Feed extends React.Component {
     if (cur_length == tot_length) {
       this.setState({hasMore: false});
     } else {
-      post('/api/news', {"newsIds": this.state.newsIds.slice(cur_length, Math.min(cur_length + 5, tot_length))}).then((newsObjs) => {
+      post('/api/news', {"newsIds": this.state.newsIds.slice(cur_length, Math.min(cur_length + NUM_ARTICLES, tot_length))}).then((newsObjs) => {
         this.setState({newsObjs: this.state.newsObjs.concat(newsObjs)});
       });
     }

@@ -22,6 +22,14 @@
    color: var(--white);
 }
 
+.navbar-btn {
+  border: none;
+  border-radius: 50%;
+  height: 33px;
+  width: 33px;
+  margin: 0 var(--xxl) 0 var(--xs);
+}
+
 .navbar-logo {
   font-size: 30px;
   flex-grow: 1;

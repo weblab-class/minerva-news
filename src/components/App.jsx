@@ -20,10 +20,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     const retrieved = localStorage.getItem("userCollections");
-    console.log(this.state ? "ASKJD" : "BBB");
     this.state = {
       userId: localStorage.getItem("userId"),
       userName: localStorage.getItem("userName"),
+      userEmail: localStorage.getItem("userEmail"),
       userPicture: localStorage.getItem("userPicture"),
       userCollections: retrieved ? JSON.parse(retrieved) : [],
       loggingIn: localStorage.getItem("loggingIn"),
@@ -37,11 +37,13 @@ class App extends React.Component {
           this.setState({
             userId: res.id,
             userName: res.name,
+            userEmail: res.email,
             userPicture: res.picture,
             userCollections: res.collections,
           });
           localStorage.setItem("userId", res.id);
           localStorage.setItem("userName", res.name);
+          localStorage.setItem("userEmail", res.email);
           localStorage.setItem("userPicture", res.picture);
           localStorage.setItem("userCollections", JSON.stringify(res.collections));
         }
@@ -60,6 +62,7 @@ class App extends React.Component {
     this.setState({
       userId: undefined,
       userName: undefined,
+      userEmail: undefined,
       userPicture: undefined,
       userCollections: undefined,
       loggingIn: undefined,
@@ -77,6 +80,9 @@ class App extends React.Component {
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
           userId={this.state.userId}
+          userName={this.state.userName}
+          userEmail={this.state.userEmail}
+          userPicture={this.state.userPicture}
         />
         <div className="app-page">
           {this.state.userId ? (
