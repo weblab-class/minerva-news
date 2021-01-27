@@ -66,7 +66,7 @@ class CommentCard extends React.Component {
       >
         <div>
           <p className="commentcard-texts">
-            <b>{this.props.ownerName || this.state.ownerName} |</b> {this.props.addCommentSuggestive||this.props.content}
+            <b>{this.props.ownerName} |</b> {this.props.addCommentSuggestive||this.props.content}
           </p>
         </div> {
           this.props.addCommentButtons || (

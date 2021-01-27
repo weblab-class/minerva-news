@@ -27,7 +27,7 @@ app.register_blueprint(auth.auth_api, url_prefix='/api')
 auth.login_manager.init_app(app)
 
 TODAY = str(datetime.date.today())
-COMMON = db.common_db.find_one({'date': TODAY})
+YESTERDAY = str(datetime.date.today() - datetime.timedelta(days=1))
 
 @app.route('/')
 def index():
@@ -36,7 +36,10 @@ def index():
 
 @app.route('/api/tagsuggest', methods=['GET'])
 def tag_suggestions():
-    popular = COMMON['popular']
+    common = db.common_db.find_one({'date': TODAY})
+    if common == None:
+        common = db.common_db.find_one({'date': YESTERDAY})
+    popular = common['popular']
     return flask.jsonify(popular)
 
 
@@ -46,7 +49,10 @@ def get_newsids():
     # tags are all lowercased and compound words split
     processed_tags = []
     for t in tags:
-        processed_tags.extend(re.split(r' |-', t.strip().lower()))
+        if "covid" in t.lower() or "coronavirus" in t.lower():
+            processed_tags.extend(['covid', 'coronavirus'])
+        else:
+            processed_tags.extend(re.split(r' |-', t.strip().lower()))
     processed_tags = list(set(processed_tags))
 
     if len(tags) == 0:

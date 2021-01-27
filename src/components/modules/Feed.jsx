@@ -130,16 +130,16 @@ export class FeedCard extends React.Component {
         }else{
           var chunk_s = text_chunks[highLightObj.start[0]];
           var offset = `<div id=reading-para-${highLightObj.start[0].toString()}>`.length;
-          all_slices = all_slices.concat(this.add_span(chunk_s, highLightObj.start[1] + offset, -1, color, 0))
+          all_slices = all_slices.concat(this.add_span(chunk_s, highLightObj.start[1] + offset, null, color, 0))
           text_chunks.slice(highLightObj.start[0] + 1, highLightObj.end[0]).forEach((chunk, index) => {
             var offset = `<div id=reading-para-${(highLightObj.start[0] + index + 1).toString()}>`.length;
-            all_slices = all_slices.concat(this.add_span(chunk, offset, -1, color, 0))
+            all_slices = all_slices.concat(this.add_span(chunk, offset, null, color, 0))
           })
           var chunk_e = text_chunks[highLightObj.end[0]];
           offset = `<div id=reading-para-${highLightObj.end[0].toString()}>`.length;
           all_slices = all_slices.concat(this.add_span(chunk_e, 0, highLightObj.end[1], color, offset))
         } 
-        last_chunk_index = highLightObj.end[0]
+        last_chunk_index = highLightObj.end[0] + 1
       });
       text_chunks.slice(last_chunk_index).forEach((chunk) => {
         all_slices.push(chunk + "</div>")
@@ -150,6 +150,9 @@ export class FeedCard extends React.Component {
   }
 
   add_span = (text, start, end, style, offset) => {
+    if(end === null){
+      end = text.length - offset
+    }
     var all_slices = []
     all_slices.push(text.slice(0, start+offset));
     all_slices.push(`<span style="backgroundColor:${style};">`);
@@ -192,12 +195,12 @@ export class FeedCard extends React.Component {
 
   text_to_el = (text) => {
     return this.props.highlightMode?parse(
-      `<p
+      `<div
           id=reading-body
           class=feedcard-content
         >
         ${text}
-      </p>`
+      </div>`
     ):(
       <div onMouseUp={this.props.onMouseUp} onMouseDown={this.props.deselectAnnotations}>
       {parse(

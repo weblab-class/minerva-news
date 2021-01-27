@@ -17,7 +17,7 @@ class Reading extends React.Component {
     const systemComment = {
       id: "System Annotations",
       ownerName: "System",
-      content: "System annotations helps you flag the parts of news which our fact checker has deemed problematic.",
+      content: "COMING SOON: System annotations helps you flag the parts of news which our fact checker has deemed problematic.",
       annotations: [],
       annotationText: "Show System Annotations",
     }
@@ -75,12 +75,11 @@ class Reading extends React.Component {
     e.stopPropagation();
     const parserOffset = 11; //react-html-parser introduces an offset of 11, will switch to a different method in constructing span in the future
     console.log("mouse released");
-    if(window.getSelection && this.state.highlightColor){
+    if(window.getSelection){
       const sel = window.getSelection();
-      console.log(sel.anchorNode.parentElement)
-      console.log(sel.focusNode.parentElement.id)
       if(sel.anchorNode.parentElement && sel.anchorNode.parentElement.id.slice(0, 13) == "reading-para-"
-          && sel.focusNode.parentElement && sel.anchorNode.parentElement.id.slice(0, 13) == "reading-para-"){
+          && sel.focusNode.parentElement && sel.focusNode.parentElement.id.slice(0, 13) == "reading-para-"
+          && this.state.highlightColor){
         console.log("selected");
         const offsets = [[parseInt(sel.anchorNode.parentElement.id.slice(13)),sel.anchorOffset], 
         [parseInt(sel.focusNode.parentElement.id.slice(13)), sel.focusOffset]];
@@ -108,7 +107,7 @@ class Reading extends React.Component {
       this.setState({commentObjs: [this.state.systemComment].concat(commentObjs)});
       return post('/api/user', {ids: commentObjs.map(commentObj => commentObj.ownerId)});
     }).then((res) => {
-      this.setState({commentOwnerNames: ['system'].concat(res.map(userObj => userObj.userName))});
+      this.setState({commentOwnerNames: ['System'].concat(res.map(userObj => userObj.userName))});
     });
   }
 
