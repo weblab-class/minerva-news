@@ -107,7 +107,7 @@ def callback():
 @flask_login.login_required
 def logout():
     flask_login.logout_user()
-    return 'Success'
+    return flask.jsonify('Success')
 
 if __name__ == "__main__":
     print("Auth")

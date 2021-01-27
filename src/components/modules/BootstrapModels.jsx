@@ -31,7 +31,9 @@ export function InputModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton/>
+      <Modal.Header closeButton>
+        <Modal.Title>{props.heading}</Modal.Title>
+      </Modal.Header>
       <Modal.Body>
         <div className="input-group">
           <textarea

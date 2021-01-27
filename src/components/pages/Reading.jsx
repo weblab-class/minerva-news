@@ -29,10 +29,16 @@ class Reading extends React.Component {
         commentOwnerNames: ["System"],
         highlightMode: false,
         currentHighlights: [],
+        highlightColor: null,
+        highlightText: "None",
     }
     this.defaultAnnotations = [
-        {text: "Incorrect Facts", backgroundColor: "red"},
-        {text: "Strong Sentiment", backgroundColor: "blue"},
+        {text: "General Highlight", backgroundColor: "#FDF2CC"},
+        {text: "Great Reporting", backgroundColor: "#E1F8DC"},
+        {text: "Incorrect Facts", backgroundColor: "#F4C2C2"},
+        {text: "Biased Sentiment", backgroundColor: "#B0E1E2"},
+        {text: "Misleading", backgroundColor: "#F9B2EF"},
+        {text: "Lack of Context", backgroundColor: "#DCD0FF"},
     ]
   }
 
@@ -51,6 +57,16 @@ class Reading extends React.Component {
     }
   }
 
+  changeHighlightColor = (color, text) => {
+    if (this.state.highlightColor == color){
+      this.setState({highlightColor: null});
+      this.setState({highlightText: "None"})
+    }else{
+      this.setState({highlightColor: color});
+      this.setState({highlightText: text})
+    }
+  }
+
   deselectAnnotations = () => {
     this.setState({annotationsShown: []})
   }
@@ -59,7 +75,7 @@ class Reading extends React.Component {
     e.stopPropagation();
     const parserOffset = 11; //react-html-parser introduces an offset of 11, will switch to a different method in constructing span in the future
     console.log("mouse released");
-    if(window.getSelection){
+    if(window.getSelection && this.state.highlightColor){
       const sel = window.getSelection();
       console.log(sel.anchorNode.parentElement)
       console.log(sel.focusNode.parentElement)
@@ -71,7 +87,7 @@ class Reading extends React.Component {
           this.setState({currentHighlights: [{
             start: offsets[0] - parserOffset,
             end: offsets[1] - parserOffset,
-            color: "yellow",
+            color: this.state.highlightColor,
           }]}); /* for now we only restrict one span per highlight,
           can easily add more using concat(), but need to implement a binary search to remove duplicates*/
           this.setState({highlightMode: true});
@@ -149,7 +165,7 @@ class Reading extends React.Component {
                   to post an annotation on the region you selected. Try it out!
                   <br></br>
                   <br></br>
-                  You have currently selected: {this.state.highlightColor}.
+                  You have currently selected: {this.state.highlightText}.
                 </>
               )}
             />
@@ -157,7 +173,13 @@ class Reading extends React.Component {
           <div className="reading-annbox-cont u-greybox">
             <div className="reading-system-ann"> {
               this.defaultAnnotations.map((annotation, i) => (
-              <AnnotationCard {...annotation} id = {`default${i}`} key = {i}/>
+              <AnnotationCard {...annotation}
+                id = {`default${i}`}
+                key = {i}
+                changeColor = {() => this.changeHighlightColor(annotation.backgroundColor, annotation.text)}
+                clickable = {true}
+                selected = {(this.state.highlightColor == annotation.backgroundColor)}
+              />
               ))
             }
           </div>
@@ -173,8 +195,9 @@ class Reading extends React.Component {
         <InputModal
           show={this.state.highlightMode}
           setshow={this.setHighlightMode}
-          id="highlighting-modal"
-          placeholder = "Write a comment"
+          id="highlighting modal"
+          heading="Create Annotation"
+          placeholder = "What do you think?"
           rows="6"
           postfunc = {this.submitComment}
           />

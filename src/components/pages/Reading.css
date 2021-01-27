@@ -11,7 +11,7 @@
   display: grid;
   height: 170px;
   grid-template: repeat(3, 1fr)/repeat(2, 1fr);
-  place-items: center center;
+  place-items: center start;
 }
 
 .reading-annbox-cont {
@@ -21,4 +21,6 @@
   border-top: none;
   border-left: none;
   border-right: none;
+  padding-left: 15px;
+  padding-bottom: 5px;
 }
