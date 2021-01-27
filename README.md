@@ -43,8 +43,6 @@ sh run.txt
 ```
 If some components exhibit weird behavior after correct bugs, try clearing browser cache etc...
 
-**Important: Please do not attempt to set up a proxy for the npm dev server. Authentication won't work unless frontend/backend are on same port.**
-
 ## Heroku Deployment
 Make sure you have Heroku CLI installed. We will be using gunicorn, python WSGI HTTP server,
 to serve the Flask application (specified in Procfile).
@@ -70,3 +68,27 @@ git commit -m {COMMIT_MESSAGE}
 git push heroku master
 ```
 Make sure to wait a little bit before accessing the website. Otherwise 1) it might not update or 2) freeze.
+
+## Minerva Frontend Interface
+
+## Minerva Backend Pipeline
+The backend is where all the heavy lifting occurs-- where nlp, machine learning, inference, and algorithms
+come together to make the information the user obtains in the frontend possible. Specifically, hundreds of recent news
+articles are scraped from many sources and relevant features are extracted/computed to yeild our tagging system,
+summarization system, and article grouping system.
+
+First, Minerva is built upon tags-- keywords from a piece of text. Although one tag usually isn't sufficient
+to do much, frequency distributions have many nice properties which we exploit to yield maximum performance.
+
+### Tag Extraction
+We now discuss how to extract tags from text. We utilize an industrial-grade nlp library, [spacy](https://spacy.io/),
+to preprocess the text; from which we obtain word tokenization, parts-of-speech, and word lemmatization. We
+consider proper and improper nouns only, since verbs, adverbs, and adjectives are often used subjectively
+and generally can apply to anything,
+
+
+### Article Category Classification
+
+### Information Clustering and Main Idea Extraction
+
+### Summary Generation
