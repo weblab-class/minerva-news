@@ -71,6 +71,26 @@ Make sure to wait a little bit before accessing the website. Otherwise 1) it mig
 
 ## Minerva Frontend Interface
 
+### Landing Page
+The landing page is only displayed for users who are not currently log in. To use the site, click “Start Reading” or “Login with Google”, then authenticate with your google account in the pop-up, and you’ll be automatically redirected to the home page.
+
+### Navigation Bar
+Use this bar to navigate around our site. Clicking on “Home” takes you to the home page. Clicking on the profile button will show a small modal of your profile picture and name. Finally, click the logout button to logout or switch users.
+
+### Information Modals
+Most of our components will have a small ? icon to the right of their titles. Clicking on it will open a modal describing in detail how to use the component.
+
+### Home Page
+The home page is where you can explore news. To see all news, just scroll down on the page to read the feed. Minerva provides 3 other components for exploring news. 
+On the left side is the collections sidebar, which offers a selection of 7 collections. Clicking on a collection will reload the feed with only the news categorized in the selected collection.
+On top of feed is the tag selection search box. Input tags by typing the word you’re interested in, adding the prefix #. You may also select tags by clicking on one of the selected tags. You may select more than one tag to search for a broader range of topics. Press Enter on the tag box to search. This will reload the feed with only the news relevant to at least 1 selected tag. Pressing Enter again on the same tags will randomly reshuffle the feed.
+On the right side is the summaries sidebar, where you can see the brief descriptions and tags of today’s main events. Our NLP pipeline automatically clusters the articles into small groups of around 12 news articles, then use them to generate a summary and the related tags.
+
+### Reading Page
+Our reading page allows you to read a single news article in detail and to interact with other users on Minerva through annotations. The main panel displays the news source, title and content. 
+On the top-right is the annotation toolbox, used for creating annotations. To create an annotation, select a color in the annotation toolbox by clicking on the colored circles, then select some text in the news content using your mouse. The text will then be highlighted with the chosen color for preview, and a modal will pop up to write a text comment associated with your highlight, and to submit or cancel the annotation. After you submitted, the annotation will show up on the comments section.
+On the right is the comment section, where you can view comments which other people have posted. Click on a comment to show its corresponding highlight.
+
 ## Minerva Backend Pipeline
 The backend is where all the heavy lifting occurs-- where nlp, machine learning, inference, and algorithms
 come together to make the information the user obtains in the frontend possible. Specifically, hundreds of recent news
