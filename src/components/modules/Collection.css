@@ -3,15 +3,21 @@
   width: var(--leftwidth);
   flex-shrink: 0;
   padding: 10px 0px;
+  background-color: var(--white);
 }
 
 .collection-list {
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .collection-card {
-  padding: 10px;
+  padding: 7px 10px;
+  margin: 3px 0px;
   display: flex;
+}
+
+.collection-card:hover {
+  background-color: var(--lightgrey);
 }
 
 .collection-text {
@@ -23,6 +29,7 @@
   display: flex;
   align-items: center;
   padding: 0px 10px;
+  background-color: transparent;
 }
 
 .collection-image {

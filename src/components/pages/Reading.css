@@ -23,4 +23,5 @@
   border-right: none;
   padding-left: 15px;
   padding-bottom: 5px;
+  background-color: var(--white);
 }

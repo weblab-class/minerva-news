@@ -61,7 +61,7 @@ class SummaryCard extends React.Component {
 
     render() {
       return (
-      <div className="u-greybox summarycard-cont">
+      <div className="u-greybox summarycard-cont u-card">
         <div className="summarycard-taglist"> {
           this.props.summaryObj.tags.map((tag) => (
             <div key={tag} className="summarycard-tag">

@@ -91,6 +91,7 @@ def summaries():
 def addcomments():
     form = flask.request.get_json()
     commentId = form['newsId'] + 'b' + str(time.time()).replace('.', '-')
+    print(commentId)
     db.article_db.find_one_and_update({'id': form['newsId']}, {'$set': {'comments.' + commentId: form}})
     return {'id': commentId}
 
@@ -101,12 +102,14 @@ def comments():
     if not ret:
         return {}
     commentsList = [{**v, 'id': k} for k, v in ret['comments'].items()] if 'comments' in ret else []
+    print(commentsList)
     return flask.jsonify(commentsList)
 
 
 @app.route('/api/user', methods=['POST'])
 def user():
     ids = flask.request.get_json()['ids']
+    print(ids)
     users = db.user_db.find({'id': {'$in': ids}}, {'name': 1, 'id': 1, '_id': 0})
     id2name = {user['id']: user['name'] for user in users}
     def formatUser(userId):

@@ -104,6 +104,7 @@ class App extends React.Component {
             )}
           </div>
         </div>
+        <div className="app-background"/>
       </>
     );
   }

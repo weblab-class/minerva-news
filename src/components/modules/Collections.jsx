@@ -67,9 +67,9 @@ class CollectionsCard extends React.Component {
 
   render() {
     return (
-      <div className="collection-card">
+      <div className="collection-card u-button" onClick={this.changeTags}>
         <img src={require(`../../assets/collectionIcons/${this.props.img}`).default} className="collection-image"></img>
-        <button className="u-plain-button collection-text" onClick={this.changeTags}>{this.props.name}</button>
+        <button className="u-plain-button collection-text">{this.props.name}</button>
       </div>
     );
   }
