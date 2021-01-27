@@ -53,8 +53,8 @@ class App extends React.Component {
   }
 
   handleLogin = (res) => {
-    localStorage.setItem("loggingIn", "YES"), //  'welcomes' redirect from server
     get('/api/login').then((res) => {
+      localStorage.setItem("loggingIn", "YES"); //  'welcomes' redirect from server
       navigate(res.request_uri);
     });
   };
