@@ -1,0 +1,13 @@
+.app-page{
+    margin: auto;
+}
+.app-background{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: calc(50vh - 100px);
+    background-image: url("../assets/siluoette_crop.png");
+    background-size: contain;
+    background-repeat: repeat;
+    z-index: -1;
+}

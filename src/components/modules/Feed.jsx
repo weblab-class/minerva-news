@@ -58,31 +58,32 @@ class Feed extends React.Component {
   render() {
     return (
       <div className="feed-box u-greybox">
-        {this.state.newsIds.length ? (
-          <InfiniteScroll
-            dataLength={this.state.newsObjs.length}
-            next={this.fetchMoreNews}
-            hasMore={this.state.hasMore}
-            loader={<h4></h4>}
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >{this.state.newsObjs.map((newsObj, index) => (
-            <FeedCard newsObj={newsObj} expanded={false} key={index}/>
-          ))}
-          </InfiniteScroll>
-        ):(
-          <>
-            {(this.props.tags.length && !this.props.feedLoading)? (
-              <p style={{ textAlign: "center" }}>
-                <b>No matching news found. Try with less tags</b>
-              </p>
-            ):(
-              <p></p>
-            )}
-          </>
+        {this.props.feedLoading?(<p></p>):
+          this.state.newsIds.length ? (
+            <InfiniteScroll
+              dataLength={this.state.newsObjs.length}
+              next={this.fetchMoreNews}
+              hasMore={this.state.hasMore}
+              loader={<h4></h4>}
+              endMessage={
+                <p style={{ textAlign: "center" }}>
+                  <b>Yay! You have seen it all</b>
+                </p>
+              }
+            >{this.state.newsObjs.map((newsObj, index) => (
+              <FeedCard newsObj={newsObj} expanded={false} key={index}/>
+            ))}
+            </InfiniteScroll>
+          ):(
+            <>
+              {(this.props.tags.length)? (
+                <p style={{ textAlign: "center" }}>
+                  <b>No matching news found. Try with less tags</b>
+                </p>
+              ):(
+                <p></p>
+              )}
+            </>
         )}
       </div>
     );
@@ -94,7 +95,6 @@ class Feed extends React.Component {
 export class FeedCard extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       highlighted_text: props.newsObj.body_text,
       //spanEndpoints: this.recalculateSpanEndpoints(props.annotations),
@@ -108,24 +108,60 @@ export class FeedCard extends React.Component {
 
   apply_highlight = () => {
     if(!this.props.annotations.length){
-      this.setState({highlighted_text: this.props.newsObj.body_text});
+      this.setState({highlighted_text: this.add_linebreaks(this.props.newsObj.body_text)});
     }
     else{
-      const text = this.props.newsObj.body_text;
+      const text = this.add_linebreaks(this.props.newsObj.body_text);
       var all_slices = []
+      const text_chunks = text.split("</div>").slice(0, -1)
       var last_index = 0
+      var last_chunk_index = 0
       this.props.annotations[0].forEach((highLightObj, index) => {
-        console.log(highLightObj)
-        all_slices.push(text.slice(last_index, highLightObj.start));
-        all_slices.push(`<span style="backgroundColor:${highLightObj.color};">`);
-        all_slices.push(text.slice(highLightObj.start, highLightObj.end));
-        all_slices.push("</span>");
-        last_index = highLightObj.end;
+        const color = highLightObj.color;
+        console.log(highLightObj.color)
+        text_chunks.slice(last_chunk_index, highLightObj.start[0]).forEach((chunk) => {
+          all_slices.push(chunk + "</div>")
+        });
+        if(highLightObj.start[0] == highLightObj.end[0]){
+          var chunk = text_chunks[highLightObj.start[0]];
+          var offset = `<div id=reading-para-${highLightObj.start[0].toString()}>`.length;
+          all_slices = all_slices.concat(this.add_span(chunk, highLightObj.start[1], highLightObj.end[1], color, offset));
+          console.log(JSON.parse(JSON.stringify(all_slices)))
+        }else{
+          var chunk_s = text_chunks[highLightObj.start[0]];
+          var offset = `<div id=reading-para-${highLightObj.start[0].toString()}>`.length;
+          all_slices = all_slices.concat(this.add_span(chunk_s, highLightObj.start[1] + offset, null, color, 0))
+          text_chunks.slice(highLightObj.start[0] + 1, highLightObj.end[0]).forEach((chunk, index) => {
+            var offset = `<div id=reading-para-${(highLightObj.start[0] + index + 1).toString()}>`.length;
+            all_slices = all_slices.concat(this.add_span(chunk, offset, null, color, 0))
+          })
+          var chunk_e = text_chunks[highLightObj.end[0]];
+          offset = `<div id=reading-para-${highLightObj.end[0].toString()}>`.length;
+          all_slices = all_slices.concat(this.add_span(chunk_e, 0, highLightObj.end[1], color, offset))
+        } 
+        last_chunk_index = highLightObj.end[0] + 1
       });
-      console.log(JSON.parse(JSON.stringify(all_slices)))
-      all_slices.push(text.slice(last_index));
+      text_chunks.slice(last_chunk_index).forEach((chunk) => {
+        all_slices.push(chunk + "</div>")
+      });
+      console.log(all_slices)
       this.setState({highlighted_text: (all_slices).join("")});
     }
+  }
+
+  add_span = (text, start, end, style, offset) => {
+    if(end === null){
+      end = text.length - offset
+    }
+    var all_slices = []
+    all_slices.push(text.slice(0, start+offset));
+    all_slices.push(`<span style="backgroundColor:${style};">`);
+    all_slices.push(text.slice(start+offset, end+offset));
+    all_slices.push("</span>");
+    all_slices.push(text.slice(end+offset))
+    all_slices.push("</div>")
+    console.log(JSON.parse(JSON.stringify(all_slices)))
+    return all_slices
   }
 
   sliceContent = (text) => {
@@ -146,21 +182,31 @@ export class FeedCard extends React.Component {
 
   doNothing = () => {}
 
+  add_linebreaks = (text) => {
+    var text_chunks = text.split("\n");
+    var all_slices = []
+    text_chunks.forEach((para, index) => {
+      all_slices.push(`<div id=reading-para-${index.toString()}>`)
+      all_slices.push(para)
+      all_slices.push("</div>")
+    });
+    return all_slices.join("");
+  }
+
   text_to_el = (text) => {
-    var vw = window.innerWidth;
     return this.props.highlightMode?parse(
-      `<p
+      `<div
           id=reading-body
           class=feedcard-content
         >
         ${text}
-      </p>`
+      </div>`
     ):(
       <div onMouseUp={this.props.onMouseUp} onMouseDown={this.props.deselectAnnotations}>
       {parse(
-        `<p id=reading-body class=feedcard-content>
+        `<div id=reading-body class=feedcard-content>
           ${text}
-        </p>`)}
+        </div>`)}
       </div>
     )
   }
@@ -174,7 +220,7 @@ export class FeedCard extends React.Component {
   render() {
     return (
       <div
-        className={`${this.props.expanded?"feedcard-exp-cont":"feedcard-cont"} u-greybox u-button`}
+        className={`${this.props.expanded?"feedcard-exp-cont":"feedcard-cont"} u-greybox u-button u-card`}
         onClick={this.props.expanded?this.doNothing:this.read}
       >
         <h3 className="feedcard-src">

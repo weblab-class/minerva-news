@@ -27,7 +27,7 @@ app.register_blueprint(auth.auth_api, url_prefix='/api')
 auth.login_manager.init_app(app)
 
 TODAY = str(datetime.date.today())
-COMMON = db.common_db.find_one({'date': TODAY})
+YESTERDAY = str(datetime.date.today() - datetime.timedelta(days=1))
 
 @app.route('/')
 def index():
@@ -36,7 +36,10 @@ def index():
 
 @app.route('/api/tagsuggest', methods=['GET'])
 def tag_suggestions():
-    popular = COMMON['popular']
+    common = db.common_db.find_one({'date': TODAY})
+    if common == None:
+        common = db.common_db.find_one({'date': YESTERDAY})
+    popular = common['popular']
     return flask.jsonify(popular)
 
 
@@ -46,7 +49,10 @@ def get_newsids():
     # tags are all lowercased and compound words split
     processed_tags = []
     for t in tags:
-        processed_tags.extend(re.split(r' |-', t.strip().lower()))
+        if "covid" in t.lower() or "coronavirus" in t.lower():
+            processed_tags.extend(['covid', 'coronavirus'])
+        else:
+            processed_tags.extend(re.split(r' |-', t.strip().lower()))
     processed_tags = list(set(processed_tags))
 
     if len(tags) == 0:
@@ -91,6 +97,7 @@ def summaries():
 def addcomments():
     form = flask.request.get_json()
     commentId = form['newsId'] + 'b' + str(time.time()).replace('.', '-')
+    print(commentId)
     db.article_db.find_one_and_update({'id': form['newsId']}, {'$set': {'comments.' + commentId: form}})
     return {'id': commentId}
 
@@ -101,12 +108,14 @@ def comments():
     if not ret:
         return {}
     commentsList = [{**v, 'id': k} for k, v in ret['comments'].items()] if 'comments' in ret else []
+    print(commentsList)
     return flask.jsonify(commentsList)
 
 
 @app.route('/api/user', methods=['POST'])
 def user():
     ids = flask.request.get_json()['ids']
+    print(ids)
     users = db.user_db.find({'id': {'$in': ids}}, {'name': 1, 'id': 1, '_id': 0})
     id2name = {user['id']: user['name'] for user in users}
     def formatUser(userId):

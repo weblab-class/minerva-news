@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound.jsx";
 import { get, post } from "../utilities.js";
 
 import "../utilities.css";
+import "./App.css";
 
 
 library.add(faHighlighter)
@@ -84,23 +85,26 @@ class App extends React.Component {
           userEmail={this.state.userEmail}
           userPicture={this.state.userPicture}
         />
-        <div className="app-page">
-          {this.state.userId ? (
-            <Router>
-              <Home path="/" collections={this.state.userCollections} userId={this.state.userId}/>
-              <Reading path="/reading/:newsId" userName={this.state.userName} userId={this.state.userId}/>
-              <NotFound default />
-            </Router>
-          ):(
-            <>
-              { this.state.loggingIn ? (
-                <div/>
-              ) : (
-                <Landing default handleLogin={this.handleLogin}/>
-              )}
-            </>
-          )}
+        <div className="app-full">
+          <div className="app-page">
+            {this.state.userId ? (
+              <Router>
+                <Home path="/" collections={this.state.userCollections} userId={this.state.userId}/>
+                <Reading path="/reading/:newsId" userName={this.state.userName} userId={this.state.userId}/>
+                <NotFound default />
+              </Router>
+            ):(
+              <>
+                { this.state.loggingIn ? (
+                  <div/>
+                ) : (
+                  <Landing default handleLogin={this.handleLogin}/>
+                )}
+              </>
+            )}
+          </div>
         </div>
+        <div className="app-background"/>
       </>
     );
   }

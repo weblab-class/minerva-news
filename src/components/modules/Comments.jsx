@@ -55,10 +55,9 @@ class CommentCard extends React.Component {
   }
 
   render() {
-    console.log(this.props.showHighlight);
     return (
       <div 
-        className="u-greybox commentcard-cont u-button" 
+        className="u-greybox commentcard-cont u-button u-card" 
         onClick={this.props.toggleAnnotation}
         style={this.props.showHighlight?{
           borderColor: "#9ecaed",
@@ -67,7 +66,7 @@ class CommentCard extends React.Component {
       >
         <div>
           <p className="commentcard-texts">
-            <b>{this.props.ownerName || this.state.ownerName} |</b> {this.props.addCommentSuggestive||this.props.content}
+            <b>{this.props.ownerName} |</b> {this.props.addCommentSuggestive||this.props.content}
           </p>
         </div> {
           this.props.addCommentButtons || (

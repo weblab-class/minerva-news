@@ -23,7 +23,7 @@ class Home extends React.Component {
     this.setState({tags: ["reload_delay_hack"], feedLoading: true});
     setTimeout(() => {
       this.setState({tags: tags});
-    }, 100);
+    }, 10);
   };
 
   setFeedLoaded = () => {

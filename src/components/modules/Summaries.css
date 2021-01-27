@@ -6,10 +6,15 @@
   flex-direction: column;
 }
 
+.summarycard-cont:hover{
+  border-color: var(--blueglow);
+  box-shadow: 0 0 10px var(--blueglow);
+}
+
 .summary-box {
   width: var(--rightwidth);
-  border-left: none;
   padding: 10px 15px;
+  margin-left: -1px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

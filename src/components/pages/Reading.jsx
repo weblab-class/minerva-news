@@ -17,7 +17,7 @@ class Reading extends React.Component {
     const systemComment = {
       id: "System Annotations",
       ownerName: "System",
-      content: "System annotations helps you flag the parts of news which our fact checker has deemed problematic.",
+      content: "COMING SOON: System annotations helps you flag the parts of news which our fact checker has deemed problematic.",
       annotations: [],
       annotationText: "Show System Annotations",
     }
@@ -75,18 +75,20 @@ class Reading extends React.Component {
     e.stopPropagation();
     const parserOffset = 11; //react-html-parser introduces an offset of 11, will switch to a different method in constructing span in the future
     console.log("mouse released");
-    if(window.getSelection && this.state.highlightColor){
+    if(window.getSelection){
       const sel = window.getSelection();
-      console.log(sel.anchorNode.parentElement)
-      console.log(sel.focusNode.parentElement)
-      if(sel.anchorNode.parentElement && sel.anchorNode.parentElement.id == "reading-body"
-          && sel.focusNode.parentElement && sel.anchorNode.parentElement.id == "reading-body"){
-        const offsets = [sel.anchorOffset, sel.focusOffset];
-        console.log(offsets.sort((a,b) => a-b));
-        if(offsets[0] !== offsets[1]){
+      if(sel.anchorNode.parentElement && sel.anchorNode.parentElement.id.slice(0, 13) == "reading-para-"
+          && sel.focusNode.parentElement && sel.focusNode.parentElement.id.slice(0, 13) == "reading-para-"
+          && this.state.highlightColor){
+        console.log("selected");
+        const offsets = [[parseInt(sel.anchorNode.parentElement.id.slice(13)),sel.anchorOffset], 
+        [parseInt(sel.focusNode.parentElement.id.slice(13)), sel.focusOffset]];
+        console.log(offsets.sort((a,b) => a[0]-b[0]));
+        if((offsets[0][1] !== offsets[1][1]) || (offsets[0][0] !== offsets[1][0])){
+          console.log(offsets);
           this.setState({currentHighlights: [{
-            start: offsets[0] - parserOffset,
-            end: offsets[1] - parserOffset,
+            start: offsets[0],
+            end: offsets[1],
             color: this.state.highlightColor,
           }]}); /* for now we only restrict one span per highlight,
           can easily add more using concat(), but need to implement a binary search to remove duplicates*/
@@ -105,7 +107,7 @@ class Reading extends React.Component {
       this.setState({commentObjs: [this.state.systemComment].concat(commentObjs)});
       return post('/api/user', {ids: commentObjs.map(commentObj => commentObj.ownerId)});
     }).then((res) => {
-      this.setState({commentOwnerNames: ['system'].concat(res.map(userObj => userObj.userName))});
+      this.setState({commentOwnerNames: ['System'].concat(res.map(userObj => userObj.userName))});
     });
   }
 
