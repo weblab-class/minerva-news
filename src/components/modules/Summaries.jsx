@@ -29,7 +29,7 @@ class Summaries extends React.Component {
             text={(
               <>
                 Everyday, Minerva sifts through hundreds of pieces of breaking news and summarizes
-                the day's key events as part of the Minerva document pipeline, which involves state-of-the-art
+                the day's key events as part of the Minerva document pipeline, which is based on state-of-the-art
                 deep learning. Fake/opinionated news is implicitly filtered out in the process,
                 and all sources are considered, so you can be sure you get an impartial and accurate understanding
                 of the world's happenings.

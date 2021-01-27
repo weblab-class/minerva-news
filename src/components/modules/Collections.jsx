@@ -36,8 +36,9 @@ class Collections extends React.Component {
             heading="How Collections work"
             text={(
               <>
-                A collection is really just a group of #topic #tags (albiet a massive group).
-                Minerva smartly adapts these tags based on current news as well as recent news.
+                A collection (aka topic group) is derived from a 'distribution' of tags related to the topic.
+                Minerva smartly adapts these tags based on recent news and then automatically sorts daily news
+                into the relevant collections.
                 <br></br>
                 Coming soon: you will be able to define your own tag groups for quick future reference :)
               </>
