@@ -100,7 +100,6 @@ class Reading extends React.Component {
       return post('/api/user', {ids: commentObjs.map(commentObj => commentObj.ownerId)});
     }).then((res) => {
       this.setState({commentOwnerNames: ['system'].concat(res.map(userObj => userObj.userName))});
-      console.log(this.state.commentOwnerNames);
     });
   }
 

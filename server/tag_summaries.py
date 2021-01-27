@@ -16,11 +16,9 @@ import spacy
 import json
 import en_core_web_sm
 import time
-import db
 from db import Article, Summary, summary_db
 from collections import Counter
 
-'''
 NLP = en_core_web_sm.load()
 with open('nlp_data/common_nouns.txt', 'r') as fin:
     COMMON_NOUNS = fin.read().split('\n')
@@ -61,11 +59,3 @@ for item in summaries:
     item["tags"] = [x[0] for x in word_counts.most_common(3)]
     summaryObj = Summary(item['summary'], item['newsids'], item['category'], item['tags'])
     summaryObj.create_db_entry()
-'''
-
-if __name__ == "__main__":
-    insert_result = db.summary_db.insert_one({"one": "one"})
-    '''
-    print(dir(insert_result))
-    print(insert_result.inserted_id)
-    '''

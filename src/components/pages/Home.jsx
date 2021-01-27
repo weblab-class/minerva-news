@@ -15,11 +15,19 @@ class Home extends React.Component {
     super(props);
     this.state = {
       tags: [],
+      feedLoading: true,
     }
   }
 
   setTags = (tags) => {
-    this.setState({tags: tags});
+    this.setState({tags: ["reload_delay_hack"], feedLoading: true});
+    setTimeout(() => {
+      this.setState({tags: tags});
+    }, 100);
+  };
+
+  setFeedLoaded = () => {
+    this.setState({feedLoading: false});
   };
 
   render() {
@@ -28,7 +36,7 @@ class Home extends React.Component {
         <Collections setTags={this.setTags} userId={this.props.userId} collections={this.props.collections}/>
         <div className="home-middle">
           <TagSelection setTags={this.setTags}/>
-          <Feed tags={this.state.tags}/>
+          <Feed tags={this.state.tags} feedLoading={this.state.feedLoading} setFeedLoaded={this.setFeedLoaded}/>
         </div>
         <Summaries/>
       </div>

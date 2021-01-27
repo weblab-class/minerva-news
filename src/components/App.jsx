@@ -7,7 +7,6 @@ import NavBar from "./modules/NavBar.jsx";
 import Landing from "./pages/Landing.jsx"
 import Home from "./pages/Home.jsx";
 import Reading from "./pages/Reading.jsx";
-import Profile from "./pages/Profile.jsx"
 import NotFound from "./pages/NotFound.jsx";
 import { get, post } from "../utilities.js";
 
@@ -21,9 +20,13 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     const retrieved = localStorage.getItem("userCollections");
+    console.log(this.state ? "ASKJD" : "BBB");
     this.state = {
       userId: localStorage.getItem("userId"),
+      userName: localStorage.getItem("userName"),
+      userPicture: localStorage.getItem("userPicture"),
       userCollections: retrieved ? JSON.parse(retrieved) : [],
+      loggingIn: localStorage.getItem("loggingIn"),
     };
   }
 
@@ -33,9 +36,13 @@ class App extends React.Component {
         if (res.id) {
           this.setState({
             userId: res.id,
-            userCollections: res.collections
+            userName: res.name,
+            userPicture: res.picture,
+            userCollections: res.collections,
           });
           localStorage.setItem("userId", res.id);
+          localStorage.setItem("userName", res.name);
+          localStorage.setItem("userPicture", res.picture);
           localStorage.setItem("userCollections", JSON.stringify(res.collections));
         }
       });
@@ -43,6 +50,7 @@ class App extends React.Component {
   }
 
   handleLogin = (res) => {
+    localStorage.setItem("loggingIn", "YES"), //  'welcomes' redirect from server
     get('/api/login').then((res) => {
       navigate(res.request_uri);
     });
@@ -51,7 +59,10 @@ class App extends React.Component {
   handleLogout = () => {
     this.setState({
       userId: undefined,
-      userCollections: undefined
+      userName: undefined,
+      userPicture: undefined,
+      userCollections: undefined,
+      loggingIn: undefined,
     });
     localStorage.clear();
     post("/api/logout");
@@ -59,6 +70,7 @@ class App extends React.Component {
   };
 
   render() {
+    console.log(this.state.loggingIn);
     return (
       <>
         <NavBar
@@ -71,11 +83,16 @@ class App extends React.Component {
             <Router>
               <Home path="/" collections={this.state.userCollections} userId={this.state.userId}/>
               <Reading path="/reading/:newsId" userName={this.state.userName} userId={this.state.userId}/>
-              <Profile path="/profile"/>
               <NotFound default />
             </Router>
           ):(
-            <Landing default handleLogin={this.handleLogin}/>
+            <>
+              { this.state.loggingIn ? (
+                <div/>
+              ) : (
+                <Landing default handleLogin={this.handleLogin}/>
+              )}
+            </>
           )}
         </div>
       </>

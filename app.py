@@ -15,7 +15,7 @@ if os.environ.get('DEPLOY') != 'HEROKU':
 ''' Server entry point '''
 import json
 import flask
-import time
+import time, datetime
 import re
 
 from server import auth
@@ -26,6 +26,8 @@ app.secret_key = os.urandom(24)
 app.register_blueprint(auth.auth_api, url_prefix='/api')
 auth.login_manager.init_app(app)
 
+TODAY = str(datetime.date.today())
+COMMON = db.common_db.find_one({'date': TODAY})
 
 @app.route('/')
 def index():
@@ -34,8 +36,8 @@ def index():
 
 @app.route('/api/tagsuggest', methods=['GET'])
 def tag_suggestions():
-    suggestions = ['Covid-19', 'Trump', 'Washington']
-    return flask.jsonify(suggestions)
+    popular = COMMON['popular']
+    return flask.jsonify(popular)
 
 
 @app.route('/api/feed', methods = ['POST'])
@@ -77,18 +79,12 @@ def get_news():
 
 @app.route('/api/summaries', methods=['GET'])
 def summaries():
-    return flask.jsonify([
-        {
-            'tags': ['Inauguration', 'Biden'],
-            'summary': '''Army deployed to defend Biden during Inauguration day
-            after FBI finds evidence of Washington rioters having intent on assasinations.''',
-        },
-        {
-            'tags': ['Russia', 'Alexei Navalny'],
-            'summary': '''Alexei Navalny has been imprisoned for 30 days. Officials give no
-            answers to what crimes he committed.''',
-        },
-    ])
+    summaries = db.summary_db.find({})
+    summaries = [{
+        'tags': s['tags'],
+        'summary': s['content']
+    } for s in summaries]
+    return flask.jsonify(summaries)
 
 
 @app.route('/api/addcomment', methods=['POST'])
@@ -104,7 +100,7 @@ def comments():
     ret = db.article_db.find_one({'id': flask.request.get_json()['newsId']})
     if not ret:
         return {}
-    commentsList = [{**v, 'id': k} for k, v in ret['comments'].items()]
+    commentsList = [{**v, 'id': k} for k, v in ret['comments'].items()] if 'comments' in ret else []
     return flask.jsonify(commentsList)
 
 
