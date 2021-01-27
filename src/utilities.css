@@ -27,6 +27,7 @@ body {
   /*height: 100%;*/
   margin: 0;
   padding: 0;
+  padding-top: 50px;
   font-family: "Open Sans", sans-serif;
   font-weight: 300;
 }
@@ -118,6 +119,7 @@ html {
 .u-page-container {
   display: flex;
   align-items: flex-start;
+  justify-content: center;
   max-width: var(--pagewidth);
   margin: auto;
   padding: var(--m) 0px;

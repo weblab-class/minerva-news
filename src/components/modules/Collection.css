@@ -1,5 +1,5 @@
 .collection-box {
-  border-right: none;
+  margin-right: -1px;
   width: var(--leftwidth);
   flex-shrink: 0;
   padding: 10px 0px;

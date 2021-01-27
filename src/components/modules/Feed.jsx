@@ -58,31 +58,32 @@ class Feed extends React.Component {
   render() {
     return (
       <div className="feed-box u-greybox">
-        {this.state.newsIds.length ? (
-          <InfiniteScroll
-            dataLength={this.state.newsObjs.length}
-            next={this.fetchMoreNews}
-            hasMore={this.state.hasMore}
-            loader={<h4></h4>}
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >{this.state.newsObjs.map((newsObj, index) => (
-            <FeedCard newsObj={newsObj} expanded={false} key={index}/>
-          ))}
-          </InfiniteScroll>
-        ):(
-          <>
-            {(this.props.tags.length && !this.props.feedLoading)? (
-              <p style={{ textAlign: "center" }}>
-                <b>No matching news found. Try with less tags</b>
-              </p>
-            ):(
-              <p></p>
-            )}
-          </>
+        {this.props.feedLoading?(<p></p>):
+          this.state.newsIds.length ? (
+            <InfiniteScroll
+              dataLength={this.state.newsObjs.length}
+              next={this.fetchMoreNews}
+              hasMore={this.state.hasMore}
+              loader={<h4></h4>}
+              endMessage={
+                <p style={{ textAlign: "center" }}>
+                  <b>Yay! You have seen it all</b>
+                </p>
+              }
+            >{this.state.newsObjs.map((newsObj, index) => (
+              <FeedCard newsObj={newsObj} expanded={false} key={index}/>
+            ))}
+            </InfiniteScroll>
+          ):(
+            <>
+              {(this.props.tags.length)? (
+                <p style={{ textAlign: "center" }}>
+                  <b>No matching news found. Try with less tags</b>
+                </p>
+              ):(
+                <p></p>
+              )}
+            </>
         )}
       </div>
     );

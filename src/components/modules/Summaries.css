@@ -8,8 +8,8 @@
 
 .summary-box {
   width: var(--rightwidth);
-  border-left: none;
   padding: 10px 15px;
+  margin-left: -1px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
