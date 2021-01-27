@@ -27,34 +27,34 @@ class App extends React.Component {
       userEmail: localStorage.getItem("userEmail"),
       userPicture: localStorage.getItem("userPicture"),
       userCollections: retrieved ? JSON.parse(retrieved) : [],
-      loggingIn: localStorage.getItem("loggingIn"),
+      //loggingIn: localStorage.getItem("loggingIn"),
     };
   }
 
   componentDidMount() {
-    if (!this.state.userId) {
-      get('/api/whoami').then((res) => {
-        if (res.id) {
-          this.setState({
-            userId: res.id,
-            userName: res.name,
-            userEmail: res.email,
-            userPicture: res.picture,
-            userCollections: res.collections,
-          });
-          localStorage.setItem("userId", res.id);
-          localStorage.setItem("userName", res.name);
-          localStorage.setItem("userEmail", res.email);
-          localStorage.setItem("userPicture", res.picture);
-          localStorage.setItem("userCollections", JSON.stringify(res.collections));
-        }
-      });
-    }
+    get('/api/whoami').then((res) => {
+      if (res.id) {
+        this.setState({
+          userId: res.id,
+          userName: res.name,
+          userEmail: res.email,
+          userPicture: res.picture,
+          userCollections: res.collections,
+        });
+        localStorage.setItem("userId", res.id);
+        localStorage.setItem("userName", res.name);
+        localStorage.setItem("userEmail", res.email);
+        localStorage.setItem("userPicture", res.picture);
+        localStorage.setItem("userCollections", JSON.stringify(res.collections));
+      }
+    });
   }
 
   handleLogin = (res) => {
     get('/api/login').then((res) => {
-      localStorage.setItem("loggingIn", "YES"); //  'welcomes' redirect from server
+      //console.log(localStorage.getItem("loggingIn"));
+      //console.log(res);
+      //localStorage.setItem("loggingIn", "YES"); //  'welcomes' redirect from server
       navigate(res.request_uri);
     });
   };
@@ -95,11 +95,7 @@ class App extends React.Component {
               </Router>
             ):(
               <>
-                { this.state.loggingIn ? (
-                  <div/>
-                ) : (
-                  <Landing default handleLogin={this.handleLogin}/>
-                )}
+                <Landing default handleLogin={this.handleLogin}/>
               </>
             )}
           </div>
