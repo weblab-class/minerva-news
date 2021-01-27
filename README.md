@@ -1,5 +1,5 @@
 # minerva
-Using AI to revolutionize how we browse and comprehend news
+Using AI to revolutionize how we browse and comprehend news. It is hosted on https://minerva-news.herokuapp.com.
 
 ## Development Notes
 React frontend, Python/Flask backend, and MongoDB
